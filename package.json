@@ -1,0 +1,18 @@
+{
+  "name": "dnotes",
+  "version": "1.0.0",
+  "description": "App for taking notes",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron index.js"
+  },
+  "keywords": [
+    "note",
+    "notes"
+  ],
+  "author": "Damian Kolczyński",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^6.0.9"
+  }
+}
