@@ -19,7 +19,7 @@ app.on('ready', () => {
 			center: true,
 			transparent: true,
 			frame: false,
-			icon: path.join(__dirname, 'icon.png'),
+			icon: path.join(__dirname, 'icon/128x128.png'),
 			webPreferences: {
 				nodeIntegration: true
 			}

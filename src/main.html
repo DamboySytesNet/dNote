@@ -7,18 +7,21 @@
 </head>
 <body onload="WindowAction.init();" onkeydown="WindowAction.keyHandler(event);">
     
-<header style="-webkit-app-region: drag">
-	<p>dNote</p>
-	<div>
+<header>
+	<div id="header-icon">
+		<img src="../icon/16x16.png" alt="Icon" title="dNote" />
+		<p>dNote</p>
+	</div>
+	<div id="header-handle">
 		<img src="icons/header/handle.png" alt="Handle" />
 	</div>
-	<nav style="-webkit-app-region: no-drag">
-		<img id="header_close" onclick="WindowAction.close();" src="icons/header/close.png" alt="Close" />
+	<div id="header-nav">
 		<!-- <img id="header_max" onclick="WindowAction.maximize();" src="icons/header/maximize.png" alt="Maximize" /> -->
-		<img id="header_min" onclick="WindowAction.minimize();" src="icons/header/minimize.png" alt="Minimize" />
-	</nav>
+		<img onclick="WindowAction.minimize();" src="icons/header/minimize.png" alt="Minimize" />
+		<img onclick="WindowAction.close();" src="icons/header/close.png" alt="Close" />
+	</div>
 </header>
-    
+
 	<script type="text/javascript" src="js/index.js"></script>
 </body>
 </html>

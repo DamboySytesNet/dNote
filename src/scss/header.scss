@@ -1,52 +1,64 @@
 header {
 	position: relative;
 	width: 100%;
-	height: 26px;
+	height: 30px;
 	z-index: 150;
-	background: #5A7089;
+	background: $basecolor;
+	-webkit-app-region: drag;
+	display: flex;
 }
-	header > p {
-		width: 120px;
-		height: 26px;
-		color: #fff;
-		text-indent: 10px;
-		font: 0.8em/24px "OpenSans";
-		float: left;
-		font-weight: 700;
+	#header-icon {
+		flex: 0 0 80px;
+		display: flex;
+
+		> img {
+			flex: 0 0 16px;
+			height:16px;
+			display: block;
+			margin: 7px;
+		}
+
+		> p {
+			height:30px;
+			font:0.9em/30px "OpenSans-Bold";
+			color: #fff;
+			font-weight: 700;
+			white-space: nowrap;
+		}
 	}
-	header > div {
-		width: calc(100% - 120px - 57px);
-		/* width: calc(100% - 120px - 83px); */
-		height: 26px;
-		float: left;
-	}
-		header > div > img {
+	
+	#header-handle {
+		flex: 1 1;
+		height: 30px;
+
+		> img {
 			height: 20px;
-			margin: 3px auto;
+			margin: 5px auto;
 			display: block;
 		}
-	header > nav {
-		width:52px;
-		/* width: 78px; */
-		height: 26px;
-		padding-right: 5px;
-		float: right;
 	}
-		header > nav > img {
+
+	#header-nav {
+		flex: 0 0 52px;
+		padding: 0 5px;
+		display: flex;
+		-webkit-app-region: no-drag;
+
+		> img {
 			width: 12px;
 			height: 12px;
-			padding: 7px;
-			transition: transform 0.2s;
+			padding: 6px;
+			margin: 3px;
 			cursor: pointer;
 			display: block;
-			float: right;
+			border-radius: 50%;
+
+			&:hover {
+				background: rgba(0, 0, 0, 0.2);
+			}
+
+			&:active {
+				background: rgba(0, 0, 0, 0.4);
+			}
 		}
-		#header_min:hover {
-			transform: rotate(180deg);
-		}
-		#header_max:hover {
-			transform: translateY(-1px);
-		}
-		#header_close:hover {
-			transform: rotate(90deg);
-		}
+	}
