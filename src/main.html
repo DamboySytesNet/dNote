@@ -3,10 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>dNote</title>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
-<body>
+<body onload="WindowAction.init();" onkeydown="WindowAction.keyHandler(event);">
     
-
+<header style="-webkit-app-region: drag">
+	<p>dNote</p>
+	<div>
+		<img src="icons/header/handle.png" alt="Handle" />
+	</div>
+	<nav style="-webkit-app-region: no-drag">
+		<img id="header_close" onclick="WindowAction.close();" src="icons/header/close.png" alt="Close" />
+		<!-- <img id="header_max" onclick="WindowAction.maximize();" src="icons/header/maximize.png" alt="Maximize" /> -->
+		<img id="header_min" onclick="WindowAction.minimize();" src="icons/header/minimize.png" alt="Minimize" />
+	</nav>
+</header>
     
+	<script type="text/javascript" src="js/index.js"></script>
 </body>
 </html>

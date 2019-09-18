@@ -12,9 +12,9 @@ app.on('ready', () => {
 	const win = new BrowserWindow(
 		{
 			backgroundColor: '#ffffff',
-			width: optimalWidth,
+			width: 1240,
 			minWidth: 1240,
-			height: optimalHeight,
+			height: 800,
 			minHeight: 800,
 			center: true,
 			transparent: true,
