@@ -1,4 +1,9 @@
 "use strict";
+/**
+ * Notes:
+ * Set the background of category
+ * Search is toggled every time user presses 'Esc'... Needs a fix
+ */
 //Setting constants
 const FS = require('fs');
 const PATH = require('path');
@@ -8,9 +13,10 @@ const REMOTE = ELECTRON.remote;
 const BW = REMOTE.BrowserWindow;
 const WindowAction = {
     init() {
+        Left.assignHandlers();
     },
     keyHandler(ev) {
-        console.log(ev);
+        Left.keyHandler(ev);
         if (ev.key === 'F5') {
             window.location.reload();
         }
@@ -30,3 +36,6 @@ const WindowAction = {
         window.close();
     }
 };
+function $id(id) {
+    return document.getElementById(id);
+}

@@ -1,0 +1,18 @@
+main {
+    width:100%;
+    height:calc(100% - 30px);
+}
+    $actionsHeight: 54px;
+
+    @import 'left';
+    
+    #main {
+        width:calc(100% - 501px);
+        height:100%;
+        float: left;
+    }
+        #main-actions {
+            width:100%;
+            height: $actionsHeight;
+            border-bottom:solid 1px #ccc;
+        }

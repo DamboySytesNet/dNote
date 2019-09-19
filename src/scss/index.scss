@@ -19,6 +19,20 @@ body {
 	100% {transform: rotate(360deg);}
 }
 
+@mixin prefix($property, $value, $prefixes: ()) {
+	@each $prefix in $prefixes {
+		#{'-' + $prefix + '-' + $property}: $value;
+	}
+	#{$property}: $value;
+}
+// @include prefix(user-select, none, webkit moz ms);
+
+/** More colors:
+    #5A7089;
+    #4286f5; -> rgb(66, 134, 245)
+*/
+$basecolor: #4286f5;
+
 .rotateImg {
 	animation-name: rotateImg;
 	-webkit-animation-timing-function: linear;
@@ -28,11 +42,15 @@ body {
 	animation-delay: 0s;
 }
 
-/** More colors:
-    #5A7089;
-    #4286f5;
-*/
-$basecolor: #4286f5;
+.scrollable::-webkit-scrollbar {
+	width: 6px;
+}
+.scrollable::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.25);
+} 
+.scrollable::-webkit-scrollbar-thumb {
+	background: $basecolor;
+}
 
 @import 'header';
-
+@import 'main';
