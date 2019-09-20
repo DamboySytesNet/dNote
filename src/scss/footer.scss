@@ -1,0 +1,19 @@
+footer {
+    width:100%;
+    height:20px;
+    background: #e9e9e9;
+
+    > div {
+        float: left;
+        font: 0.8em "OpenSans";
+        color: #999;
+        text-indent: 5px;
+    }
+}
+    #footer-categories {
+        width: 502px;
+    }
+
+    #footer-main {
+        width:calc(100% - 502px);
+    }

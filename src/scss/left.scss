@@ -177,6 +177,7 @@
             box-shadow: 2px 2px 15px 5px #ccc;
             background: $basecolor;
             transition: transform 0.1s, bottom 0.3s;
+            cursor: pointer;
 
             &:hover {
                 transform: scale(1.05);

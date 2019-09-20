@@ -7,90 +7,40 @@
     float: left;
 
     #left-actions-menu {
-        width:34px;
-        height:34px;
+        width:28px;
+        height:28px;
         margin: 6px 2px 6px 6px;
-        padding: 4px;
-        border-radius: 50%;
-        display: block;
+        padding: 7px;
         float:left;
-
-        &:hover {
-            background: #eee;
-        }
-
-        &:active {
-            background: #ddd;
-        }
     }
     #left-actions-search {
-        width:30px;
-        height:30px;
+        width:24px;
+        height:24px;
         margin: 6px 6px 6px 2px;
-        padding: 6px;
-        border-radius: 50%;
-        display: block;
+        padding: 9px;
         float:left;
-
-        &:hover {
-            background: #eee;
-        }
-
-        &:active {
-            background: #ddd;
-        }
     }
 
     #left-actions-addNote {
         width:30px;
         height:30px;
-        margin: 6px 6px 6px 2px;
+        margin: 6px 2px;
         padding: 6px;
-        border-radius: 50%;
-        display: block;
         float:right;
-
-        &:hover {
-            background: #eee;
-        }
-
-        &:active {
-            background: #ddd;
-        }
     }
     #left-actions-addCategory {
         width:30px;
         height:30px;
-        margin: 6px 6px 6px 2px;
+        margin: 6px 2px;
         padding: 6px;
-        border-radius: 50%;
-        display: block;
         float:right;
-
-        &:hover {
-            background: #eee;
-        }
-
-        &:active {
-            background: #ddd;
-        }
     }
     #left-actions-settings {
-        width:30px;
-        height:30px;
-        margin: 6px 6px 6px 2px;
-        padding: 6px;
-        border-radius: 50%;
-        display: block;
+        width:24px;
+        height:24px;
+        margin: 6px;
+        padding: 9px;
         float:right;
-
-        &:hover {
-            background: #eee;
-        }
-
-        &:active {
-            background: #ddd;
-        }
     }
 
     #left-actions-searchBar {
@@ -103,10 +53,10 @@
         transition: transform 0.2s;
     }
         #left-actions-searchBar-search {
-            width:30px;
-            height:30px;
+            width:24px;
+            height:24px;
             margin: 6px 0 6px 6px;
-            padding: 6px;
+            padding: 9px;
             border-radius: 50%;
             display: block;
             float:left;

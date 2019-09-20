@@ -2,7 +2,10 @@
 	font-family: "OpenSans";
 	src: url(../fonts/opensans/OpenSans-Regular.ttf) format("truetype");
 }
-
+@font-face {
+	font-family: "OpenSans-Lite";
+	src: url(../fonts/opensans/OpenSans-Light.ttf) format("truetype");
+}
 @font-face {
 	font-family: "OpenSans-Bold";
 	src: url(../fonts/opensans/OpenSans-Bold.ttf) format("truetype");
@@ -54,3 +57,4 @@ $basecolor: #4286f5;
 
 @import 'header';
 @import 'main';
+@import 'footer';

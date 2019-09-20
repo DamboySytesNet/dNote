@@ -25,12 +25,12 @@
 <main>
 	<section id="left">
 		<div id="left-actions">
-			<img id="left-actions-menu" src="icons/common/menu_color.png" alt="Menu" />
-			<img id="left-actions-search" src="icons/common/search_color.png" alt="Menu" />
+			<img class="tabButton" id="left-actions-menu" src="icons/common/menu_color.png" alt="Menu" />
+			<img class="tabButton" id="left-actions-search" src="icons/common/search_color.png" alt="Menu" />
 
-			<img id="left-actions-settings" src="icons/common/settings_color.png" alt="Settings" />
-			<img id="left-actions-addNote" src="icons/common/add_note_color.png" alt="Add note" title="Add note" />
-			<img id="left-actions-addCategory" src="icons/common/add_category_color.png" alt="Add category" title="Add category" />
+			<img class="tabButton" id="left-actions-settings" src="icons/common/settings_color.png" alt="Settings" />
+			<img class="tabButton" id="left-actions-addNote" src="icons/common/add_note_color.png" alt="Add note" title="Add note" />
+			<img class="tabButton" id="left-actions-addCategory" src="icons/common/add_category_color.png" alt="Add category" title="Add category" />
 
 			<div id="left-actions-searchBar">
 				<img id="left-actions-searchBar-search" src="icons/common/search_color.png" alt="Search" />
@@ -38,8 +38,8 @@
 					<input id="left-actions-searchBar-input" id="" type="text" placeholder="Search..." />
 					<div></div>
 				</div>
-				<img id="left-actions-searchBar-clear" src="icons/common/backspace_color.png" alt="Clear input" />
-				<img id="left-actions-searchBar-close" src="icons/common/close_color.png" alt="Close search" />
+				<img class="tabButton" id="left-actions-searchBar-clear" src="icons/common/backspace_color.png" alt="Clear input" />
+				<img class="tabButton" id="left-actions-searchBar-close" src="icons/common/close_color.png" alt="Close search" />
 			</div>
 		</div>
 		<div id="left-categories">
@@ -90,16 +90,48 @@
 	</section>
 	<section id="main">
 		<div id="main-actions">
-			
-		</div>
-		<div id="main-note">
+			<img class="tabButton" id="main-actions-state" name="left" src="icons/common/edit_color.png" alt="Edit note" />
 
+			<img class="tabButton" id="main-actions-info" name="right" src="icons/common/info_color.png" alt="More info" title="More info" />
+			<img class="tabButton" id="main-actions-delete" name="right" src="icons/common/delete_color.png" alt="Delete note" title="Delete note" />
+		</div>
+		<div id="main-note" class="scrollable">
+			<h2>My note</h2>
+			<p>
+				Lorem, ipsum dolor sit amet consectetur
+				adipisicing elit. Placeat libero ex ipsum
+				laboriosam architecto minima atque minus,
+				eaque ab molestiae sed nulla, incidunt nemo
+				distinctio quibusdam in dolorem excepturi
+				rem!
+			</p>
+			<p>
+				Lorem, ipsum dolor sit amet consectetur
+				adipisicing elit. Placeat libero ex ipsum
+				laboriosam architecto minima atque minus,
+				eaque ab molestiae sed nulla, incidunt nemo
+				distinctio quibusdam in dolorem excepturi
+				rem!
+			</p>
+			<p>
+				Lorem, ipsum dolor sit amet consectetur
+				adipisicing elit. Placeat libero ex ipsum
+				laboriosam architecto minima atque minus,
+				eaque ab molestiae sed nulla, incidunt nemo
+				distinctio quibusdam in dolorem excepturi
+				rem!
+			</p>
 		</div>
 	</section>
 </main>
 
 <footer>
-
+	<div id="footer-categories">
+		damboy.sytes.net
+	</div>
+	<div id="footer-main">
+		12 words, 12 characters
+	</div>
 </footer>
 
 	<script type="text/javascript" src="js/left.js"></script>
