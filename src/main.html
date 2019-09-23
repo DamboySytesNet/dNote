@@ -66,6 +66,11 @@
 					To add one click the button above or the circle below...
 				</p>
 			</div>
+			<div id="left-noCategoryChosen">
+				<p>
+					Choose a category and its notes will appear here...
+				</p>
+			</div>
 			<div id="left-notes-content" class="scrollable">
 				<!-- <div class="left-note">
 					<div class="left-note-additions">
@@ -95,32 +100,19 @@
 			<img class="tabButton" id="main-actions-info" name="right" src="icons/common/info_color.png" alt="More info" title="More info" />
 			<img class="tabButton" id="main-actions-delete" name="right" src="icons/common/delete_color.png" alt="Delete note" title="Delete note" />
 		</div>
-		<div id="main-note" class="scrollable">
-			<h2>My note</h2>
-			<p>
-				Lorem, ipsum dolor sit amet consectetur
-				adipisicing elit. Placeat libero ex ipsum
-				laboriosam architecto minima atque minus,
-				eaque ab molestiae sed nulla, incidunt nemo
-				distinctio quibusdam in dolorem excepturi
-				rem!
-			</p>
-			<p>
-				Lorem, ipsum dolor sit amet consectetur
-				adipisicing elit. Placeat libero ex ipsum
-				laboriosam architecto minima atque minus,
-				eaque ab molestiae sed nulla, incidunt nemo
-				distinctio quibusdam in dolorem excepturi
-				rem!
-			</p>
-			<p>
-				Lorem, ipsum dolor sit amet consectetur
-				adipisicing elit. Placeat libero ex ipsum
-				laboriosam architecto minima atque minus,
-				eaque ab molestiae sed nulla, incidunt nemo
-				distinctio quibusdam in dolorem excepturi
-				rem!
-			</p>
+		<div id="main-note">
+			<div id="main-note-notChosen">
+				<div>
+					<h2>Choose a note</h2>
+					<p>
+						and its content will be displayed here...
+					</p>
+				</div>
+			</div>
+			<div id="main-note-view" class="scrollable"></div>
+			<div id="main-note-edit" class="scrollable">
+
+			</div>
 		</div>
 	</section>
 </main>
@@ -134,7 +126,10 @@
 	</div>
 </footer>
 
+	<!-- <script type="text/javascript" src="js/dataType/.js"></script> -->
+
 	<script type="text/javascript" src="js/left.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
 
 	<script type="text/javascript" src="js/index.js"></script>
 </body>

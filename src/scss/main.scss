@@ -65,14 +65,52 @@ main {
             height:calc(100% - 40px - #{$actionsHeight + 1});
             padding:20px;
             font:1em "OpenSans";
-            overflow: auto;
-
-            h1, h2, h3, h4, h5 {
-                padding-bottom: 5px;
-            }
-
-            p {
-                padding: 10px 0;
-                font:1em "OpenSans-Lite";
-            }
         }
+            #main-note-notChosen {
+                width:100%;
+                height:100%;
+                overflow: auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                > div {
+                    > h2 {
+                        font:2em "OpenSans";
+                        margin-bottom: 10px;
+                        text-align: center;
+                    }
+
+                    > p {
+                        font:0.9em "OpenSans";
+                        text-align: center;
+                        color: #666;
+                    }
+                }
+            }
+            #main-note-view {
+                width:100%;
+                height:100%;
+                overflow: auto;
+                display: none;
+
+                h1, h2, h3, h4, h5 {
+                    padding-bottom: 5px;
+                }
+
+                p {
+                    padding: 10px 0;
+                    font:1em "OpenSans-Lite";
+                }
+
+                img {
+                    max-width: 100%;
+                }
+            }
+            #main-note-edit {
+                width:100%;
+                height:100%;
+                overflow: auto;
+                display: none;
+            }
+

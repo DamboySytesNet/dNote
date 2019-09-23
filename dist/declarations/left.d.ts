@@ -11,17 +11,14 @@ interface ILeftSearch {
     clear(): void;
 }
 interface ILeftCategories {
-    curr: ICategory;
+    curr: number;
     build(data: ICategory[]): void;
-    choose(which: ICategory): void;
-    createHTML(el: ICategory): HTMLDivElement;
-    unselect(): void;
+    choose(which: number): void;
+    createHTML(id: number, name: string, color: string): HTMLDivElement;
 }
 interface ILeftNotes {
-    noCategory(): void;
     build(data: INote[]): void;
-    choose(which: INote): void;
-    sort(data: INote[]): void;
-    createHTML(el: INote): HTMLDivElement;
+    choose(which: number): void;
+    createHTML(id: number, name: string, pinned: boolean, protected: boolean, contentPreview: string): HTMLDivElement;
 }
 declare const Left: ILeft;

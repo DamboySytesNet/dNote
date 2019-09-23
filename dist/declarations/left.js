@@ -29,9 +29,8 @@ const Left = {
             if (data.length > 0) {
                 $id('left-noCategories').style.display = 'none';
                 for (let el of data) {
-                    el.html = this.createHTML(el);
                     $id('left-categories-content')
-                        .appendChild(el.html);
+                        .appendChild(this.createHTML(el.id, el.name, el.color));
                 }
             }
             else {
@@ -39,114 +38,64 @@ const Left = {
             }
         },
         choose(which) {
-            if (which) {
-                $id('main-note-notChosen').style.display = 'flex';
-                $id('main-note-view').style.display = 'none';
-                $id('main-note-edit').style.display = 'none';
-                if (this.curr !== null) {
-                    this.curr.html.setAttribute('name', '');
-                    this.curr.html.style.background = 'initial';
-                }
+            if (Main.data.length > which && which >= 0) {
                 this.curr = which;
-                this.curr.html.setAttribute('name', 'chosen');
-                Left.notes.build(which.notes);
+                Left.notes.build(Main.data[which].notes);
             }
         },
         /**
          * Creates HTML category element
          */
-        createHTML(el) {
+        createHTML(id, name, color) {
             let parent = document.createElement('div');
-            parent.id = `left-category-${el.id}`;
+            parent.id = `left-category-${id}`;
             parent.classList.add('left-category');
-            parent.onclick = () => {
-                Left.categories.choose(el);
-            };
             let child = document.createElement('div');
             child.classList.add('left-category-color');
-            child.style.background = el.color;
-            parent.appendChild(child);
-            child = document.createElement('div');
-            child.classList.add('left-category-background');
-            child.style.background = el.color;
+            child.style.background = color;
             parent.appendChild(child);
             child = document.createElement('div');
             child.classList.add('left-category-name');
             let subChild = document.createElement('p');
-            subChild.innerHTML = el.name;
+            subChild.innerHTML = name;
             child.appendChild(subChild);
             parent.appendChild(child);
             return parent;
             // <div id="left-category-${id}" class="left-category">
             //     <div class="left-category-color"></div>
-            //     <div class="left-category-background"></div>
             //     <div class="left-category-name">
             //         <p>TEXT</p>
             //     </div>
             // </div> 
-        },
-        unselect() {
-            if (this.curr !== null) {
-                this.curr.html.setAttribute('name', '');
-                this.curr.html.style.background = 'initial';
-                this.curr = null;
-                Left.notes.noCategory();
-            }
         }
     },
     notes: {
-        noCategory() {
-            $id('left-notes-content').innerHTML = '';
-            $id('left-noCategoryChosen').style.display = 'block';
-            $id('left-noNotes').style.display = 'none';
-        },
         build(data) {
             $id('left-notes-content').innerHTML = '';
             $id('left-noCategoryChosen').style.display = 'none';
             if (data.length > 0) {
                 $id('left-noNotes').style.display = 'none';
-                this.sort(data);
                 for (let el of data) {
-                    el.html = this.createHTML(el);
                     $id('left-notes-content')
-                        .appendChild(el.html);
+                        .appendChild(this.createHTML(el.id, el.name, el.pinned, el.protection.protected, el.content.substr(0, 150)));
                 }
             }
             else {
                 $id('left-noNotes').style.display = 'block';
             }
         },
-        sort(data) {
-            data.sort((a, b) => {
-                if (a.pinned === b.pinned) {
-                    return a.name.localeCompare(b.name);
-                }
-                else if (a.pinned)
-                    return -1;
-                else
-                    return 1;
-            });
-        },
         choose(which) {
-            if (which) {
-                $id('main-note-notChosen').style.display = 'none';
-                $id('main-note-view').style.display = 'block';
-                $id('main-note-edit').style.display = 'none';
-                $id('main-note-view').innerHTML = which.content;
-                $id('main-note-edit').innerHTML = which.content;
+            if (Main.data[Left.categories.curr].notes.length > which && which >= 0) {
             }
         },
-        createHTML(el) {
+        createHTML(id, name, pinned, protected, contentPreview) {
             let parent = document.createElement('div');
-            parent.id = `left-note-${el.id}`;
+            parent.id = `left-note-${id}`;
             parent.classList.add('left-note');
-            parent.addEventListener('click', () => {
-                Left.notes.choose(el);
-            });
             let child = document.createElement('div');
             child.classList.add('left-note-additions');
             let img;
-            if (el.pinned) {
+            if (pinned) {
                 img = new Image();
                 img.src = 'icons/common/pin_color.png';
                 img.setAttribute('name', 'left');
@@ -154,7 +103,7 @@ const Left = {
                 img.title = 'Pinned';
                 child.appendChild(img);
             }
-            if (el.protection.active) {
+            if (protected) {
                 img = new Image();
                 img.src = 'icons/common/lock_color.png';
                 img.setAttribute('name', 'right');
@@ -166,16 +115,13 @@ const Left = {
             child = document.createElement('div');
             child.classList.add('left-note-name');
             let subChild = document.createElement('p');
-            subChild.innerHTML = el.name;
+            subChild.innerHTML = name;
             child.appendChild(subChild);
             parent.appendChild(child);
-            let tmp = document.createElement('div');
-            tmp.innerHTML = el.content.substr(0, 150);
-            ;
             child = document.createElement('div');
             child.classList.add('left-note-text');
             subChild = document.createElement('p');
-            subChild.innerHTML = tmp.textContent;
+            subChild.innerHTML = contentPreview;
             child.appendChild(subChild);
             parent.appendChild(child);
             return parent;
@@ -216,3 +162,4 @@ const Left = {
         }
     }
 };
+//# sourceMappingURL=left.js.map

@@ -16,6 +16,8 @@ const BW = REMOTE.BrowserWindow;
 const WindowAction = {
 	init() {
 		Left.assignHandlers();
+
+		Main.init();
 	},
 
 	keyHandler(ev: KeyboardEvent) {

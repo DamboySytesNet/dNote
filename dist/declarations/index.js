@@ -40,3 +40,4 @@ const WindowAction = {
 function $id(id) {
     return document.getElementById(id);
 }
+//# sourceMappingURL=index.js.map
