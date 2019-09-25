@@ -81,7 +81,7 @@ const Left = {
             //     <div class="left-category-color"></div>
             //     <div class="left-category-background"></div>
             //     <div class="left-category-name">
-            //         <p>TEXT</p>
+            //         <p>{text}</p>
             //     </div>
             // </div> 
         },
@@ -185,20 +185,15 @@ const Left = {
             //         <img src="icons/common/lock_color.png" name="right" alt="Password protected" />
             //     </div>
             //     <div class="left-note-name">
-            //         <p>My note my note my note my dNote</p>
+            //         <p>{name}</p>
             //     </div>
             //     <div class="left-note-text">
-            //         <p>
-            //             The content of the note that can be
-            //             longer than one line or even two
-            //             lines or even three but this one is
-            //             no visible...
-            //         </p>
+            //         <p>{content}</p>
             //     </div>
             // </div>
         }
     },
-    assignHandlers() {
+    assignListeners() {
         // actions
         $id('left-actions-search')
             .addEventListener('click', () => Left.search.toggle());

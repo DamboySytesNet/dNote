@@ -1,0 +1,64 @@
+.dialog {
+	position: absolute;
+	top: 0;
+	left:0;
+	width:100%;
+	height:100%;
+	background: rgba(0, 0, 0, 0.75);
+	display: none;
+	justify-content: center;
+	align-items: center;
+	z-index: 100;
+}
+	.dialog-content {
+		background: #fff;
+		opacity: 0;
+		transform: translateY(-20px);
+		transition: opacity 0.3s, transform 0.3s;
+
+		> h2 {
+			width: 100%;
+			height:50px;
+			background: $basecolor;
+			font:1.1em/50px "OpenSans";
+			font-weight: 700;
+			text-indent: 10px;
+			color: #fff;
+		}
+	}
+		.dialogButtons {
+			width:calc(100% - 20px);
+			padding: 0 10px;
+			height:50px;
+			background: #eee;
+
+			> button {
+				&[name="right"] {
+					float: right;
+				}
+
+				&[name="left"] {
+					float: left;
+				}
+			}
+		}
+			.dialogButton-abort {
+				padding: 0 10px;
+				height:30px;
+				font:0.9em "OpenSans";
+				background: transparent;
+				color: #666;
+				border:none;
+				border-radius: 10px;
+				margin: 10px 0;
+			}
+			.dialogButton-primary {
+				padding: 0 10px;
+				height:30px;
+				font:0.9em "OpenSans";
+				background: $basecolor;
+				color: #fff;
+				border:none;
+				border-radius: 10px;
+				margin: 10px 0;
+			}

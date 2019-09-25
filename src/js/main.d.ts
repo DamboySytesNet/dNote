@@ -16,13 +16,13 @@ interface ICategory {
     name: string;
     html: HTMLDivElement;
     color: string;
-    rgba: string;
     notes: INote[];
 }
 interface IMain {
     data: ICategory[];
-    initData(): void;
     init(): void;
+    handleData(): void;
     loadContent(): string;
+    saveContent(): boolean;
 }
 declare const Main: IMain;

@@ -2,7 +2,7 @@ interface ILeft {
     search: ILeftSearch;
     categories: ILeftCategories;
     notes: ILeftNotes;
-    assignHandlers(): void;
+    assignListeners(): void;
     keyHandler(ev: KeyboardEvent): void;
 }
 interface ILeftSearch {

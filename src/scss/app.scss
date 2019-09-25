@@ -1,0 +1,23 @@
+main {
+    position: relative;
+    width:100%;
+    height:calc(100% - 30px - 20px);
+}
+    $actionsHeight: 54px;
+
+    .tabButton {
+        border-radius: 50%;
+        display: block;
+        cursor: pointer;
+
+        &:hover {
+            background: #eee;
+        }
+
+        &:active {
+            background: #ddd;
+        }
+    }
+
+    @import 'left';
+    @import 'main';

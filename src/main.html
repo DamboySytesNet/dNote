@@ -57,7 +57,7 @@
 					</div>
 				</div> -->
 			</div>
-			<img class="left-addButton" src="icons/common/add_category.png" alt="Add category" title="Add category" />
+			<img id="left-categories-add" class="left-addButton" src="icons/common/add_category.png" alt="Add category" title="Add category" />
 		</div>
 		<div id="left-notes">
 			<div id="left-noNotes">
@@ -117,6 +117,62 @@
 	</section>
 </main>
 
+<section id="categoryDialog" class="dialog">
+	<div id="categoryDialog-content" class="dialog-content">
+		<h2>Add new category</h2>
+		<div id="categoryDialog-input">
+			<input id="categoryDialog-inputValue" type="text" placeholder="New category name..." />
+			<div></div>
+		</div>
+		<p id="categoryDialog-inputError"></p>
+		<div id="categoryDialog-colors">
+			<h3>Choose a color</h3>
+			<div id="categoryDialog-colors-random">
+				<div id="categoryDialog-colors-1"><div></div></div>
+				<div id="categoryDialog-colors-2"><div></div></div>
+				<div id="categoryDialog-colors-3"><div></div></div>
+				<div id="categoryDialog-colors-4"><div></div></div>
+				<div id="categoryDialog-colors-5"><div></div></div>
+			</div>
+			<button id="categoryDialog-colors-randomButton">Randomize</button>
+			<div id="categoryDialog-colors-customColor">
+				<p>or pick your: </p>
+				<div id="categoryDialog-colors-6"><div style="background: rgb(255, 255, 255);"></div></div>
+			</div>
+			<p id="categoryDialog-colorError"></p>
+		</div>
+		<div class="dialogButtons">
+			<button id="categoryDialog-dialogButton-action" class="dialogButton-primary" name="right">Create</button>
+			<button id="categoryDialog-dialogButton-abort" class="dialogButton-abort" name="left">Cancel</button>
+		</div>
+	</div>
+</section>
+
+<section id="colorPicker" class="dialog">
+	<div id="colorPicker-content" class="dialog-content">
+		<h2>Choose a color</h2>
+
+		<div id="colorPicker-main">
+			<div id="colorPicker-chooser">
+				<div id="colorPicker-picker"></div>
+			</div>
+			<div id="colorPicker-slide">
+				<div id="colorPicker-slider"></div>
+			</div>
+			<h3>Selected color: </h3>
+			<div id="colorPicker-picked"></div>
+		</div>
+
+		<canvas width="200" height="200" id="colorPicker-canvasChooser"></canvas>
+		<canvas width="200" height="32"  id="colorPicker-canvasSlide"></canvas>
+		
+		<div class="dialogButtons">
+			<button id="colorPicker-dialogButton-action" class="dialogButton-primary" name="right">Choose</button>
+			<button id="colorPicker-dialogButton-abort" class="dialogButton-abort" name="left">Cancel</button>
+		</div>
+	</div>
+</section>
+
 <footer>
 	<div id="footer-categories">
 		damboy.sytes.net
@@ -128,8 +184,12 @@
 
 	<!-- <script type="text/javascript" src="js/dataType/.js"></script> -->
 
+	<script type="text/javascript" src="js/utils.js"></script>
+
 	<script type="text/javascript" src="js/left.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/categoryDialog.js"></script>
+	<script type="text/javascript" src="js/colorPicker.js"></script>
 
 	<script type="text/javascript" src="js/index.js"></script>
 </body>

@@ -1,116 +1,93 @@
-main {
-    width:100%;
-    height:calc(100% - 30px - 20px);
+#main {
+    width:calc(100% - 501px);
+    height:100%;
+    float: left;
 }
-    $actionsHeight: 54px;
+    #main-actions {
+        width:100%;
+        height: $actionsHeight;
+        border-bottom:solid 1px #ccc;
 
-    .tabButton {
-        border-radius: 50%;
-        display: block;
-        cursor: pointer;
-
-        &:hover {
-            background: #eee;
-        }
-
-        &:active {
-            background: #ddd;
+        > img {
+            &[name="left"] {
+                float: left;
+            }
+            &[name="right"] {
+                float: right;
+            }
         }
     }
-
-    @import 'left';
-    
-    #main {
-        width:calc(100% - 501px);
-        height:100%;
-        float: left;
+        #main-actions-state {
+            width:28px;
+            height:28px;
+            margin: 6px 2px 6px 6px;
+            padding: 7px;
+            float:left;
+        }
+        #main-actions-info {
+            width:28px;
+            height:28px;
+            margin: 6px 6px 6px 2px;
+            padding: 7px;
+            float:left;
+        }
+        #main-actions-delete {
+            width:28px;
+            height:28px;
+            margin: 6px 2px 6px 6px;
+            padding: 7px;
+            float:left;
+        }
+    #main-note {
+        width: calc(100% - 40px);
+        height:calc(100% - 40px - #{$actionsHeight + 1});
+        padding:20px;
+        font:1em "OpenSans";
     }
-        #main-actions {
+        #main-note-notChosen {
             width:100%;
-            height: $actionsHeight;
-            border-bottom:solid 1px #ccc;
+            height:100%;
+            overflow: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-            > img {
-                &[name="left"] {
-                    float: left;
+            > div {
+                > h2 {
+                    font:2em "OpenSans";
+                    margin-bottom: 10px;
+                    text-align: center;
                 }
-                &[name="right"] {
-                    float: right;
+
+                > p {
+                    font:0.9em "OpenSans";
+                    text-align: center;
+                    color: #666;
                 }
             }
         }
-            #main-actions-state {
-                width:28px;
-                height:28px;
-                margin: 6px 2px 6px 6px;
-                padding: 7px;
-                float:left;
+        #main-note-view {
+            width:100%;
+            height:100%;
+            overflow: auto;
+            display: none;
+
+            h1, h2, h3, h4, h5 {
+                padding-bottom: 5px;
             }
-            #main-actions-info {
-                width:28px;
-                height:28px;
-                margin: 6px 6px 6px 2px;
-                padding: 7px;
-                float:left;
+
+            p {
+                padding: 10px 0;
+                font:1em "OpenSans-Lite";
             }
-            #main-actions-delete {
-                width:28px;
-                height:28px;
-                margin: 6px 2px 6px 6px;
-                padding: 7px;
-                float:left;
+
+            img {
+                max-width: 100%;
             }
-        #main-note {
-            width: calc(100% - 40px);
-            height:calc(100% - 40px - #{$actionsHeight + 1});
-            padding:20px;
-            font:1em "OpenSans";
         }
-            #main-note-notChosen {
-                width:100%;
-                height:100%;
-                overflow: auto;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                > div {
-                    > h2 {
-                        font:2em "OpenSans";
-                        margin-bottom: 10px;
-                        text-align: center;
-                    }
-
-                    > p {
-                        font:0.9em "OpenSans";
-                        text-align: center;
-                        color: #666;
-                    }
-                }
-            }
-            #main-note-view {
-                width:100%;
-                height:100%;
-                overflow: auto;
-                display: none;
-
-                h1, h2, h3, h4, h5 {
-                    padding-bottom: 5px;
-                }
-
-                p {
-                    padding: 10px 0;
-                    font:1em "OpenSans-Lite";
-                }
-
-                img {
-                    max-width: 100%;
-                }
-            }
-            #main-note-edit {
-                width:100%;
-                height:100%;
-                overflow: auto;
-                display: none;
-            }
-
+        #main-note-edit {
+            width:100%;
+            height:100%;
+            overflow: auto;
+            display: none;
+        }

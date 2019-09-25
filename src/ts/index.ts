@@ -15,13 +15,14 @@ const BW = REMOTE.BrowserWindow;
 
 const WindowAction = {
 	init() {
-		Left.assignHandlers();
+		Left.assignListeners();
 
 		Main.init();
 	},
 
 	keyHandler(ev: KeyboardEvent) {
 		Left.keyHandler(ev);
+		CategoryDialog.keyHandler(ev);
 
 		if (ev.key === 'F5') {
 			window.location.reload();
