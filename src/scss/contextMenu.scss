@@ -1,0 +1,68 @@
+#contextMenu {
+	position: absolute;
+	top: 300px;
+	left: 400px;
+	background: #fff;
+	padding: 10px 0;
+	box-shadow: 2px 2px 5px #000;
+	outline: none;
+	z-index: 50;
+	transform: scale(1, 0);
+	transform-origin: 50% 0%;
+	transition: transform 0.4s;
+    overflow: hidden;
+
+    &[name="shown"] {
+        > .contextMenu-entry {
+            transform: translateX(0px);
+            opacity: 1;
+        }
+    }
+}
+	.contextMenu-entry {
+		padding: 0 20px;
+		height: 40px;
+		cursor: pointer;
+		@include prefix(user-select, none, webkit moz ms);
+		overflow: hidden;
+		color: #aaa;
+		transform: translateX(-10px);
+		white-space: nowrap;
+		opacity: 0;
+		transition: opacity 0.3s 0.1s, transform 0.3s 0.1s;
+
+		> img {
+			width: 24px;
+			height: 24px;
+			padding: 8px;
+			display: block;
+			float: left;
+		}
+
+		> span {
+			width: calc(100% - 60px);
+			padding: 0 10px;
+			height: 40px;
+			font: 1em/40px "OpenSans";
+		}
+
+		&:hover {
+			background: #f3f3f3;
+		}
+
+		&:active {
+			background: $basecolor;
+			color: #fff;
+
+			> img {
+				-webkit-filter: brightness(0%) invert(1);
+				filter: brightness(0%) invert(1);
+			}
+		}
+	}
+	.contextMenu-separator {
+		width:calc(100% - 30px);
+		height:1px;
+		background: #ccc;
+		margin: 10px auto;
+	}

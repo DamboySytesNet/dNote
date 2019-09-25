@@ -4,11 +4,13 @@ interface ICategoryDialog {
     allowClose: boolean;
     currentColor: number;
 
+    editEl: ICategory;
+
     colorSquares: number;
     colors: string[];
 
     init(): void;
-    open(): void;
+    open(el?: ICategory): void;
     keyHandler(ev: KeyboardEvent): void;
     checkClose(): void;
     clear(): void;
@@ -25,6 +27,7 @@ const CategoryDialog: ICategoryDialog = {
     initialized: false,
     shown: false,
     allowClose: true,
+    editEl: null,
     currentColor: null,
     colors: [null, null, null, null, null, 'rgb(255, 255, 255)'],
 
@@ -80,10 +83,21 @@ const CategoryDialog: ICategoryDialog = {
         });
     },
 
-    open() {
+    open(el) {
         if (!this.initialized) {
             this.init();
             this.initialized = true;
+        }
+
+        if (typeof el !== 'undefined' && el !== null) {
+            this.editEl = el;
+
+            (<HTMLInputElement>$id('categoryDialog-inputValue')).value = el.name;
+
+            CategoryDialog.colors[0] = el.color;
+            CategoryDialog.chooseColor(1);
+            (<HTMLDivElement>$id('categoryDialog-colors-1')
+                    .children[0]).style.background = el.color;
         }
 
         this.shown = true;
@@ -116,7 +130,14 @@ const CategoryDialog: ICategoryDialog = {
             }
 
             let nameBusy = Main.data.some((val) => {
-                return val.name === name ? true : false;
+                if (val.name === name) {
+                    if (this.editEl !== null && this.editEl.name === name)
+                        return false;
+                    else
+                        return true;
+                }
+
+                return false;
             });
 
             if (nameBusy) {
@@ -131,19 +152,22 @@ const CategoryDialog: ICategoryDialog = {
 
             const color = this.colors[this.currentColor - 1];
 
-            
-            const newId = Main.data.length !== 0 ? Main.data[Main.data.length - 1].id + 1 : 1;
-            
-            Main.data.push({
-                id: newId,
-                name: name,
-                color: color,
-                html: null,
-                notes: []
-            });
+            if (this.editEl !== null) {
+                Left.categories.edit(this.editEl, name, color);
+            } else {
+                const newId = Main.data.length !== 0 ? Main.data[Main.data.length - 1].id + 1 : 1;
+                
+                let insertObject: ICategory = {
+                    id: newId,
+                    name: name,
+                    color: color,
+                    html: null,
+                    notes: []
+                }
 
-            Main.saveContent();
-            Main.handleData();
+                insertObject.html = Left.categories.createHTML(insertObject);
+                Left.categories.add(insertObject);
+            }
 
             this.close();
         }
@@ -194,13 +218,14 @@ const CategoryDialog: ICategoryDialog = {
     },
 
     clear() {
-        (<HTMLInputElement>$id('categoryDialog-input')).value = '';
+        (<HTMLInputElement>$id('categoryDialog-inputValue')).value = '';
         $id('categoryDialog-inputError').innerHTML = '';
         this.unselectColor();
     },
 
     close() {
         this.shown = false;
+        this.editEl = null;
         this.clear();
         $id('categoryDialog').style.display = 'none';
         $id('categoryDialog-content').style.opacity = '0';

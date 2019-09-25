@@ -3,10 +3,11 @@ interface ICategoryDialog {
     shown: boolean;
     allowClose: boolean;
     currentColor: number;
+    editEl: ICategory;
     colorSquares: number;
     colors: string[];
     init(): void;
-    open(): void;
+    open(el?: ICategory): void;
     keyHandler(ev: KeyboardEvent): void;
     checkClose(): void;
     clear(): void;

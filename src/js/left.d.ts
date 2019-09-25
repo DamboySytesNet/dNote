@@ -6,13 +6,15 @@ interface ILeft {
     keyHandler(ev: KeyboardEvent): void;
 }
 interface ILeftSearch {
-    shown: boolean;
-    toggle(): void;
+    applySearch(): void;
     clear(): void;
 }
 interface ILeftCategories {
     curr: ICategory;
     build(data: ICategory[]): void;
+    add(obj: ICategory): void;
+    edit(obj: ICategory, name: string, color: string): void;
+    remove(obj: ICategory): void;
     choose(which: ICategory): void;
     createHTML(el: ICategory): HTMLDivElement;
     unselect(): void;

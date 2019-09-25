@@ -2,24 +2,25 @@
 ;
 const Left = {
     search: {
-        shown: false,
-        toggle() {
-            this.shown = !this.shown;
-            if (this.shown) {
-                $id('left-actions-searchBar')
-                    .style.transform = 'translateY(0%)';
-                $id('left-actions-searchBar-input').focus();
-            }
-            else {
-                $id('left-actions-searchBar')
-                    .style.transform = 'translateY(-105%)';
-                $id('left-actions-searchBar-input').blur();
-                $id('left-actions-searchBar-input').value = '';
+        applySearch() {
+            const value = $id('left-notesSearch-input').value;
+            for (let el of Left.categories.curr.notes) {
+                if (value === '') {
+                    el.html.style.display = 'block';
+                    continue;
+                }
+                let div = document.createElement('div');
+                div.innerHTML = el.content;
+                if (el.name.indexOf(value) > -1 ||
+                    div.textContent.indexOf(value) > -1)
+                    el.html.style.display = 'block';
+                else
+                    el.html.style.display = 'none';
             }
         },
         clear() {
-            $id('left-actions-searchBar-input').value = '';
-            $id('left-actions-searchBar-input').focus();
+            $id('left-notesSearch-input').value = '';
+            $id('left-notesSearch-input').focus();
         }
     },
     categories: {
@@ -52,6 +53,33 @@ const Left = {
                 Left.notes.build(which.notes);
             }
         },
+        add(obj) {
+            Main.data.push(obj);
+            Main.saveContent();
+            $id('left-categories-content')
+                .appendChild(obj.html);
+        },
+        edit(obj, name, color) {
+            obj.name = name;
+            obj.color = color;
+            obj.html.children[0].style.background = color;
+            obj.html.children[1].style.background = color;
+            obj.html.children[2].children[0].innerHTML = name;
+            Main.saveContent();
+        },
+        remove(el) {
+            if (el === this.curr)
+                this.unselect();
+            Main.data.some((val, it) => {
+                if (val === el) {
+                    Main.data.splice(it, 1);
+                    return true;
+                }
+                return false;
+            });
+            el.html.remove();
+            Main.saveContent();
+        },
         /**
          * Creates HTML category element
          */
@@ -61,6 +89,9 @@ const Left = {
             parent.classList.add('left-category');
             parent.onclick = () => {
                 Left.categories.choose(el);
+            };
+            parent.oncontextmenu = () => {
+                ContextMenu.addToContext('category', el);
             };
             let child = document.createElement('div');
             child.classList.add('left-category-color');
@@ -194,20 +225,13 @@ const Left = {
         }
     },
     assignListeners() {
-        // actions
-        $id('left-actions-search')
-            .addEventListener('click', () => Left.search.toggle());
-        // search
-        $id('left-actions-searchBar-clear')
+        $id('left-notesSearch-input')
+            .addEventListener('keyup', () => Left.search.applySearch());
+        $id('left-notesSearch-clear')
             .addEventListener('click', () => Left.search.clear());
-        $id('left-actions-searchBar-close')
-            .addEventListener('click', () => Left.search.toggle());
     },
     keyHandler(ev) {
         if (ev.key === 'Escape') {
-            //Toggle search
-            if (this.search.shown)
-                this.search.toggle();
         }
     }
 };

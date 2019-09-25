@@ -4,6 +4,7 @@ const CategoryDialog = {
     initialized: false,
     shown: false,
     allowClose: true,
+    editEl: null,
     currentColor: null,
     colors: [null, null, null, null, null, 'rgb(255, 255, 255)'],
     colorSquares: 5,
@@ -45,10 +46,18 @@ const CategoryDialog = {
             CategoryDialog.clearInputError();
         });
     },
-    open() {
+    open(el) {
         if (!this.initialized) {
             this.init();
             this.initialized = true;
+        }
+        if (typeof el !== 'undefined' && el !== null) {
+            this.editEl = el;
+            $id('categoryDialog-inputValue').value = el.name;
+            CategoryDialog.colors[0] = el.color;
+            CategoryDialog.chooseColor(1);
+            $id('categoryDialog-colors-1')
+                .children[0].style.background = el.color;
         }
         this.shown = true;
         $id('categoryDialog').style.display = 'flex';
@@ -75,7 +84,13 @@ const CategoryDialog = {
                 return;
             }
             let nameBusy = Main.data.some((val) => {
-                return val.name === name ? true : false;
+                if (val.name === name) {
+                    if (this.editEl !== null && this.editEl.name === name)
+                        return false;
+                    else
+                        return true;
+                }
+                return false;
             });
             if (nameBusy) {
                 $id('categoryDialog-inputError').innerHTML = 'Name is busy';
@@ -86,16 +101,21 @@ const CategoryDialog = {
                 return;
             }
             const color = this.colors[this.currentColor - 1];
-            const newId = Main.data.length !== 0 ? Main.data[Main.data.length - 1].id + 1 : 1;
-            Main.data.push({
-                id: newId,
-                name: name,
-                color: color,
-                html: null,
-                notes: []
-            });
-            Main.saveContent();
-            Main.handleData();
+            if (this.editEl !== null) {
+                Left.categories.edit(this.editEl, name, color);
+            }
+            else {
+                const newId = Main.data.length !== 0 ? Main.data[Main.data.length - 1].id + 1 : 1;
+                let insertObject = {
+                    id: newId,
+                    name: name,
+                    color: color,
+                    html: null,
+                    notes: []
+                };
+                insertObject.html = Left.categories.createHTML(insertObject);
+                Left.categories.add(insertObject);
+            }
             this.close();
         }
     },
@@ -135,12 +155,13 @@ const CategoryDialog = {
             this.allowClose = true;
     },
     clear() {
-        $id('categoryDialog-input').value = '';
+        $id('categoryDialog-inputValue').value = '';
         $id('categoryDialog-inputError').innerHTML = '';
         this.unselectColor();
     },
     close() {
         this.shown = false;
+        this.editEl = null;
         this.clear();
         $id('categoryDialog').style.display = 'none';
         $id('categoryDialog-content').style.opacity = '0';

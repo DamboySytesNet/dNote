@@ -8,15 +8,16 @@ interface ILeft {
 };
 
 interface ILeftSearch {
-    shown: boolean;
-
-    toggle(): void;
+    applySearch(): void;
     clear(): void;
 }
 
 interface ILeftCategories {
     curr: ICategory;
     build(data: ICategory[]): void;
+    add(obj: ICategory): void;
+    edit(obj: ICategory, name: string, color: string): void;
+    remove(obj: ICategory): void;
     choose(which: ICategory): void;
     createHTML(el: ICategory): HTMLDivElement;
     unselect(): void;
@@ -32,28 +33,29 @@ interface ILeftNotes {
 
 const Left: ILeft = {
     search: {
-        shown: false,
+        applySearch() {
+            const value = (<HTMLInputElement>$id('left-notesSearch-input')).value;
 
-        toggle() {
-            this.shown = !this.shown;
 
-            if (this.shown) {
-                $id('left-actions-searchBar')
-                    .style.transform = 'translateY(0%)';
+            for (let el of Left.categories.curr.notes) {
+                if (value === '') {
+                    el.html.style.display = 'block';
+                    continue;
+                }
 
-                $id('left-actions-searchBar-input').focus();
-            } else {
-                $id('left-actions-searchBar')
-                    .style.transform = 'translateY(-105%)';
-
-                $id('left-actions-searchBar-input').blur();
-                (<HTMLInputElement>$id('left-actions-searchBar-input')).value = '';
+                let div = document.createElement('div');
+                div.innerHTML = el.content;
+                if (el.name.indexOf(value) > -1 ||
+                    div.textContent.indexOf(value) > -1)
+                        el.html.style.display = 'block';
+                else
+                    el.html.style.display = 'none';
             }
         },
 
         clear() {
-            (<HTMLInputElement>$id('left-actions-searchBar-input')).value = '';
-            $id('left-actions-searchBar-input').focus();
+            (<HTMLInputElement>$id('left-notesSearch-input')).value = '';
+            $id('left-notesSearch-input').focus();
         }
     },
 
@@ -94,6 +96,42 @@ const Left: ILeft = {
             }
         },
 
+        add(obj) {
+            Main.data.push(obj);
+
+            Main.saveContent();
+
+            $id('left-categories-content')
+                .appendChild(obj.html);
+        },
+
+        edit(obj, name, color) {
+            obj.name = name;
+            obj.color = color;
+
+            (<HTMLDivElement>obj.html.children[0]).style.background = color;
+            (<HTMLDivElement>obj.html.children[1]).style.background = color;
+            obj.html.children[2].children[0].innerHTML = name;
+
+            Main.saveContent();
+        },
+
+        remove(el) {
+            if (el === this.curr)
+                this.unselect();
+
+            Main.data.some((val, it) => {
+                if (val === el) {
+                    Main.data.splice(it, 1);
+                    return true;
+                }
+                return false;
+            });
+
+            el.html.remove();
+            Main.saveContent();
+        },
+
         /**
          * Creates HTML category element
          */
@@ -103,6 +141,9 @@ const Left: ILeft = {
             parent.classList.add('left-category');
             parent.onclick = () => {
                 Left.categories.choose(el);
+            }
+            parent.oncontextmenu = () => {
+                ContextMenu.addToContext('category', el);
             }
                 let child = document.createElement('div') as HTMLDivElement;
                 child.classList.add('left-category-color');
@@ -255,23 +296,16 @@ const Left: ILeft = {
     },
 
     assignListeners(): void {
-        // actions
-        $id('left-actions-search')
-            .addEventListener('click', () => Left.search.toggle());
+        $id('left-notesSearch-input')
+            .addEventListener('keyup', () => Left.search.applySearch());
 
-        // search
-        $id('left-actions-searchBar-clear')
+        $id('left-notesSearch-clear')
             .addEventListener('click', () => Left.search.clear());
-
-        $id('left-actions-searchBar-close')
-            .addEventListener('click', () => Left.search.toggle());
     },
 
     keyHandler(ev) {
         if (ev.key === 'Escape') {
-            //Toggle search
-            if (this.search.shown)
-                this.search.toggle();
+            
         }
     }
 }

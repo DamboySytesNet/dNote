@@ -16,6 +16,7 @@ const BW = REMOTE.BrowserWindow;
 const WindowAction = {
 	init() {
 		Left.assignListeners();
+		ContextMenu.assignListeners();
 
 		Main.init();
 	},
@@ -46,7 +47,3 @@ const WindowAction = {
 		window.close();
 	}
 };
-
-function $id(id: string): HTMLElement {
-	return document.getElementById(id);
-}

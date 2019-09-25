@@ -26,13 +26,13 @@
 	<section id="left">
 		<div id="left-actions">
 			<img class="tabButton" id="left-actions-menu" src="icons/common/menu_color.png" alt="Menu" />
-			<img class="tabButton" id="left-actions-search" src="icons/common/search_color.png" alt="Menu" />
+			<!-- <img class="tabButton" id="left-actions-search" src="icons/common/search_color.png" alt="Menu" /> -->
 
 			<img class="tabButton" id="left-actions-settings" src="icons/common/settings_color.png" alt="Settings" />
 			<img class="tabButton" id="left-actions-addNote" src="icons/common/add_note_color.png" alt="Add note" title="Add note" />
 			<img class="tabButton" id="left-actions-addCategory" src="icons/common/add_category_color.png" alt="Add category" title="Add category" />
 
-			<div id="left-actions-searchBar">
+			<!-- <div id="left-actions-searchBar">
 				<img id="left-actions-searchBar-search" src="icons/common/search_color.png" alt="Search" />
 				<div id="left-actions-searchBar-bar">
 					<input id="left-actions-searchBar-input" id="" type="text" placeholder="Search..." />
@@ -40,7 +40,7 @@
 				</div>
 				<img class="tabButton" id="left-actions-searchBar-clear" src="icons/common/backspace_color.png" alt="Clear input" />
 				<img class="tabButton" id="left-actions-searchBar-close" src="icons/common/close_color.png" alt="Close search" />
-			</div>
+			</div> -->
 		</div>
 		<div id="left-categories">
 			<div id="left-noCategories">
@@ -60,6 +60,14 @@
 			<img id="left-categories-add" class="left-addButton" src="icons/common/add_category.png" alt="Add category" title="Add category" />
 		</div>
 		<div id="left-notes">
+			<div id="left-notesSearch">
+				<img id="left-notesSearch-search" src="icons/common/search_color.png" alt="Search" />
+				<div id="left-notesSearch-content">
+					<input id="left-notesSearch-input" type="text" placeholder="Search..." />
+					<div></div>
+				</div>
+				<img id="left-notesSearch-clear" src="icons/common/backspace_color.png" alt="Clear" />
+			</div>
 			<div id="left-noNotes">
 				<p>
 					No notes in this category...<br/>
@@ -173,6 +181,26 @@
 	</div>
 </section>
 
+<div id="alert" class="dialog">
+	<div id="alert-content" class="dialog-content">
+		<h2 id="alert-title"></h2>
+
+		<div id="alert-contentFlex">
+			<div>
+				<img src="icons/common/alert.png" alt="Alert" />
+				<p id="alert-text"></p>
+			</div>
+		</div>
+
+		<div class="dialogButtons">
+			<button id="alert-dialogButton-action" class="dialogButton-primary" name="right">Do it</button>
+			<button id="alert-dialogButton-abort" class="dialogButton-abort" name="left">Cancel</button>
+		</div>
+	</div>
+</div>
+
+<div id="contextMenu" tabindex="-1"></div>
+
 <footer>
 	<div id="footer-categories">
 		damboy.sytes.net
@@ -189,7 +217,10 @@
 	<script type="text/javascript" src="js/left.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/categoryDialog.js"></script>
+
+	<script type="text/javascript" src="js/contextMenu.js"></script>
 	<script type="text/javascript" src="js/colorPicker.js"></script>
+	<script type="text/javascript" src="js/alert.js"></script>
 
 	<script type="text/javascript" src="js/index.js"></script>
 </body>

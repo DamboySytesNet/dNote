@@ -14,6 +14,7 @@ const BW = REMOTE.BrowserWindow;
 const WindowAction = {
     init() {
         Left.assignListeners();
+        ContextMenu.assignListeners();
         Main.init();
     },
     keyHandler(ev) {
@@ -38,6 +39,3 @@ const WindowAction = {
         window.close();
     }
 };
-function $id(id) {
-    return document.getElementById(id);
-}

@@ -1,0 +1,33 @@
+#alert {
+	z-index: 100;
+}
+	#alert-content {
+		width:350px;
+	}
+
+		#alert-contentFlex {
+			width:100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			> div {
+				margin:10px 15px;
+
+				> img {
+					width:36px;
+					height:36px;
+					display: block;
+					float: left;
+					margin-right: 15px;
+				}
+
+				> p {
+					width:calc(100% - 51px);
+					font:0.9em "OpenSans";
+					float: left;
+					text-align: justify;
+					text-align-last:left;
+				}
+			}
+		}
