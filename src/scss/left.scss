@@ -13,6 +13,7 @@
         border-right: solid 1px #ccc;
         overflow: hidden;
         float:left;
+        transition: width 0.3s;
     }
         #left-noCategories {
             width:calc(100% - 20px);
@@ -90,6 +91,7 @@
         width:calc(100% - 241px);
         height:calc(100% - #{$actionsHeight + 1});
         overflow: hidden;
+        transition: width 0.3s;
         float:left;
     }
         #left-notesSearch {
@@ -154,37 +156,6 @@
                 }
             }
 
-            // #left-actions-searchBar-bar {
-    //         position: relative;
-    //         width:calc(100% - 10px - 48px - 54px - 48px);
-    //         height:30px;
-    //         margin:11px 0px 11px 10px;
-    //         float: left;
-
-    //         > input {
-    //             font:1em "OpenSans";
-    //             width:100%;
-    //             height:100%;
-    //             outline: none;
-    //             border:none;
-    //             border-bottom:solid 2px #ccc;
-
-    //             &:focus ~ div {
-    //                 left: 0%;
-    //                 width:100%;
-    //             }
-    //         }
-
-    //         > div {
-    //             position: absolute;
-    //             left:50%;
-    //             bottom: -2px;
-    //             width:0%;
-    //             height:2px;
-    //             background: $basecolor;
-    //             transition: left 0.2s, width 0.2s;
-    //         }
-    //     }
         #left-noNotes {
             width:calc(100% - 20px);
             padding: 5px 10px;
@@ -212,28 +183,16 @@
                 @include prefix(user-select, none, webkit moz ms);
                 cursor: pointer;
                 overflow: hidden;
-                padding: 20px 0 10px 0;
+                padding-bottom: 8px;
 
                 &:not([name="chosen"]) {
                     &:hover {
                         background: rgb($basecolor, 0.1);
-
-                        > .left-category-color {
-                            height:100%;
-                            margin: 0px 0;
-                        }
-                    }
-
-                    &:active {
-                        background: rgb($basecolor, 0.2);
                     }
                 }
 
                 &[name="chosen"] {
-                    > .left-category-color {
-                        height:100%;
-                        margin: 0px 0;
-                    }
+                    background: rgb($basecolor, 0.2);
                 }
             }
                 .left-note-additions {
@@ -274,6 +233,24 @@
                     margin: 0 10px;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                }
+                .left-note-tags {
+                    position: absolute;
+                    bottom:4px;
+                    left:4px;
+                    width: calc(100% - 8px);
+                    height:20px;
+                    white-space: nowrap;
+                    overflow: hidden;
+
+                    > span {
+                        font:0.8em "OpenSans";
+                        margin-right: 10px;
+                        background: #f3f3f3;
+                        color: #666;
+                        border-radius: 5px;
+                        padding: 0 5px;
+                    }
                 }
 
         #left-categories:hover > .left-addButton,

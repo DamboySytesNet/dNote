@@ -11,6 +11,8 @@ interface ILeftSearch {
 }
 interface ILeftCategories {
     curr: ICategory;
+    shown: boolean;
+    toggle(): void;
     build(data: ICategory[]): void;
     add(obj: ICategory): void;
     edit(obj: ICategory, name: string, color: string): void;
@@ -20,10 +22,12 @@ interface ILeftCategories {
     unselect(): void;
 }
 interface ILeftNotes {
+    curr: INote;
     noCategory(): void;
     build(data: INote[]): void;
     choose(which: INote): void;
     sort(data: INote[]): void;
     createHTML(el: INote): HTMLDivElement;
+    unselect(): void;
 }
 declare const Left: ILeft;

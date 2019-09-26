@@ -9,6 +9,7 @@ interface INote {
     content: string;
     pinned: boolean;
     protection: IProtection;
+    tags: string[];
     dateCreated: string;
     dateModified: string;
 }

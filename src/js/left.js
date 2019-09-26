@@ -12,7 +12,8 @@ const Left = {
                 let div = document.createElement('div');
                 div.innerHTML = el.content;
                 if (el.name.indexOf(value) > -1 ||
-                    div.textContent.indexOf(value) > -1)
+                    div.textContent.indexOf(value) > -1 ||
+                    el.tags.indexOf(value) > -1)
                     el.html.style.display = 'block';
                 else
                     el.html.style.display = 'none';
@@ -20,11 +21,24 @@ const Left = {
         },
         clear() {
             $id('left-notesSearch-input').value = '';
+            this.applySearch();
             $id('left-notesSearch-input').focus();
         }
     },
     categories: {
         curr: null,
+        shown: true,
+        toggle() {
+            this.shown = !this.shown;
+            if (this.shown) {
+                $id('left-categories').style.width = '240px';
+                $id('left-notes').style.width = 'calc(100% - 241px)';
+            }
+            else {
+                $id('left-categories').style.width = '0px';
+                $id('left-notes').style.width = 'calc(100% - 1px)';
+            }
+        },
         build(data) {
             $id('left-categories-content').innerHTML = '';
             if (data.length > 0) {
@@ -68,6 +82,10 @@ const Left = {
             Main.saveContent();
         },
         remove(el) {
+            if (this.curr !== null) {
+                if (this.curr.notes.indexOf(Left.notes.curr) > -1)
+                    Left.notes.unselect();
+            }
             if (el === this.curr)
                 this.unselect();
             Main.data.some((val, it) => {
@@ -126,6 +144,7 @@ const Left = {
         }
     },
     notes: {
+        curr: null,
         noCategory() {
             $id('left-notes-content').innerHTML = '';
             $id('left-noCategoryChosen').style.display = 'block';
@@ -160,11 +179,28 @@ const Left = {
         },
         choose(which) {
             if (which) {
+                if (this.curr !== null)
+                    this.curr.html.setAttribute('name', '');
+                this.curr = which;
+                this.curr.html.setAttribute('name', 'chosen');
                 $id('main-note-notChosen').style.display = 'none';
                 $id('main-note-view').style.display = 'block';
                 $id('main-note-edit').style.display = 'none';
                 $id('main-note-view').innerHTML = which.content;
                 $id('main-note-edit').innerHTML = which.content;
+                $id('main-actions-state').style.display = 'block';
+                $id('main-actions-info').style.display = 'block';
+                $id('main-actions-delete').style.display = 'block';
+            }
+        },
+        unselect() {
+            if (this.curr !== null) {
+                this.curr = null;
+                $id('main-note-view').innerHTML = '';
+                $id('main-note-edit').innerHTML = '';
+                $id('main-actions-state').style.display = 'none';
+                $id('main-actions-info').style.display = 'none';
+                $id('main-actions-delete').style.display = 'none';
             }
         },
         createHTML(el) {
@@ -178,6 +214,7 @@ const Left = {
             child.classList.add('left-note-additions');
             let img;
             if (el.pinned) {
+                parent.style.paddingTop = '20px';
                 img = new Image();
                 img.src = 'icons/common/pin_color.png';
                 img.setAttribute('name', 'left');
@@ -186,6 +223,7 @@ const Left = {
                 child.appendChild(img);
             }
             if (el.protection.active) {
+                parent.style.paddingTop = '20px';
                 img = new Image();
                 img.src = 'icons/common/lock_color.png';
                 img.setAttribute('name', 'right');
@@ -209,6 +247,21 @@ const Left = {
             subChild.innerHTML = tmp.textContent;
             child.appendChild(subChild);
             parent.appendChild(child);
+            child = document.createElement('div');
+            child.classList.add('left-note-tags');
+            const limit = el.tags.length > 5 ? 5 : el.tags.length;
+            for (let i = 0; i < limit; i++) {
+                parent.style.paddingBottom = '30px';
+                let tag = document.createElement('span');
+                tag.innerHTML = el.tags[i];
+                tag.onclick = ev => {
+                    ev.stopPropagation();
+                    $id('left-notesSearch-input').value = el.tags[i];
+                    Left.search.applySearch();
+                };
+                child.appendChild(tag);
+            }
+            parent.appendChild(child);
             return parent;
             // <div id="left-note-{id}" class="left-note">
             //     <div class="left-note-additions">
@@ -221,6 +274,9 @@ const Left = {
             //     <div class="left-note-text">
             //         <p>{content}</p>
             //     </div>
+            //     <div>
+            //          <span>{tag}</span>
+            //     </div>
             // </div>
         }
     },
@@ -229,6 +285,8 @@ const Left = {
             .addEventListener('keyup', () => Left.search.applySearch());
         $id('left-notesSearch-clear')
             .addEventListener('click', () => Left.search.clear());
+        $id('left-actions-menu')
+            .addEventListener('click', () => Left.categories.toggle());
     },
     keyHandler(ev) {
         if (ev.key === 'Escape') {

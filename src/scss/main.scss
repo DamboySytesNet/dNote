@@ -23,6 +23,7 @@
             margin: 6px 2px 6px 6px;
             padding: 7px;
             float:left;
+            display: none;
         }
         #main-actions-info {
             width:28px;
@@ -30,6 +31,7 @@
             margin: 6px 6px 6px 2px;
             padding: 7px;
             float:left;
+            display: none;
         }
         #main-actions-delete {
             width:28px;
@@ -37,6 +39,7 @@
             margin: 6px 2px 6px 6px;
             padding: 7px;
             float:left;
+            display: none;
         }
     #main-note {
         width: calc(100% - 40px);
