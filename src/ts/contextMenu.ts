@@ -71,7 +71,7 @@ const ContextMenu: IContext = {
             this.addSeparator();
         
         if (what === 'category') {
-            // Params === categoryElement
+            // params === categoryElement
             this.addPost('Choose', 'contextMenu/pointer.png', () => {
                 Left.categories.choose(params);
             });
@@ -89,6 +89,19 @@ const ContextMenu: IContext = {
                     'Remove',
                     () => { Left.categories.remove(params); }
                 );
+            });
+        } else if (what === 'note') {
+            // params === noteElement
+            this.addPost('Choose', 'contextMenu/pointer.png', () => {
+                Left.notes.choose(params);
+            });
+
+            this.addPost('Edit', 'contextMenu/edit.png', () => {
+                
+            });
+
+            this.addPost('Delete', 'common/delete_color.png', () => {
+                Left.notes.promptRemove(params);
             });
         } else if (what === 'categoryList') {
             // No params

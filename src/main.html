@@ -120,6 +120,47 @@
 	</div>
 </section>
 
+<section id="noteInfo" class="dialog">
+	<div id="noteInfo-content" class="dialog-content">
+		<h2>Note information</h2>
+
+		<div id="noteInfo-table">
+			<div>
+				<div>Name</div>
+				<div id="noteInfo-name"></div>
+			</div>
+			<div>
+				<div>Words</div>
+				<div id="noteInfo-words"></div>
+			</div>
+			<div>
+				<div>Characters</div>
+				<div id="noteInfo-chars"></div>
+			</div>
+			<div>
+				<div>Pinned</div>
+				<div id="noteInfo-pinned"></div>
+			</div>
+			<div>
+				<div>Protected</div>
+				<div id="noteInfo-protect"></div>
+			</div>
+			<div>
+				<div>Date modified</div>
+				<div id="noteInfo-mDate"></div>
+			</div>
+			<div>
+				<div>Date created</div>
+				<div id="noteInfo-cDate"></div>
+			</div>
+		</div>
+		
+		<div class="dialogButtons">
+			<button id="noteInfo-dialogButton-abort" class="dialogButton-abort" name="left">Cancel</button>
+		</div>
+	</div>
+</section>
+
 <section id="colorPicker" class="dialog">
 	<div id="colorPicker-content" class="dialog-content">
 		<h2>Choose a color</h2>
@@ -170,7 +211,14 @@
 		damboy.sytes.net
 	</div>
 	<div id="footer-main">
-		12 words, 12 characters
+		<p id="footer-main-p1">
+			<span id="footer-words"></span> words,
+			<span id="footer-chars"></span> characters
+		</p>
+		<p id="footer-main-p2">
+			Date modified: <span id="footer-mDate"></span>
+			Date created: <span id="footer-cDate"></span>
+		</p>
 	</div>
 </footer>
 
@@ -178,9 +226,11 @@
 
 	<script type="text/javascript" src="js/utils.js"></script>
 
+	<script type="text/javascript" src="js/noteInfo.js"></script>
 	<script type="text/javascript" src="js/left.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 	<script type="text/javascript" src="js/categoryDialog.js"></script>
+	<script type="text/javascript" src="js/content.js"></script>
 
 	<script type="text/javascript" src="js/contextMenu.js"></script>
 	<script type="text/javascript" src="js/colorPicker.js"></script>

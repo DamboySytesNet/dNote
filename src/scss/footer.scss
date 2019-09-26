@@ -16,4 +16,21 @@ footer {
 
     #footer-main {
         width:calc(100% - 502px);
+        display: flex;
+
+        > p {
+            flex: 1 1;
+            padding: 0 10px;
+            height:100%;
+            font:0.9em/20px "OpenSans";
+            color: #666;
+            display: none;
+
+            &:first-of-type {
+                text-align:left;
+            }
+            &:last-of-type {
+                text-align:right;
+            }
+        }
     }

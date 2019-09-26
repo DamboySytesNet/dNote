@@ -23,8 +23,14 @@ interface ILeftCategories {
 }
 interface ILeftNotes {
     curr: INote;
+    words: number;
+    chars: number;
     noCategory(): void;
     build(data: INote[]): void;
+    add(obj: INote): void;
+    edit(): void;
+    promptRemove(obj: INote): void;
+    remove(obj: INote): void;
     choose(which: INote): void;
     sort(data: INote[]): void;
     createHTML(el: INote): HTMLDivElement;

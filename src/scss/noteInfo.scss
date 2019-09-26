@@ -1,0 +1,35 @@
+#noteInfo {
+	z-index: 100;
+}
+	#noteInfo-content {
+		width:350px;
+	}
+		#noteInfo-table {
+			width:calc(100% - 40px);
+			max-width:calc(100% - 40px);
+			margin:10px 20px;
+			display: block;
+
+			> div {
+				width:100%;
+				height:30px;
+				display: block;
+
+				> div {
+					font:1em/30px "OpenSans";
+					float: left;
+
+					&:first-of-type {
+						min-width:130px;
+						font-weight: 700;
+					}
+
+					&:last-of-type {
+						max-width:calc(100% - 130px);
+						text-overflow: ellipsis;
+						overflow: hidden;
+						white-space: nowrap;
+					}
+				}
+			}
+		}

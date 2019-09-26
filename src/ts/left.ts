@@ -28,9 +28,15 @@ interface ILeftCategories {
 
 interface ILeftNotes {
     curr: INote;
+    words: number;
+    chars: number;
 
     noCategory(): void;
     build(data: INote[]): void;
+    add(obj: INote): void;
+    edit(): void;
+    promptRemove(obj: INote): void;
+    remove(obj: INote): void;
     choose(which: INote): void;
     sort(data: INote[]): void;
     createHTML(el: INote): HTMLDivElement;
@@ -110,6 +116,9 @@ const Left: ILeft = {
                     this.curr.html.setAttribute('name', '');
                     this.curr.html.style.background = 'initial';
                 }
+
+                if (Left.notes.curr !== null)
+                    Left.notes.unselect();
 
                 this.curr = which;
                 this.curr.html.setAttribute('name', 'chosen');
@@ -210,6 +219,8 @@ const Left: ILeft = {
 
     notes: {
         curr: null,
+        words: 0,
+        chars: 0,
 
         noCategory() {
             $id('left-notes-content').innerHTML = '';
@@ -234,6 +245,45 @@ const Left: ILeft = {
                 }
             } else {
                 $id('left-noNotes').style.display = 'block';
+            }
+        },
+
+        add(el) {
+            
+        },
+        
+        edit() {
+
+        },
+
+        promptRemove(el) {
+            Alert.open(
+                'Delete a note',
+                `You are about to delete a note.
+                 There is no going back after
+                 confirmation. Are you sure?`,
+                'Remove',
+                () => {
+                    Left.notes.remove(el);
+                }
+            );
+        },
+
+        remove(el) {
+            if (el !== null && Left.categories.curr !== null) {
+                if (Left.notes.curr === el)
+                    Left.notes.unselect();
+                    
+                Left.categories.curr.notes.some((val, it) => {
+                    if (val === el) {
+                        Left.categories.curr.notes.splice(it, 1);
+                        return true;
+                    }
+                    return false;
+                });
+
+                el.html.remove();
+                Main.saveContent();
             }
         },
 
@@ -263,6 +313,17 @@ const Left: ILeft = {
                 $id('main-note-view').innerHTML = which.content;
                 $id('main-note-edit').innerHTML = which.content;
 
+                $id('footer-main-p1').style.display = 'block';
+                $id('footer-main-p2').style.display = 'block';
+
+                this.words = getTextFromDOM($id('main-note-view')).split(' ').length;
+                this.chars = $id('main-note-view').textContent.length;
+
+                $id('footer-words').innerHTML = this.words.toString();
+                $id('footer-chars').innerHTML = this.chars.toString();
+                $id('footer-cDate').innerHTML = which.dateCreated;
+                $id('footer-mDate').innerHTML = which.dateModified;
+
                 $id('main-actions-state').style.display  = 'block';
                 $id('main-actions-info').style.display   = 'block';
                 $id('main-actions-delete').style.display = 'block';
@@ -272,8 +333,23 @@ const Left: ILeft = {
         unselect() {
             if (this.curr !== null) {
                 this.curr = null;
+                $id('main-note-notChosen').style.display = 'flex';
+                $id('main-note-view').style.display = 'none';
+                $id('main-note-edit').style.display = 'none';
+
                 $id('main-note-view').innerHTML = '';
                 $id('main-note-edit').innerHTML = '';
+                
+                $id('footer-main-p1').style.display = 'none';
+                $id('footer-main-p2').style.display = 'none';
+
+                $id('footer-words').innerHTML = '';
+                $id('footer-chars').innerHTML = '';
+                $id('footer-cDate').innerHTML = '';
+                $id('footer-mDate').innerHTML = '';
+
+                this.words = 0;
+                this.chars = 0;
 
                 $id('main-actions-state').style.display  = 'none';
                 $id('main-actions-info').style.display   = 'none';
@@ -288,6 +364,9 @@ const Left: ILeft = {
             parent.addEventListener('click', () => {
                 Left.notes.choose(el);
             });
+            parent.oncontextmenu = () => {
+                ContextMenu.addToContext('note', el);
+            };
                 let child = document.createElement('div') as HTMLDivElement;
                 child.classList.add('left-note-additions');
                     let img;
@@ -320,12 +399,12 @@ const Left: ILeft = {
                 parent.appendChild(child);
 
                 let tmp = document.createElement('div') as HTMLDivElement;
-                tmp.innerHTML = el.content.substr(0, 150);;
+                tmp.innerHTML = el.content.substr(0, 150);
 
                 child = document.createElement('div') as HTMLDivElement;
                 child.classList.add('left-note-text');
                     subChild = document.createElement('p') as HTMLParagraphElement;
-                    subChild.innerHTML = tmp.textContent;
+                    subChild.innerHTML = getTextFromDOM(tmp);
                     child.appendChild(subChild);
                 parent.appendChild(child);
 

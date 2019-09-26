@@ -52,7 +52,7 @@ const ContextMenu = {
         if ($id('contextMenu').innerHTML !== '')
             this.addSeparator();
         if (what === 'category') {
-            // Params === categoryElement
+            // params === categoryElement
             this.addPost('Choose', 'contextMenu/pointer.png', () => {
                 Left.categories.choose(params);
             });
@@ -63,6 +63,17 @@ const ContextMenu = {
                 Alert.open('Delete category', `You are about to delete whole category.
                      Doing so will delete <b>ALL</b> notes,
                      that are in this category. Are you sure?`, 'Remove', () => { Left.categories.remove(params); });
+            });
+        }
+        else if (what === 'note') {
+            // params === noteElement
+            this.addPost('Choose', 'contextMenu/pointer.png', () => {
+                Left.notes.choose(params);
+            });
+            this.addPost('Edit', 'contextMenu/edit.png', () => {
+            });
+            this.addPost('Delete', 'common/delete_color.png', () => {
+                Left.notes.promptRemove(params);
             });
         }
         else if (what === 'categoryList') {

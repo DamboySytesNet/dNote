@@ -244,12 +244,12 @@
                     overflow: hidden;
 
                     > span {
-                        font:0.8em "OpenSans";
+                        font:0.7em "OpenSans";
                         margin-right: 10px;
-                        background: #f3f3f3;
-                        color: #666;
+                        background: $basecolor;
+                        color: #fff;
                         border-radius: 5px;
-                        padding: 0 5px;
+                        padding: 2px 5px;
                     }
                 }
 
