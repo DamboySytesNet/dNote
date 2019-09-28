@@ -9,19 +9,17 @@ const Alert = {
         $id('alert-dialogButton-abort').onclick = () => {
             Alert.close();
         };
+        $id('alert-dialogButton-abort').onclick = () => {
+            Alert.close();
+        };
     },
-    open(title, text, buttonText, callback) {
+    open(title, text) {
         if (!this.initialized) {
             this.init();
             this.initialized = true;
         }
         $id('alert-title').innerHTML = title;
         $id('alert-text').innerHTML = text;
-        $id('alert-dialogButton-action').innerHTML = buttonText;
-        $id('alert-dialogButton-action').onclick = () => {
-            callback();
-            Alert.close();
-        };
         this.shown = true;
         $id('alert').style.display = 'flex';
         setTimeout(() => {

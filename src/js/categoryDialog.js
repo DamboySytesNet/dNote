@@ -68,7 +68,7 @@ const CategoryDialog = {
     },
     keyHandler(ev) {
         if (ev.key === 'Escape') {
-            if (this.shown)
+            if (this.shown && !ColorPicker.shown)
                 this.close();
         }
     },

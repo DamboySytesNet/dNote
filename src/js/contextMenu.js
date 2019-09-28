@@ -60,7 +60,7 @@ const ContextMenu = {
                 CategoryDialog.open(params);
             });
             this.addPost('Delete', 'common/delete_color.png', () => {
-                Alert.open('Delete category', `You are about to delete whole category.
+                Confirm.open('Delete category', `You are about to delete whole category.
                      Doing so will delete <b>ALL</b> notes,
                      that are in this category. Are you sure?`, 'Remove', () => { Left.categories.remove(params); });
             });
@@ -88,6 +88,7 @@ const ContextMenu = {
         else if (what === 'noteList') {
             // No params
             this.addPost('Create a note', 'common/add_note_color.png', () => {
+                Content.create();
             });
         }
     },

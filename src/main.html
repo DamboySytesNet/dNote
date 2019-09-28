@@ -62,14 +62,14 @@
 				</p>
 			</div>
 			<div id="left-notes-content" class="scrollable"></div>
-			<img class="left-addButton" src="icons/common/add_note.png" alt="Add note" title="Add note" />
+			<img id="left-notes-add" class="left-addButton" src="icons/common/add_note.png" alt="Add note" title="Add note" />
 		</div>
 	</section>
 	<section id="main">
 		<div id="main-actions">
 			<img class="tabButton" id="main-actions-state" name="left" src="icons/common/edit_color.png" alt="Edit note" />
 			<div id="main-actions-name">
-				<input id="main-actions-nameInput" type="text" value="" disabled>
+				<input id="main-actions-nameInput" type="text" placeholder="" disabled>
 				<div></div>
 			</div>
 			<img class="tabButton" id="main-actions-info" name="right" src="icons/common/info_color.png" alt="More info" title="More info" />
@@ -243,8 +243,10 @@
 						<div class="main-note-edit-tools-separator"></div>
 					</div>
 				</div>
-				<div id="main-note-edit-content" class="note scrollable" contenteditable="true">
-					
+				<div id="main-note-edit-content" class="note scrollable" contenteditable="true"></div>
+				<div id="main-note-edit-buttons">
+					<button id="main-note-edit-cancel">Cancel</button>
+					<button id="main-note-edit-save">Save</button>
 				</div>
 				<div id="main-note-edit-tags">
 					<div id="main-note-edit-tags-toggle">
@@ -374,20 +376,27 @@
 	</div>
 </div>
 
+<div id="confirm" class="dialog">
+	<div id="confirm-content" class="dialog-content">
+		<h2 id="confirm-title"></h2>
+
+		<p id="confirm-text"></p>
+
+		<div class="dialogButtons">
+			<button id="confirm-dialogButton-action" class="dialogButton-primary" name="right">Do it</button>
+			<button id="confirm-dialogButton-abort" class="dialogButton-abort" name="left">Cancel</button>
+		</div>
+	</div>
+</div>
+
 <div id="alert" class="dialog">
 	<div id="alert-content" class="dialog-content">
 		<h2 id="alert-title"></h2>
 
-		<div id="alert-contentFlex">
-			<div>
-				<img src="icons/common/alert.png" alt="Alert" />
-				<p id="alert-text"></p>
-			</div>
-		</div>
+		<p id="alert-text"></p>
 
 		<div class="dialogButtons">
-			<button id="alert-dialogButton-action" class="dialogButton-primary" name="right">Do it</button>
-			<button id="alert-dialogButton-abort" class="dialogButton-abort" name="left">Cancel</button>
+			<button id="alert-dialogButton-abort" class="dialogButton-abort" name="right">Ok</button>
 		</div>
 	</div>
 </div>
@@ -423,6 +432,7 @@
 	<script type="text/javascript" src="js/contextMenu.js"></script>
 	<script type="text/javascript" src="js/colorPicker.js"></script>
 	<script type="text/javascript" src="js/alert.js"></script>
+	<script type="text/javascript" src="js/confirm.js"></script>
 	<script type="text/javascript" src="js/input.js"></script>
 
 	<script type="text/javascript" src="js/index.js"></script>

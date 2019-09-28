@@ -81,7 +81,7 @@ const ContextMenu: IContext = {
             });
 
             this.addPost('Delete', 'common/delete_color.png', () => {
-                Alert.open(
+                Confirm.open(
                     'Delete category',
                     `You are about to delete whole category.
                      Doing so will delete <b>ALL</b> notes,
@@ -115,7 +115,7 @@ const ContextMenu: IContext = {
         } else if (what === 'noteList') {
             // No params
             this.addPost('Create a note', 'common/add_note_color.png', () => {
-                
+                Content.create();
             });
         }
     },

@@ -20,15 +20,24 @@
 
         #main-actions-name {
             position: relative;
-            width:calc(100% - #{$actionsHeight * 3});
             height:100%;
             float: left;
             display: none;
 
+            &[name="full"] {
+                width:calc(100% - 40px);
+                margin: 0 20px;
+            }
+
+            &:not([name="full"]) {
+                width:calc(100% - #{$actionsHeight * 3});
+                margin: 0;
+            }
+
             > input {
                 width:100%;
                 height:calc(100% - 16px);
-                margin: 8px 0;
+                margin: 8px 0px;
                 font:1.2em "OpenSans-Bold";
                 text-indent: 5px;
                 font-weight: 700;
@@ -277,7 +286,6 @@
                             &:active {
                                 background: #ddd;
                             }
-                            // float: left;
                         }
 
                     }
@@ -294,6 +302,49 @@
                 padding: 20px;
                 background: #fff;
                 outline: none;
+            }
+            #main-note-edit-buttons {
+                position: absolute;
+                right:-170px;
+                bottom: 30px;
+                width: 130px;
+                padding: 10px 15px;
+                background: #fff;
+                border:solid 2px #ccc;
+                border-top-left-radius: 10px;
+                border-bottom-left-radius: 10px;
+                transition: bottom 0.3s, right 0.3s;
+
+                > button {
+                    font:1em "OpenSans";
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    outline: none;
+                }
+                #main-note-edit-cancel {
+                    background: transparent;
+                    border:none;
+
+                    &:hover {
+                        background: #eee;
+                    }
+                    &:active {
+                        background: #ddd;
+                    }
+                }
+                #main-note-edit-save {
+                    background: $basecolor;
+                    border:none;
+                    color: #fff;
+                    transition: transform 0.2s;
+
+                    &:hover {
+                        transform: scale(1.05);
+                    }
+                    &:active {
+                        transform: scale(0.95);
+                    }
+                }
             }
             #main-note-edit-tags {
                 position: absolute;

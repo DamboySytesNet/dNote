@@ -28,7 +28,7 @@ interface ILeftNotes {
     noCategory(): void;
     build(data: INote[]): void;
     add(obj: INote): void;
-    edit(): void;
+    edit(note: INote): void;
     promptRemove(obj: INote): void;
     remove(obj: INote): void;
     choose(which: INote): void;

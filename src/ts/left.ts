@@ -34,7 +34,7 @@ interface ILeftNotes {
     noCategory(): void;
     build(data: INote[]): void;
     add(obj: INote): void;
-    edit(): void;
+    edit(note: INote): void;
     promptRemove(obj: INote): void;
     remove(obj: INote): void;
     choose(which: INote): void;
@@ -107,22 +107,38 @@ const Left: ILeft = {
         },
 
         choose(which) {
-            if (which) {
-                $id('main-note-notChosen').style.display = 'flex';
-                $id('main-note-view').style.display = 'none';
-                $id('main-note-edit').style.display = 'none';
+            function ok() {
+                if (which) {
+                    $id('main-note-notChosen').style.display = 'flex';
+                    $id('main-note-view').style.display = 'none';
+                    $id('main-note-edit').style.display = 'none';
 
-                if (this.curr !== null) {
-                    this.curr.html.setAttribute('name', '');
-                    this.curr.html.style.background = 'initial';
+                    if (Left.categories.curr !== null) {
+                        Left.categories.curr.html.setAttribute('name', '');
+                        Left.categories.curr.html.style.background = 'initial';
+                    }
+
+                    if (Left.notes.curr !== null)
+                        Left.notes.unselect();
+
+                    Left.categories.curr = which;
+                    Left.categories.curr.html.setAttribute('name', 'chosen');
+                    Left.notes.build(which.notes);
                 }
+            }
 
-                if (Left.notes.curr !== null)
-                    Left.notes.unselect();
-
-                this.curr = which;
-                this.curr.html.setAttribute('name', 'chosen');
-                Left.notes.build(which.notes);
+            if (Content.editing || Content.creating) {
+                Confirm.open(
+                    'Editing',
+                    `Are you sure you want to stop editing
+                     this note? Any unsaved changes will be lost!`,
+                    'Understood',
+                    () => {
+                        Content.unselect();
+                        ok();
+                    });
+            } else {
+                ok();
             }
         },
 
@@ -248,16 +264,72 @@ const Left: ILeft = {
             }
         },
 
-        add(el) {
-            
+        add(note) {
+            if (Left.categories.curr !== null) {
+                Left.categories.curr.notes.push(note);
+
+                Main.saveContent();
+
+                $id('left-notes-content')
+                    .appendChild(note.html);
+            }
         },
         
-        edit() {
+        edit(note) {
+            note.html.children[0].innerHTML = '';
 
+            let img;
+            if (note.pinned) {
+                note.html.style.paddingTop = '20px';
+                img = new Image();
+                img.src = 'icons/common/pin_color.png';
+                img.setAttribute('name', 'left');
+                img.alt = 'Pinned';
+                img.title = 'Pinned';
+                note.html.children[0].appendChild(img);
+            }
+
+            if (note.protection.active) {
+                note.html.style.paddingTop = '20px';
+                img = new Image();
+                img.src = 'icons/common/lock_color.png';
+                img.setAttribute('name', 'right');
+                img.alt = 'Password protected';
+                img.title = 'Password protected';
+                note.html.children[0].appendChild(img);
+            }
+
+            note.html.children[1].children[0].innerHTML = note.name;
+
+            let tmp = document.createElement('div') as HTMLDivElement;
+            tmp.innerHTML = note.content.substr(0, 150);
+            
+            note.html.children[2].children[0].innerHTML = getTextFromDOM(tmp);
+
+            note.html.children[3].innerHTML = '';
+            const limit = note.tags.length > 5 ? 5 : note.tags.length;
+            for (let i = 0; i < limit; i++) {
+                note.html.style.paddingBottom = '30px';
+                let tag = document.createElement('span') as HTMLSpanElement;
+                tag.innerHTML = note.tags[i];
+                tag.onclick = ev => {
+                    ev.stopPropagation();
+                    (<HTMLInputElement>$id('left-notesSearch-input')).value = note.tags[i];
+                    Left.search.applySearch();
+                }
+                note.html.children[3].appendChild(tag);
+            }
+
+            $id('footer-mDate').innerHTML = note.dateModified;
+
+            $id('main-note-view').innerHTML         = note.content;
+            $id('main-note-edit-content').innerHTML = note.content;
+
+            Main.saveContent();
         },
 
         promptRemove(el) {
-            Alert.open(
+            Confirm.open(
                 'Delete a note',
                 `You are about to delete a note.
                  There is no going back after
@@ -299,38 +371,56 @@ const Left: ILeft = {
         },
 
         choose(which) {
-            if (which) {
-                if (this.curr !== null)
-                    this.curr.html.setAttribute('name', '');
+            function ok() {
+                if (which) {
+                    if (Left.notes.curr !== null)
+                        Left.notes.curr.html.setAttribute('name', '');
 
-                Content.changeState(false);
+                    Content.changeState(false);
 
-                this.curr = which;
-                this.curr.html.setAttribute('name', 'chosen');
+                    Left.notes.curr = which;
+                    Left.notes.curr.html.setAttribute('name', 'chosen');
 
-                $id('main-note-notChosen').style.display = 'none';
-                $id('main-actions-name').style.display = 'block';
+                    $id('main-note-notChosen').style.display = 'none';
+                    $id('main-actions-name').style.display = 'block';
 
-                $id('main-note-view').innerHTML = which.content;
-                $id('main-note-edit-content').innerHTML = which.content;
+                    $id('main-note-view').innerHTML = which.content;
+                    $id('main-note-edit-content').innerHTML = which.content;
 
-                $id('footer-main-p1').style.display = 'block';
-                $id('footer-main-p2').style.display = 'block';
+                    $id('footer-main-p1').style.display = 'block';
+                    $id('footer-main-p2').style.display = 'block';
 
-                this.words = getTextFromDOM($id('main-note-view')).split(' ').length;
-                this.chars = $id('main-note-view').textContent.length;
+                    Left.notes.words = getTextFromDOM($id('main-note-view')).split(' ').length;
+                    Left.notes.chars = $id('main-note-view').textContent.length;
 
-                (<HTMLInputElement>$id('main-actions-nameInput')).value 
-                    = which.name;
-                
-                $id('footer-words').innerHTML = this.words.toString();
-                $id('footer-chars').innerHTML = this.chars.toString();
-                $id('footer-cDate').innerHTML = which.dateCreated;
-                $id('footer-mDate').innerHTML = which.dateModified;
+                    $id('main-actions-name').setAttribute('name', '');
 
-                $id('main-actions-state').style.display  = 'block';
-                $id('main-actions-info').style.display   = 'block';
-                $id('main-actions-delete').style.display = 'block';
+                    (<HTMLInputElement>$id('main-actions-nameInput')).value 
+                        = which.name;
+                    
+                    $id('footer-words').innerHTML = Left.notes.words.toString();
+                    $id('footer-chars').innerHTML = Left.notes.chars.toString();
+                    $id('footer-cDate').innerHTML = which.dateCreated;
+                    $id('footer-mDate').innerHTML = which.dateModified;
+
+                    $id('main-actions-state').style.display  = 'block';
+                    $id('main-actions-info').style.display   = 'block';
+                    $id('main-actions-delete').style.display = 'block';
+                }
+            }
+
+            if (Content.editing || Content.creating) {
+                Confirm.open(
+                    'Editing',
+                    `Are you sure you want to stop editing
+                     this note? Any unsaved changes will be lost!`,
+                    'Understood',
+                    () => { 
+                        Content.unselect();
+                        ok();
+                    });
+            } else {
+                ok();
             }
         },
 
@@ -404,11 +494,12 @@ const Left: ILeft = {
                     child.appendChild(subChild);
                 parent.appendChild(child);
 
-                let tmp = document.createElement('div') as HTMLDivElement;
-                tmp.innerHTML = el.content.substr(0, 150);
 
                 child = document.createElement('div') as HTMLDivElement;
                 child.classList.add('left-note-text');
+                    let tmp = document.createElement('div') as HTMLDivElement;
+                    tmp.innerHTML = el.content.substr(0, 150);
+
                     subChild = document.createElement('p') as HTMLParagraphElement;
                     subChild.innerHTML = getTextFromDOM(tmp);
                     child.appendChild(subChild);
@@ -455,6 +546,12 @@ const Left: ILeft = {
         $id('left-notesSearch-input')
             .addEventListener('keyup', () => Left.search.applySearch());
 
+        $id('left-actions-addNote')
+            .addEventListener('click', () => Content.create());
+
+        $id('left-notes-add')
+            .addEventListener('click', () => Content.create());
+            
         $id('left-notesSearch-clear')
             .addEventListener('click', () => Left.search.clear());
 

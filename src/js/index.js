@@ -20,7 +20,11 @@ const WindowAction = {
     },
     keyHandler(ev) {
         Left.keyHandler(ev);
+        Alert.keyHandler(ev);
+        Confirm.keyHandler(ev);
+        Input.keyHandler(ev);
         CategoryDialog.keyHandler(ev);
+        ColorPicker.keyHandler(ev);
         if (ev.key === 'F5') {
             window.location.reload();
         }

@@ -4,7 +4,7 @@ interface IAlert {
     allowClose: boolean;
 
     init(): void;
-    open(title: string, text: string, buttonText:string, callback: any): void;
+    open(title: string, text: string): void;
     keyHandler(ev: KeyboardEvent): void;
     checkClose(): void;
     close(): void;
@@ -20,9 +20,13 @@ const Alert: IAlert = {
         $id('alert-dialogButton-abort').onclick = () => {
             Alert.close();
         }
+
+        $id('alert-dialogButton-abort').onclick = () => {
+            Alert.close();
+        }
     },
 
-    open(title, text, buttonText, callback) {
+    open(title, text) {
         if (!this.initialized) {
             this.init();
             this.initialized = true;
@@ -30,11 +34,6 @@ const Alert: IAlert = {
 
         $id('alert-title').innerHTML = title;
         $id('alert-text').innerHTML = text;
-        $id('alert-dialogButton-action').innerHTML = buttonText;
-        $id('alert-dialogButton-action').onclick = () => {
-            callback();
-            Alert.close();
-        }
 
         this.shown = true;
         $id('alert').style.display = 'flex';

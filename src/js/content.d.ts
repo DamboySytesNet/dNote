@@ -1,6 +1,7 @@
 interface IContent {
     initialized: boolean;
     editing: boolean;
+    creating: boolean;
     chosenColors: string[];
     chosenColorsCallbacks: any[];
     cursorPos: Range;
@@ -10,6 +11,9 @@ interface IContent {
     colorCustomColors(): void;
     saveSelection(): void;
     restoreSelection(): void;
+    check(): void;
+    unselect(): void;
+    create(): void;
     assignListeners(): void;
 }
 interface IContentTags {

@@ -19,3 +19,8 @@ declare function randomize(min: number, max: number): number;
  * @param el element from which content is read
  */
 declare function getTextFromDOM(el: HTMLElement | ChildNode): string;
+/**
+ * Formats date into yyyy-mm-dd
+ * @param date date to format
+ */
+declare function formatDate(date: Date): string;

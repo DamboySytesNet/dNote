@@ -50,3 +50,29 @@ function getTextFromDOM(el: HTMLElement | ChildNode) {
 
     return ret.substr(0, 1) === ' ' ? ret.substr(1) : ret;
 }
+
+/**
+ * Formats date into yyyy-mm-dd
+ * @param date date to format
+ */
+function formatDate(date: Date): string {
+    let day   = date.getDay();
+    let month = date.getMonth();
+    let year  = date.getFullYear();
+
+    let ret = `${year}-`;
+
+    if (month < 10)
+        ret += `0${month}`;
+    else
+        ret += month;
+
+    ret += '-';
+
+    if (day < 10)
+        ret += `0${day}`;
+    else
+        ret += day;
+        
+    return ret;
+}

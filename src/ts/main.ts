@@ -91,6 +91,7 @@ const Main: IMain = {
 
 setTimeout(() => {
     Left.categories.choose(Main.data[0]);
-    Left.notes.choose(Main.data[0].notes[0]);
-    Content.changeState(true);
+    // Content.create();
+    // Left.notes.choose(Main.data[0].notes[0]);
+    // Content.changeState(true);
 }, 200);
