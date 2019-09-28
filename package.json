@@ -14,5 +14,8 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^6.0.9"
+  },
+  "dependencies": {
+    "wysiwyg": "^2.0.0"
   }
 }

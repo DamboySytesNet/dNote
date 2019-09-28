@@ -103,6 +103,10 @@ const ContextMenu: IContext = {
             this.addPost('Delete', 'common/delete_color.png', () => {
                 Left.notes.promptRemove(params);
             });
+
+            this.addPost('Info', 'common/info_color.png', () => {
+                NoteInfo.open(params);
+            });
         } else if (what === 'categoryList') {
             // No params
             this.addPost('Create a category', 'common/add_category_color.png', () => {

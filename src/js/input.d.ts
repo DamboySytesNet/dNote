@@ -1,11 +1,11 @@
-interface IAlert {
+interface IInput {
     initialized: boolean;
     shown: boolean;
     allowClose: boolean;
     init(): void;
-    open(title: string, text: string, buttonText: string, callback: any): void;
+    open(title: string, text: string, inputText: string, buttonText: string, callback: any): void;
     keyHandler(ev: KeyboardEvent): void;
     checkClose(): void;
     close(): void;
 }
-declare const Alert: IAlert;
+declare const Input: IInput;

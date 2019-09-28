@@ -38,6 +38,7 @@ const Main: IMain = {
      */
     init() {
         const dataStr = this.loadContent();
+        Content.init();
 
         try {
             this.data = JSON.parse(dataStr);
@@ -85,6 +86,11 @@ const Main: IMain = {
             console.error(['Main.saveContent()', e]);
             return false;
         }
-        return false;
     },
 };
+
+setTimeout(() => {
+    Left.categories.choose(Main.data[0]);
+    Left.notes.choose(Main.data[0].notes[0]);
+    Content.changeState(true);
+}, 200);

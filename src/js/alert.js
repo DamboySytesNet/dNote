@@ -41,11 +41,8 @@ const Alert = {
         else
             this.allowClose = true;
     },
-    clear() {
-    },
     close() {
         this.shown = false;
-        this.clear();
         $id('alert').style.display = 'none';
         $id('alert-content').style.opacity = '0';
         $id('alert-content').style.transform = 'translateY(-20px)';

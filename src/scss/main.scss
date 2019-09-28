@@ -17,6 +17,55 @@
             }
         }
     }
+
+        #main-actions-name {
+            position: relative;
+            width:calc(100% - #{$actionsHeight * 3});
+            height:100%;
+            float: left;
+            display: none;
+
+            > input {
+                width:100%;
+                height:calc(100% - 16px);
+                margin: 8px 0;
+                font:1.2em "OpenSans-Bold";
+                text-indent: 5px;
+                font-weight: 700;
+                border:none;
+                outline: none;
+
+                &[disabled] {
+                    border-bottom: none;
+                    background: transparent;
+                    color: #000;
+
+                    ~ div {
+                        display: none;
+                    }
+                }
+
+                &:not([disabled]) {
+                    border-bottom: solid 2px #ccc;
+
+                    &:focus ~ div {
+                        width:100%;
+                        left: 0%;
+                    }
+                }
+            }
+
+            > div {
+                position: absolute;
+                bottom: 6px;
+                left:50%;
+                width:0%;
+                height:2px;
+                transition: left 0.3s, width 0.3s;
+                background: $basecolor;
+            }
+        }
+
         #main-actions-state {
             width:28px;
             height:28px;
@@ -42,10 +91,11 @@
             display: none;
         }
     #main-note {
-        width: calc(100% - 40px);
-        height:calc(100% - 40px - #{$actionsHeight + 1});
-        padding:20px;
+        position: relative;
+        width: calc(100%);
+        height:calc(100% - #{$actionsHeight + 1});
         font:1em "OpenSans";
+        overflow: hidden;
     }
         #main-note-notChosen {
             width:100%;
@@ -69,17 +119,12 @@
                 }
             }
         }
-        #main-note-view {
-            width:100%;
-            height:100%;
-            overflow: auto;
-            display: none;
-
+        .note {
             h1, h2, h3, h4, h5 {
                 padding-bottom: 5px;
             }
 
-            p {
+            p, div {
                 padding: 10px 0;
                 font:1em "OpenSans-Lite";
             }
@@ -87,10 +132,202 @@
             img {
                 max-width: 100%;
             }
+
+            li {
+                list-style-position: inside;
+            }
         }
+        #main-note-view {
+            width:calc(100% - 40px);
+            height:calc(100% - 40px);
+            padding:20px;
+            overflow: auto;
+            display: none;
+        }
+
         #main-note-edit {
+            position: relative;
             width:100%;
             height:100%;
             overflow: auto;
             display: none;
+            overflow: hidden;
         }
+            #main-note-edit-tools {
+                width:100%;
+                height:32px;
+                border-bottom: solid 1px #ccc;
+                text-align:center;
+
+                > div {
+                    display: inline-block;
+                }
+            }
+                .main-note-edit-tools-post {
+                    position: relative;
+                    width:32px;
+                    height:32px;
+                    cursor: pointer;
+                    text-align:center;
+                    float: left;
+
+                    &:not([name="noHover"]) {
+                        &:hover {
+                            background: #eee;
+                        }
+
+                        &:active {
+                            background: #ddd;
+                        }
+                    }
+
+                    &:hover > div {
+                        top:33px;
+                        opacity: 1;
+                        visibility: visible;
+                    }
+
+                    > img {
+                        height: calc(100% - 10px);
+                        padding: 5px;
+                    }
+                }
+                    .main-note-edit-tools-colors {
+                        position: absolute;
+                        left:calc(50% - 60px);
+                        width:113px;
+                        padding: 5px 10px;
+                        background: #fff;
+                        border:solid 1px #ccc;
+                        border-top: none;
+                        cursor: initial;
+                        text-align:center;
+                        transition: top 0.3s, opacity 0.3s;
+
+                        top:30px;
+                        opacity: 0;
+                        visibility: hidden;
+
+                        > p {
+                            font: 0.6em "OpenSans";
+                            color: #666;
+                            text-align:left;
+                            margin-bottom: 5px;
+                        }
+
+                        > div {
+                            width:100%;
+                            overflow: hidden;
+                            display: inline-block;
+
+                            > div {
+                                width:24px;
+                                height:24px;
+                                float: left;
+                                border:solid 1px #ccc;
+                                border-radius: 5px;
+                                margin-bottom: 3px;
+                                margin-right: 3px;
+
+                                &:nth-of-type(4n+4) {
+                                    margin-right:0;
+                                }
+                            }
+                        }
+
+                        > button {
+                            font:0.8em "OpenSans";
+                            padding: 3px 7px;
+                            border-radius: 5px;
+                            background: $basecolor;
+                            border:none;
+                            color: #fff;
+                            margin-bottom: 5px;
+                        }
+                    }
+
+                    .main-note-edit-tools-list {
+                        position: absolute;
+                        left:50%;
+                        padding: 5px;
+                        background: #fff;
+                        border:solid 1px #ccc;
+                        border-top: none;
+                        cursor: initial;
+                        text-align:center;
+                        transition: top 0.3s, opacity 0.3s;
+                        transform: translateX(-50%);
+                        overflow: hidden;
+
+                        top:30px;
+                        opacity: 0;
+                        visibility: hidden;
+
+                        > img {
+                            width:24px;
+                            height:24px;
+                            padding: 4px;
+                            display: block;
+                            cursor: pointer;
+
+                            &:hover {
+                                background: #eee;
+                            }
+
+                            &:active {
+                                background: #ddd;
+                            }
+                            // float: left;
+                        }
+
+                    }
+                .main-note-edit-tools-separator {
+                    width:1px;
+                    height:32px;
+                    background: #ccc;
+                    float: left;
+                }
+
+            #main-note-edit-content {
+                width:calc(100% - 40px);
+                height:calc(100% - 33px - 21px - 40px);
+                padding: 20px;
+                background: #fff;
+                outline: none;
+            }
+            #main-note-edit-tags {
+                position: absolute;
+                bottom: 0px;
+                left:0px;
+                width:100%;
+                height:120px;
+                padding: 20px 0;
+                border-top:solid 1px #ccc;
+                background: #fff;
+                transform: translateY(140px);
+                transition: transform 0.3s;
+            }
+                #main-note-edit-tags-toggle {
+                    position: absolute;
+                    top:-17px;
+                    left:calc(50% - 17px);
+                    width:28px;
+                    height:28px;
+                    padding:3px;
+                    border-radius: 50%;
+                    box-shadow: 0 0 5px 2px #ccc;
+                    background: #fff;
+                    cursor: pointer;
+
+                    > img {
+                        width:100%;
+                        height:100%;
+                        transform: rotate(0deg);
+                        transition: transform 0.2s;
+
+                        &[name="shown"] {
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
+        

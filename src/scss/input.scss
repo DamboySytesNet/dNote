@@ -1,0 +1,48 @@
+#input {
+	z-index: 100;
+}
+	#input-content {
+		width:350px;
+	}
+		#input-block {
+			width:calc(100% - 20px);
+			padding: 10px 10px;
+
+			> p {
+				width:calc(100% - 51px);
+				font:0.9em "OpenSans";
+				margin-bottom: 10px;
+				float: left;
+				text-align: justify;
+				text-align-last:left;
+			}
+
+			> div {
+				position: relative;
+
+				> input {
+					width:calc(100% - 20px);
+					padding: 0 10px;
+					height:30px;
+					font:1em "OpenSans";
+					border:none;
+					border-bottom: solid 2px #ccc;
+					outline: none;
+
+					&:focus ~ div {
+						left:0%;
+						width:100%;
+					}
+				}
+
+				> div {
+					position: absolute;
+					bottom:0px;
+					left:50%;
+					width:0%;
+					height:2px;
+					background: $basecolor;
+					transition: left 0.3s, width 0.3s;
+				}
+			}
+		}

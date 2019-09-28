@@ -7,6 +7,7 @@ const ColorPicker = {
     pickerCTX: null,
     sliderCTX: null,
     color: null,
+    callback: null,
     picker: {
         x: null,
         y: null,
@@ -57,7 +58,7 @@ const ColorPicker = {
         this.slider.x = 0;
         this.slider.update();
         this.updatePickerCTX('rgb(255, 0, 0)');
-        function mouseEventHandler(ev) {
+        function pickerMouseEventHandler(ev) {
             if (ColorPicker.picker.mouseDown) {
                 if (ev.composedPath()[0].id === 'colorPicker-chooser') {
                     if (ev.offsetY > 0 && ev.offsetY <= 200)
@@ -68,24 +69,7 @@ const ColorPicker = {
                 }
             }
         }
-        // Assign listeners
-        $id('colorPicker-chooser').addEventListener('mousedown', (ev) => {
-            ColorPicker.picker.mouseDown = true;
-            mouseEventHandler(ev);
-        });
-        document.body.addEventListener('mouseup', () => {
-            ColorPicker.picker.mouseDown = false;
-        });
-        document.body.addEventListener('mousemove', ev => {
-            mouseEventHandler(ev);
-        });
-        $id('colorPicker-slide').addEventListener('mousedown', () => {
-            ColorPicker.slider.mouseDown = true;
-        });
-        document.body.addEventListener('mouseup', () => {
-            ColorPicker.slider.mouseDown = false;
-        });
-        document.body.addEventListener('mousemove', ev => {
+        function sliderMouseEventHandler(ev) {
             if (ColorPicker.slider.mouseDown) {
                 if (ev.composedPath()[0].id === 'colorPicker-slide') {
                     if (ev.offsetX > 0 && ev.offsetX <= 200) {
@@ -94,6 +78,27 @@ const ColorPicker = {
                     }
                 }
             }
+        }
+        // Assign listeners
+        $id('colorPicker-chooser').addEventListener('mousedown', (ev) => {
+            ColorPicker.picker.mouseDown = true;
+            pickerMouseEventHandler(ev);
+        });
+        document.body.addEventListener('mouseup', () => {
+            ColorPicker.picker.mouseDown = false;
+        });
+        document.body.addEventListener('mousemove', ev => {
+            pickerMouseEventHandler(ev);
+        });
+        $id('colorPicker-slide').addEventListener('mousedown', ev => {
+            ColorPicker.slider.mouseDown = true;
+            sliderMouseEventHandler(ev);
+        });
+        document.body.addEventListener('mouseup', () => {
+            ColorPicker.slider.mouseDown = false;
+        });
+        document.body.addEventListener('mousemove', ev => {
+            sliderMouseEventHandler(ev);
         });
         $id('colorPicker-dialogButton-abort')
             .addEventListener('click', ColorPicker.close);
@@ -104,11 +109,12 @@ const ColorPicker = {
             this.initialized = true;
         }
         this.shown = true;
-        $id('colorPicker-dialogButton-action')
-            .addEventListener('click', () => {
+        this.callback = () => {
             ColorPicker.close();
             callback(ColorPicker.color);
-        });
+        };
+        $id('colorPicker-dialogButton-action')
+            .addEventListener('click', this.callback);
         // Show
         $id('colorPicker').style.display = 'flex';
         setTimeout(() => {
@@ -162,6 +168,9 @@ const ColorPicker = {
     },
     close() {
         this.shown = false;
+        $id('colorPicker-dialogButton-action')
+            .removeEventListener('click', this.callback);
+        this.callback = null;
         $id('colorPicker').style.display = 'none';
         $id('colorPicker-content').style.opacity = '0';
         $id('colorPicker-content').style.transform = 'translateY(-20px)';

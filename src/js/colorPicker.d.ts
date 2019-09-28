@@ -7,6 +7,7 @@ interface IColorPicker {
     picker: IColorPickerHandle;
     slider: IColorPickerSlider;
     color: string;
+    callback: any;
     init(): void;
     open(callback: any): void;
     keyHandler(ev: KeyboardEvent): void;

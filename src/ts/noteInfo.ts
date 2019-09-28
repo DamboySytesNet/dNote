@@ -59,6 +59,18 @@ const NoteInfo: INoteInfo = {
         $id('noteInfo-protect').innerHTML = el.protection.active ? 'Yes' : 'No';
         $id('noteInfo-mDate').innerHTML   = el.dateModified;
         $id('noteInfo-cDate').innerHTML   = el.dateCreated;
+
+        $id('noteInfo-tags').innerHTML    = '';
+        for (let tag of el.tags) {
+            let parent = document.createElement('span') as HTMLSpanElement;
+            parent.onclick = () => {
+                (<HTMLInputElement>$id('left-notesSearch-input')).value = tag;
+                Left.search.applySearch();
+                NoteInfo.close();
+            }
+            parent.innerHTML = tag;
+            $id('noteInfo-tags').appendChild(parent);
+        }
     },
 
     keyHandler(ev) {
@@ -83,6 +95,7 @@ const NoteInfo: INoteInfo = {
         $id('noteInfo-protect').innerHTML = '';
         $id('noteInfo-mDate').innerHTML   = '';
         $id('noteInfo-cDate').innerHTML   = '';
+        $id('noteInfo-tags').innerHTML    = '';
     },
 
     close() {

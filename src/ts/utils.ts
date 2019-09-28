@@ -1,3 +1,21 @@
+const DefaultColors = [
+    '#ffffff', '#e60000', '#ff9900', '#ffff00',
+    '#000000', '#008a00', '#0066cc', '#888888'
+];
+
+/**
+ * Convert dec to hex 
+ * @param dec number to convert
+ * @param format number min characters to return
+ */
+function decToHex(dec: number, format: number) {
+    let hex = Number(dec).toString(16);
+    if (hex.length < format)
+        hex = '0'.repeat(format - hex.length) + hex;
+
+    return hex;
+}
+
 /**
  * Custom id selector
  * @param id id of the searched element

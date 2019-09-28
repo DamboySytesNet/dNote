@@ -1,3 +1,10 @@
+declare const DefaultColors: string[];
+/**
+ * Convert dec to hex
+ * @param dec number to convert
+ * @param format number min characters to return
+ */
+declare function decToHex(dec: number, format: number): string;
 /**
  * Custom id selector
  * @param id id of the searched element

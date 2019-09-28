@@ -2,7 +2,7 @@
 	z-index: 100;
 }
 	#noteInfo-content {
-		width:350px;
+		width:360px;
 	}
 		#noteInfo-table {
 			width:calc(100% - 40px);
@@ -20,16 +20,34 @@
 					float: left;
 
 					&:first-of-type {
-						min-width:130px;
+						width:180px;
 						font-weight: 700;
 					}
 
 					&:last-of-type {
-						max-width:calc(100% - 130px);
+						max-width:calc(100% - 180px);
 						text-overflow: ellipsis;
 						overflow: hidden;
 						white-space: nowrap;
 					}
 				}
+			}
+		}
+		#noteInfo-tags {
+			width:calc(100% - 40px);
+			margin:10px 20px;
+			overflow: hidden;
+
+			> span {
+				font:0.7em "OpenSans";
+				background: $basecolor;
+				color: #fff;
+				border-radius: 5px;
+				padding: 2px 5px;
+				margin-right: 5px;
+				margin-bottom: 5px;
+				display: block;
+				cursor: pointer;
+				float: left;
 			}
 		}

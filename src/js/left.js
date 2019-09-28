@@ -211,17 +211,19 @@ const Left = {
             if (which) {
                 if (this.curr !== null)
                     this.curr.html.setAttribute('name', '');
+                Content.changeState(false);
                 this.curr = which;
                 this.curr.html.setAttribute('name', 'chosen');
                 $id('main-note-notChosen').style.display = 'none';
-                $id('main-note-view').style.display = 'block';
-                $id('main-note-edit').style.display = 'none';
+                $id('main-actions-name').style.display = 'block';
                 $id('main-note-view').innerHTML = which.content;
-                $id('main-note-edit').innerHTML = which.content;
+                $id('main-note-edit-content').innerHTML = which.content;
                 $id('footer-main-p1').style.display = 'block';
                 $id('footer-main-p2').style.display = 'block';
                 this.words = getTextFromDOM($id('main-note-view')).split(' ').length;
                 this.chars = $id('main-note-view').textContent.length;
+                $id('main-actions-nameInput').value
+                    = which.name;
                 $id('footer-words').innerHTML = this.words.toString();
                 $id('footer-chars').innerHTML = this.chars.toString();
                 $id('footer-cDate').innerHTML = which.dateCreated;
@@ -234,11 +236,12 @@ const Left = {
         unselect() {
             if (this.curr !== null) {
                 this.curr = null;
+                Content.changeState(false);
                 $id('main-note-notChosen').style.display = 'flex';
                 $id('main-note-view').style.display = 'none';
-                $id('main-note-edit').style.display = 'none';
+                $id('main-actions-name').style.display = 'none';
+                $id('main-actions-nameInput').value = '';
                 $id('main-note-view').innerHTML = '';
-                $id('main-note-edit').innerHTML = '';
                 $id('footer-main-p1').style.display = 'none';
                 $id('footer-main-p2').style.display = 'none';
                 $id('footer-words').innerHTML = '';

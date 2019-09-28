@@ -7,7 +7,6 @@ interface IAlert {
     open(title: string, text: string, buttonText:string, callback: any): void;
     keyHandler(ev: KeyboardEvent): void;
     checkClose(): void;
-    clear(): void;
     close(): void;
 };
 
@@ -59,13 +58,8 @@ const Alert: IAlert = {
             this.allowClose = true;
     },
 
-    clear() {
-        
-    },
-
     close() {
         this.shown = false;
-        this.clear();
         $id('alert').style.display = 'none';
         $id('alert-content').style.opacity = '0';
         $id('alert-content').style.transform = 'translateY(-20px)';
