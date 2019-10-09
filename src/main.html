@@ -86,12 +86,6 @@
 			</div>
 			<div id="main-note-view" class="note scrollable"></div>
 			<div id="main-note-edit">
-				<!-- <div id="main-note-edit-tools">
-
-				</div>
-				<div id="main-note-editor">
-
-				</div> -->
 				<div id="main-note-edit-tools">
 					<div>
 						<div class="main-note-edit-tools-separator"></div>
@@ -170,7 +164,7 @@
 								<img id="main-note-edit-heading-3" src="icons/editor/format-header-3.png" alt="Heading 3" title="Heading 3" />
 								<img id="main-note-edit-heading-4" src="icons/editor/format-header-4.png" alt="Heading 4" title="Heading 4" />
 								<img id="main-note-edit-heading-5" src="icons/editor/format-header-5.png" alt="Heading 5" title="Heading 5" />
-								<img id="main-note-edit-heading-0" src="icons/common/close.png" alt="Remove heading" title="Remove heading" />
+								<img id="main-note-edit-heading-0" src="icons/common/close_black.png" alt="Remove heading" title="Remove heading" />
 							</div>
 						</div>
 
@@ -245,12 +239,36 @@
 				</div>
 				<div id="main-note-edit-content" class="note scrollable" contenteditable="true"></div>
 				<div id="main-note-edit-buttons">
-					<button id="main-note-edit-cancel">Cancel</button>
-					<button id="main-note-edit-save">Save</button>
+					<button id="main-note-edit-cancel">
+						<img src="icons/common/close.png" alt="Cancel" title="Cancel" />
+					</button>
+					<button id="main-note-edit-save">
+						<img src="icons/common/check.png" alt="Save" title="Save" />
+					</button>
 				</div>
-				<div id="main-note-edit-tags">
-					<div id="main-note-edit-tags-toggle">
-						<img id="main-note-edit-tags-toggleImg" src="icons/common/arrow_color.png" alt="Toggle tags" title="Toggle tags" />
+				<div id="main-note-edit-options">
+					<div id="main-note-edit-options-toggle">
+						<img id="main-note-edit-options-toggleImg" src="icons/common/arrow_color.png" alt="Toggle options" title="Toggle options" />
+					</div>
+
+					<div id="main-note-edit-tags">
+						<div id="main-note-edit-tags-block">
+							<input id="main-note-edit-tags-input" placeholder="Enter new tag" />
+							<div></div>
+						</div>
+						<button>Add</button>
+						<div id="main-note-edit-tags-container">
+							<span>abc</span>
+							<span>abcd</span>
+							<span>afasd</span>
+							<span>a</span>
+							<span>aasdf</span>
+							<span>afd</span>
+							<span>adfa</span>
+						</div>
+					</div>
+					<div id="main-note-edit-options-options">
+
 					</div>
 				</div>
 			</div>

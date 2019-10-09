@@ -36,6 +36,8 @@ const Main = {
         }
         catch (e) {
             if (e.code === 'ENOENT') {
+                if (!FS.existsSync('src/data'))
+                    FS.mkdirSync('src/data');
                 FS.writeFileSync('src/data/dNote.json', '[]');
                 return '[]';
             }
@@ -58,6 +60,7 @@ const Main = {
 setTimeout(() => {
     Left.categories.choose(Main.data[0]);
     // Content.create();
-    // Left.notes.choose(Main.data[0].notes[0]);
-    // Content.changeState(true);
+    Left.notes.choose(Main.data[0].notes[0]);
+    Content.changeState(true);
+    Content.options.toggle();
 }, 200);

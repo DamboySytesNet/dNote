@@ -5,7 +5,7 @@ interface IContent {
     chosenColors: string[];
     chosenColorsCallbacks: any[];
     cursorPos: Range;
-    tags: IContentTags;
+    options: IContentOptions;
     init(): void;
     changeState(state?: boolean): void;
     colorCustomColors(): void;
@@ -16,7 +16,7 @@ interface IContent {
     create(): void;
     assignListeners(): void;
 }
-interface IContentTags {
+interface IContentOptions {
     shown: boolean;
     toggle(state?: boolean): void;
 }

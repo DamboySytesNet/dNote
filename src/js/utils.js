@@ -38,7 +38,15 @@ function getTextFromDOM(el) {
     const length = el.childNodes.length;
     for (let i = 0; i < length; i++) {
         let node = el.childNodes[i];
-        ret += ' ';
+        if (node.nodeName !== 'FONT' &&
+            node.nodeName !== 'H1' &&
+            node.nodeName !== 'H2' &&
+            node.nodeName !== 'H3' &&
+            node.nodeName !== 'H4' &&
+            node.nodeName !== 'H5' &&
+            node.nodeName !== 'H6' &&
+            node.nodeName !== '#text')
+            ret += ' ';
         if (node.nodeType !== 8)
             ret += node.nodeType !== 1 ? node.nodeValue : getTextFromDOM(node);
     }

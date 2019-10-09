@@ -182,7 +182,7 @@ const Content = {
                 .disabled = false;
             $id('main-note-view').style.display = 'none';
             $id('main-note-edit').style.display = 'block';
-            $id('main-note-edit-buttons').style.right = '0px';
+            $id('main-note-edit-buttons').style.right = '10px';
         }
         else {
             $id('main-actions-state')
@@ -194,7 +194,7 @@ const Content = {
             $id('main-note-edit-buttons').style.right = '-170px';
         }
     },
-    tags: {
+    options: {
         shown: false,
         toggle(state) {
             if (typeof state !== 'undefined')
@@ -202,13 +202,13 @@ const Content = {
             else
                 this.shown = !this.shown;
             if (this.shown) {
-                $id('main-note-edit-tags-toggleImg').setAttribute('name', 'shown');
-                $id('main-note-edit-tags').style.transform = 'translateY(0px)';
+                $id('main-note-edit-options-toggleImg').setAttribute('name', 'shown');
+                $id('main-note-edit-options').style.transform = 'translateY(0px)';
                 $id('main-note-edit-buttons').style.bottom = '170px';
             }
             else {
-                $id('main-note-edit-tags-toggleImg').setAttribute('name', '');
-                $id('main-note-edit-tags').style.transform = 'translateY(140px)';
+                $id('main-note-edit-options-toggleImg').setAttribute('name', '');
+                $id('main-note-edit-options').style.transform = 'translateY(140px)';
                 $id('main-note-edit-buttons').style.bottom = '30px';
             }
         }
@@ -234,8 +234,8 @@ const Content = {
         $id('main-actions-delete').onclick = () => {
             Left.notes.promptRemove(Left.notes.curr);
         };
-        $id('main-note-edit-tags-toggle').onclick = () => {
-            Content.tags.toggle();
+        $id('main-note-edit-options-toggle').onclick = () => {
+            Content.options.toggle();
         };
         $id('main-note-edit-content').addEventListener('blur', () => {
             Content.saveSelection();
