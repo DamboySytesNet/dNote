@@ -14,4 +14,3 @@ declare const WindowAction: {
     minimize(): void;
     close(): void;
 };
-declare function $id(id: string): HTMLElement;

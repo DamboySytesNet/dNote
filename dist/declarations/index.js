@@ -13,11 +13,18 @@ const REMOTE = ELECTRON.remote;
 const BW = REMOTE.BrowserWindow;
 const WindowAction = {
     init() {
-        Left.assignHandlers();
+        Left.assignListeners();
+        ContextMenu.assignListeners();
+        Content.assignListeners();
         Main.init();
     },
     keyHandler(ev) {
         Left.keyHandler(ev);
+        Alert.keyHandler(ev);
+        Confirm.keyHandler(ev);
+        Input.keyHandler(ev);
+        CategoryDialog.keyHandler(ev);
+        ColorPicker.keyHandler(ev);
         if (ev.key === 'F5') {
             window.location.reload();
         }
@@ -37,7 +44,4 @@ const WindowAction = {
         window.close();
     }
 };
-function $id(id) {
-    return document.getElementById(id);
-}
 //# sourceMappingURL=index.js.map

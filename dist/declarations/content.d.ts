@@ -19,7 +19,5 @@ interface IContent {
 interface IContentOptions {
     shown: boolean;
     toggle(state?: boolean): void;
-    addTag(): void;
-    removeTag(tagName: string): void;
 }
 declare const Content: IContent;

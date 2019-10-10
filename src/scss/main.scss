@@ -299,9 +299,11 @@
             #main-note-edit-content {
                 width:calc(100% - 40px);
                 height:calc(100% - 33px - 21px - 40px);
+                max-height:calc(100% - 33px - 21px - 40px);
                 padding: 20px;
                 background: #fff;
                 outline: none;
+                overflow: auto;
             }
             #main-note-edit-buttons {
                 position: absolute;
@@ -390,6 +392,18 @@
                     height:calc(100% - 20px);
                     margin: 10px 20px;
                     border-right: solid 1px #ccc;
+
+                    > button {
+                        width:60px;
+                        height:30px;
+                        margin-left: 10px;
+                        font:0.9em "OpenSans";
+                        border:none;
+                        border-radius: 5px;
+                        background: $basecolor;
+                        color: #fff;
+                        float: left;
+                    }
                 }
                     #main-note-edit-tags-block {
                         position: relative;
@@ -422,28 +436,19 @@
                             transition: width 0.3s, left 0.3s;
                         }
                     }
-
-                    > button {
-                        width:60px;
-                        height:30px;
-                        margin-left: 10px;
-                        font:0.9em "OpenSans";
-                        border:none;
-                        border-radius: 5px;
-                        background: $basecolor;
-                        color: #fff;
-                        float: left;
-                    }
                     
                     #main-note-edit-tags-container {
                         width:calc(100% - 10px - 20px);
                         height:calc(100% - 10px - 20px);
-                        padding: 15px;
+                        padding: 10px;
+                        margin: 5px;
                         background: #fafafa;
+                        float: left;
 
                         > span {
                             font:0.8em "OpenSans";
                             padding: 3px 5px;
+                            margin-right: 5px;
                             background: $basecolor;
                             color: #fff;
                             border-radius: 5px;

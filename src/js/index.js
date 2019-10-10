@@ -44,3 +44,4 @@ const WindowAction = {
         window.close();
     }
 };
+//# sourceMappingURL=index.js.map

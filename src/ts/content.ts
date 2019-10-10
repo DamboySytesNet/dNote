@@ -26,6 +26,8 @@ interface IContentOptions {
     shown: boolean;
 
     toggle(state?: boolean): void;
+    addTag(): void;
+    removeTag(tagName: string): void;
 }
 
 const Content: IContent = {
@@ -309,6 +311,51 @@ const Content: IContent = {
 
                 $id('main-note-edit-buttons').style.bottom = '30px';
             }
+        },
+        
+        addTag() {
+            let value = (<HTMLInputElement>document.getElementById('main-note-edit-tags-input')).value;
+                value = value.trim();
+
+            if (Left.notes.curr === null)
+                return;
+
+            if (Left.notes.curr.tags.indexOf(value) !== -1)
+                return;
+                
+            Left.notes.curr.tags.push(value);
+            
+            let parent = document.createElement('span') as HTMLSpanElement;
+            parent.innerHTML = value;
+            $id('main-note-edit-tags-container').appendChild(parent);
+        },
+
+        removeTag(tagName) {
+            if (Left.notes.curr === null)
+                return;
+
+            let it = Left.notes.curr.tags.indexOf(tagName);
+            if (it === -1)
+                return;
+
+            Left.notes.curr.tags.splice(it, 1);
+            
+            
+            let leftChildren = Left.notes.curr.html.children[3].children;
+            for (let tag of leftChildren) {
+                if (tag.innerHTML === tagName) {
+                    tag.remove();
+                    break;
+                }
+            }
+
+            let children = $id('main-note-edit-tags-container').children;
+            for (let tag of children) {
+                if (tag.innerHTML === tagName) {
+                    tag.remove();
+                    break;
+                }
+            }
         }
     },
 
@@ -381,6 +428,10 @@ const Content: IContent = {
                 }
             });
         }
+
+        $id('main-note-edit-tags-button').addEventListener('click', () => {
+            Content.options.addTag();
+        });
     }
 }
 

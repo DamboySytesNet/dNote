@@ -397,6 +397,17 @@ const Left: ILeft = {
 
                     (<HTMLInputElement>$id('main-actions-nameInput')).value 
                         = which.name;
+
+                    $id('main-note-edit-tags-container').innerHTML = '';
+                    for (let tag of which.tags) {
+                        let parent = document.createElement('span') as HTMLSpanElement;
+                        parent.innerHTML = tag;
+                        parent.onclick = () => {
+                            parent.remove();
+                            Content.options.removeTag(tag);
+                        }
+                        $id('main-note-edit-tags-container').appendChild(parent);
+                    }
                     
                     $id('footer-words').innerHTML = Left.notes.words.toString();
                     $id('footer-chars').innerHTML = Left.notes.chars.toString();
