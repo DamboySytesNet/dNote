@@ -5,7 +5,8 @@ interface IEditor {
      * 2 - create state
      */
     state: number;
-    currentNote: Note;
+    editorViewed: boolean;
+    editorEdited: boolean;
     chosenColors: string[];
     chosenColorsCallbacks: any[];
     words: number;

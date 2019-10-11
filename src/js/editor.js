@@ -2,7 +2,8 @@
 ;
 const Editor = {
     state: 0,
-    currentNote: null,
+    editorViewed: false,
+    editorEdited: false,
     chosenColors: ['#ffffff', '#ffffff', '#ffffff', '#ffffff'],
     chosenColorsCallbacks: [null, null, null, null],
     words: 0,
@@ -131,18 +132,22 @@ const Editor = {
     },
     open(newNote = false) {
         if (Left.notes.curr !== null && newNote === false) {
+            this.editorViewed = false;
+            this.editorEdited = false;
             this.displayNote();
         }
         else {
+            this.editorViewed = false;
+            this.editorEdited = false;
             this.newNote();
         }
     },
     displayNote() {
         this.changeState(0);
         let note = Left.notes.curr;
-        if (this.currentNote !== note)
+        if (!this.editorViewed)
             $id('main-note-view').innerHTML = note.content;
-        this.currentNote = note;
+        this.editorViewed = true;
         $id('main-actions-nameInput').value
             = note.name;
         this.words = getTextFromDOM($id('main-note-view'))
@@ -156,9 +161,9 @@ const Editor = {
     editNote() {
         this.changeState(1);
         let note = Left.notes.curr;
-        if (this.currentNote !== note)
+        if (!this.editorEdited)
             $id('main-note-edit-content').innerHTML = note.content;
-        this.currentNote = note;
+        this.editorEdited = true;
         $id('main-note-edit-tags-container').innerHTML = '';
         for (let tag of note.tags) {
             let parent = document.createElement('span');

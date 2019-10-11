@@ -32,8 +32,8 @@ const NoteInfo = {
     },
     fill(el) {
         $id('noteInfo-name').innerHTML = el.name;
-        $id('noteInfo-words').innerHTML = Left.notes.words.toString();
-        $id('noteInfo-chars').innerHTML = Left.notes.chars.toString();
+        $id('noteInfo-words').innerHTML = Editor.words.toString();
+        $id('noteInfo-chars').innerHTML = Editor.chars.toString();
         $id('noteInfo-pinned').innerHTML = el.pinned ? 'Yes' : 'No';
         $id('noteInfo-protect').innerHTML = el.protection.active ? 'Yes' : 'No';
         $id('noteInfo-mDate').innerHTML = el.dateModified;

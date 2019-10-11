@@ -3,8 +3,8 @@ interface INoteInfo {
     shown: boolean;
     allowClose: boolean;
     init(): void;
-    open(el: INote): void;
-    fill(el: INote): void;
+    open(el: Note): void;
+    fill(el: Note): void;
     keyHandler(ev: KeyboardEvent): void;
     checkClose(): void;
     clear(): void;

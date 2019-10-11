@@ -5,7 +5,8 @@ interface IEditor {
      * 2 - create state
      */
     state: number;
-    currentNote: Note;
+    editorViewed: boolean,
+    editorEdited: boolean,
 
     chosenColors: string[];
     chosenColorsCallbacks: any[];
@@ -46,7 +47,8 @@ interface IContentOptions {
 
 const Editor: IEditor = {
     state: 0,
-    currentNote: null,
+    editorViewed: false,
+    editorEdited: false,
 
     chosenColors: ['#ffffff', '#ffffff', '#ffffff', '#ffffff'],
     chosenColorsCallbacks: [null, null, null, null],
@@ -204,8 +206,12 @@ const Editor: IEditor = {
 
     open(newNote = false) {
         if (Left.notes.curr !== null && newNote === false) {
+            this.editorViewed = false;
+            this.editorEdited = false;
             this.displayNote();
         } else {
+            this.editorViewed = false;
+            this.editorEdited = false;
             this.newNote();
         }
     },
@@ -215,10 +221,10 @@ const Editor: IEditor = {
 
         let note = Left.notes.curr;
 
-        if (this.currentNote !== note)
+        if (!this.editorViewed)
             $id('main-note-view').innerHTML = note.content;
 
-        this.currentNote = note;
+        this.editorViewed = true;
         
         (<HTMLInputElement>$id('main-actions-nameInput')).value 
             = note.name;
@@ -239,10 +245,10 @@ const Editor: IEditor = {
 
         let note = Left.notes.curr;
 
-        if (this.currentNote !== note)
+        if (!this.editorEdited)
             $id('main-note-edit-content').innerHTML = note.content;
 
-        this.currentNote = note;
+        this.editorEdited = true;
 
         $id('main-note-edit-tags-container').innerHTML = '';
         for (let tag of note.tags) {
