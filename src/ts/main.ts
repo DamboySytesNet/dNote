@@ -1,52 +1,44 @@
-interface IProtection {
-    active: boolean;
-}
-
-interface INote {
-    id: number;
-    name: string;
-    html: HTMLDivElement;
-    content: string;
-    pinned: boolean;
-    protection: IProtection;
-    tags: string[];
-    dateCreated: string;
-    dateModified: string;
-}
-
-interface ICategory {
-    id: number;
-    name: string;
-    html: HTMLDivElement;
-    color: string;
-    notes: INote[];
-}
 
 interface IMain {
-    data: ICategory[];
+    /**
+     * Initialize app
+     */
     init(): void;
-    handleData(): void;
-    loadContent(): string;
-    saveContent(): boolean;
+
+    /**
+     * Get categories and notes from a file
+     */
+    loadContent(): void;
+
+    /**
+     * Parse data from file
+     * @param strToParse - string from file to parse
+     */
+    parseData(strToParse: string): void;
+
+    /**
+     * Handle parsed data
+     * @param data - parsed data to handle
+     */
+    handleData(data: any): void;
+
+    /**
+     * Stop main loading
+     */
+    stopLoading(): void;
+    
+    /**
+     * Save current categories and notes to a file
+     */
+    saveContent(): void;
 };
 
 const Main: IMain = {
-    data: null,
-    
-    /**
-     * Initialize main content
-     */
     init() {
-        const dataStr = this.loadContent();
-        Content.init();
+        this.loadContent();
+        Editor.init();
 
-        try {
-            this.data = JSON.parse(dataStr);
-            this.handleData();
-        } catch(e) {
-            console.error(['Main.init()', e]);
-        }
-
+        //? not its place
         $id('left-categories-add').addEventListener('click', () => {
             CategoryDialog.open();
         });
@@ -56,45 +48,87 @@ const Main: IMain = {
         });
     },
 
-    handleData() {
-        Left.categories.build(this.data);
-        if (this.data.length > 0)
-            Left.categories.choose(this.data[0]);
-    },
-
-    /**
-     * Get categories and notes from a file
-     */
     loadContent() {
         try {
-            return FS.readFileSync('src/data/dNote.json');
+            // Read content from file
+            FS.readFile(
+                'src/data/dNote.json',
+                'utf8',
+                (err: any, fileContent: string) => {
+                    if (err)
+                        throw err;
+                    this.parseData(fileContent);
+                }
+            );
         } catch(e) {
+            // If file not found
             if (e.code === 'ENOENT') {
+                // Create data dir if needed
                 if (!FS.existsSync('src/data'))
                     FS.mkdirSync('src/data');
-                FS.writeFileSync('src/data/dNote.json', '[]');
-                return '[]';
+                
+                // Create new data for notes
+                FS.writeFile(
+                    'src/data/dNote.json',
+                    '[]',
+                    'utf8',
+                    () => {
+                        this.handleData([]);
+                    });
             } else {
                 console.error(['Main.loadContent()', e]);
             }
         }
     },
 
-    saveContent() {
+    parseData(strToParse) {
+        let parsedData = [];
         try {
-            FS.writeFileSync('src/data/dNote.json', JSON.stringify(this.data));
-            return true;
+            parsedData = JSON.parse(strToParse);
         } catch(e) {
-            console.error(['Main.saveContent()', e]);
-            return false;
+            console.error(['Main.init()', e]);
+        } finally {
+            this.handleData(parsedData);
         }
+    },
+
+    handleData(data) {
+        Categories.init(data);
+        this.stopLoading();
+
+        Left.categories.init();
+        // Left.categories.build(data);
+    },
+
+    stopLoading() {
+        $id('loading')
+            .style.opacity = '0';
+
+        $id('loading')
+            .style.transform = 'translateY(-10px)';
+
+        setTimeout(() => {
+            $id('loading')
+                .remove();
+        }, 300);
+    },
+
+    saveContent() {
+        console.info('Saved');
+        // try {
+        //     FS.writeFileSync('src/data/dNote.json', '');
+        //     return true;
+        // } catch(e) {
+        //     console.error(['Main.saveContent()', e]);
+        //     return false;
+        // }
     },
 };
 
 setTimeout(() => {
-    Left.categories.choose(Main.data[0]);
+    // Left.categories.choose(Main.data[0]);
     // Content.create();
-    Left.notes.choose(Main.data[0].notes[2]);
-    Content.changeState(true);
+    // Left.notes.choose(Main.data[0].notes[2]);
+    // Content.changeState(true);
     // Content.options.toggle();
 }, 200);

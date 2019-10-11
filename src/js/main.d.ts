@@ -1,29 +1,29 @@
-interface IProtection {
-    active: boolean;
-}
-interface INote {
-    id: number;
-    name: string;
-    html: HTMLDivElement;
-    content: string;
-    pinned: boolean;
-    protection: IProtection;
-    tags: string[];
-    dateCreated: string;
-    dateModified: string;
-}
-interface ICategory {
-    id: number;
-    name: string;
-    html: HTMLDivElement;
-    color: string;
-    notes: INote[];
-}
 interface IMain {
-    data: ICategory[];
+    /**
+     * Initialize app
+     */
     init(): void;
-    handleData(): void;
-    loadContent(): string;
-    saveContent(): boolean;
+    /**
+     * Get categories and notes from a file
+     */
+    loadContent(): void;
+    /**
+     * Parse data from file
+     * @param strToParse - string from file to parse
+     */
+    parseData(strToParse: string): void;
+    /**
+     * Handle parsed data
+     * @param data - parsed data to handle
+     */
+    handleData(data: any): void;
+    /**
+     * Stop main loading
+     */
+    stopLoading(): void;
+    /**
+     * Save current categories and notes to a file
+     */
+    saveContent(): void;
 }
 declare const Main: IMain;

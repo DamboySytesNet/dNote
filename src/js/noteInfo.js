@@ -80,4 +80,3 @@ const NoteInfo = {
         $id('noteInfo-content').style.transform = 'translateY(-20px)';
     }
 };
-//# sourceMappingURL=noteInfo.js.map

@@ -176,4 +176,3 @@ const ColorPicker = {
         $id('colorPicker-content').style.transform = 'translateY(-20px)';
     }
 };
-//# sourceMappingURL=colorPicker.js.map

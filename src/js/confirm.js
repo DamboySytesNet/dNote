@@ -48,4 +48,3 @@ const Confirm = {
         $id('confirm-content').style.transform = 'translateY(-20px)';
     }
 };
-//# sourceMappingURL=confirm.js.map

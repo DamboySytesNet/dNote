@@ -4,13 +4,13 @@ interface ICategoryDialog {
     allowClose: boolean;
     currentColor: number;
 
-    editEl: ICategory;
+    editedElement: Category;
 
     colorSquares: number;
     colors: string[];
 
     init(): void;
-    open(el?: ICategory): void;
+    open(category?: Category): void;
     keyHandler(ev: KeyboardEvent): void;
     checkClose(): void;
     clear(): void;
@@ -27,7 +27,7 @@ const CategoryDialog: ICategoryDialog = {
     initialized: false,
     shown: false,
     allowClose: true,
-    editEl: null,
+    editedElement: null,
     currentColor: null,
     colors: [null, null, null, null, null, 'rgb(255, 255, 255)'],
 
@@ -83,21 +83,21 @@ const CategoryDialog: ICategoryDialog = {
         });
     },
 
-    open(el) {
+    open(category) {
         if (!this.initialized) {
             this.init();
             this.initialized = true;
         }
 
-        if (typeof el !== 'undefined' && el !== null) {
-            this.editEl = el;
+        if (typeof category !== 'undefined' && category !== null) {
+            this.editedElement = category;
 
-            (<HTMLInputElement>$id('categoryDialog-inputValue')).value = el.name;
+            (<HTMLInputElement>$id('categoryDialog-inputValue')).value = category.name;
 
-            CategoryDialog.colors[0] = el.color;
+            CategoryDialog.colors[0] = category.color;
             CategoryDialog.chooseColor(1);
             (<HTMLDivElement>$id('categoryDialog-colors-1')
-                    .children[0]).style.background = el.color;
+                    .children[0]).style.background = category.color;
         }
 
         this.shown = true;
@@ -120,57 +120,57 @@ const CategoryDialog: ICategoryDialog = {
     },
 
     check() {
-        if (Main.data !== null) {
-            let name = (<HTMLInputElement>$id('categoryDialog-inputValue')).value;
-                name = name.trim();
+        // Get values
+        let name = (<HTMLInputElement>$id('categoryDialog-inputValue')).value;
+            name = name.trim();
 
-            if (name.length === 0) {
-                $id('categoryDialog-inputError').innerHTML = 'Name is invalid';
-                return;
-            }
-
-            let nameBusy = Main.data.some((val) => {
-                if (val.name === name) {
-                    if (this.editEl !== null && this.editEl.name === name)
-                        return false;
-                    else
-                        return true;
-                }
-
-                return false;
-            });
-
-            if (nameBusy) {
-                $id('categoryDialog-inputError').innerHTML = 'Name is busy';
-                return;
-            }
-
-            if (this.currentColor === null) {
-                $id('categoryDialog-colorError').innerHTML = 'Choose a color';
-                return;
-            }
-
-            const color = this.colors[this.currentColor - 1];
-
-            if (this.editEl !== null) {
-                Left.categories.edit(this.editEl, name, color);
-            } else {
-                const newId = Main.data.length !== 0 ? Main.data[Main.data.length - 1].id + 1 : 1;
-                
-                let insertObject: ICategory = {
-                    id: newId,
-                    name: name,
-                    color: color,
-                    html: null,
-                    notes: []
-                }
-
-                insertObject.html = Left.categories.createHTML(insertObject);
-                Left.categories.add(insertObject);
-            }
-
-            this.close();
+        // Validate name
+        if (name.length === 0) {
+            $id('categoryDialog-inputError').innerHTML = 'Name is invalid';
+            return;
         }
+
+        let nameBusy = Categories.stack.some((val) => {
+            if (val.name === name) {
+                if (this.editedElement !== null && this.editedElement.name === name)
+                    return false;
+                else
+                    return true;
+            }
+
+            return false;
+        });
+
+        if (nameBusy) {
+            $id('categoryDialog-inputError').innerHTML = 'Name is busy';
+            return;
+        }
+
+        // Validate color
+        if (this.currentColor === null) {
+            $id('categoryDialog-colorError').innerHTML = 'Choose a color';
+            return;
+        }
+
+        // Apply changes
+        const color = this.colors[this.currentColor - 1];
+
+        if (this.editedElement !== null) {
+            this.editedElement.update(name, color);
+        } else {
+            const newId = Categories.stack.length !== 0 ? Categories.stack[Categories.stack.length - 1].id + 1 : 1;
+            
+            let category = new Category(
+                newId,
+                name,
+                color,
+                []
+            );
+
+            Left.categories.add(category.leftHTML);
+        }
+
+        this.close();
     },
 
     randomizeColors() {
@@ -225,7 +225,7 @@ const CategoryDialog: ICategoryDialog = {
 
     close() {
         this.shown = false;
-        this.editEl = null;
+        this.editedElement = null;
         this.clear();
         $id('categoryDialog').style.display = 'none';
         $id('categoryDialog-content').style.opacity = '0';

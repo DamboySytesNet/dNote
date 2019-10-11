@@ -59,4 +59,3 @@ const Input = {
         $id('input-content').style.transform = 'translateY(-20px)';
     }
 };
-//# sourceMappingURL=input.js.map

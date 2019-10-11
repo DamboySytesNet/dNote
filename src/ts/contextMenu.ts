@@ -73,7 +73,7 @@ const ContextMenu: IContext = {
         if (what === 'category') {
             // params === categoryElement
             this.addPost('Choose', 'contextMenu/pointer.png', () => {
-                Left.categories.choose(params);
+                params.choose();
             });
 
             this.addPost('Edit', 'contextMenu/edit.png', () => {
@@ -87,13 +87,13 @@ const ContextMenu: IContext = {
                      Doing so will delete <b>ALL</b> notes,
                      that are in this category. Are you sure?`,
                     'Remove',
-                    () => { Left.categories.remove(params); }
+                    () => { Categories.remove(params); }
                 );
             });
         } else if (what === 'note') {
             // params === noteElement
             this.addPost('Choose', 'contextMenu/pointer.png', () => {
-                Left.notes.choose(params);
+                params.choose();
             });
 
             this.addPost('Edit', 'contextMenu/edit.png', () => {
@@ -101,7 +101,7 @@ const ContextMenu: IContext = {
             });
 
             this.addPost('Delete', 'common/delete_color.png', () => {
-                Left.notes.promptRemove(params);
+                Left.categories.curr.promptRemoveNote(params);
             });
 
             this.addPost('Info', 'common/info_color.png', () => {
@@ -115,7 +115,7 @@ const ContextMenu: IContext = {
         } else if (what === 'noteList') {
             // No params
             this.addPost('Create a note', 'common/add_note_color.png', () => {
-                Content.create();
+                Editor.open(true);
             });
         }
     },

@@ -46,4 +46,3 @@ const Alert = {
         $id('alert-content').style.transform = 'translateY(-20px)';
     }
 };
-//# sourceMappingURL=alert.js.map

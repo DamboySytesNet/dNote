@@ -72,4 +72,3 @@ function formatDate(date) {
         ret += day;
     return ret;
 }
-//# sourceMappingURL=utils.js.map

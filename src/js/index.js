@@ -15,7 +15,7 @@ const WindowAction = {
     init() {
         Left.assignListeners();
         ContextMenu.assignListeners();
-        Content.assignListeners();
+        Editor.assignListeners();
         Main.init();
     },
     keyHandler(ev) {
@@ -44,4 +44,3 @@ const WindowAction = {
         window.close();
     }
 };
-//# sourceMappingURL=index.js.map

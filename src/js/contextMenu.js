@@ -54,7 +54,7 @@ const ContextMenu = {
         if (what === 'category') {
             // params === categoryElement
             this.addPost('Choose', 'contextMenu/pointer.png', () => {
-                Left.categories.choose(params);
+                params.choose();
             });
             this.addPost('Edit', 'contextMenu/edit.png', () => {
                 CategoryDialog.open(params);
@@ -62,18 +62,18 @@ const ContextMenu = {
             this.addPost('Delete', 'common/delete_color.png', () => {
                 Confirm.open('Delete category', `You are about to delete whole category.
                      Doing so will delete <b>ALL</b> notes,
-                     that are in this category. Are you sure?`, 'Remove', () => { Left.categories.remove(params); });
+                     that are in this category. Are you sure?`, 'Remove', () => { Categories.remove(params); });
             });
         }
         else if (what === 'note') {
             // params === noteElement
             this.addPost('Choose', 'contextMenu/pointer.png', () => {
-                Left.notes.choose(params);
+                params.choose();
             });
             this.addPost('Edit', 'contextMenu/edit.png', () => {
             });
             this.addPost('Delete', 'common/delete_color.png', () => {
-                Left.notes.promptRemove(params);
+                Left.categories.curr.promptRemoveNote(params);
             });
             this.addPost('Info', 'common/info_color.png', () => {
                 NoteInfo.open(params);
@@ -88,7 +88,7 @@ const ContextMenu = {
         else if (what === 'noteList') {
             // No params
             this.addPost('Create a note', 'common/add_note_color.png', () => {
-                Content.create();
+                Editor.open(true);
             });
         }
     },
@@ -127,4 +127,3 @@ const ContextMenu = {
     },
 };
 $id('contextMenu').addEventListener('blur', ContextMenu.close);
-//# sourceMappingURL=contextMenu.js.map

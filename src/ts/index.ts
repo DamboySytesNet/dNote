@@ -17,7 +17,7 @@ const WindowAction = {
 	init() {
 		Left.assignListeners();
 		ContextMenu.assignListeners();
-		Content.assignListeners();
+		Editor.assignListeners();
 
 		Main.init();
 	},
