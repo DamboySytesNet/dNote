@@ -210,8 +210,6 @@ const Editor: IEditor = {
             this.editorEdited = false;
             this.displayNote();
         } else {
-            this.editorViewed = false;
-            this.editorEdited = false;
             this.newNote();
         }
     },
@@ -265,7 +263,8 @@ const Editor: IEditor = {
     newNote() {
         this.changeState(2);
 
-        this.currentNote = null;
+        this.editorViewed = false;
+        this.editorEdited = false;
 
         $id('main-note-edit-content').innerHTML = '<div><br/></div>';
 
@@ -304,7 +303,9 @@ const Editor: IEditor = {
                 Left.notes.curr.update(name,
                                        $id('main-note-edit-content').innerHTML);
 
-                this.currentNote = null;
+                
+                this.editorViewed = false;
+                this.editorEdited = false;
                 this.changeState(0);
             } else if (this.state === 2) {
                 let name = (<HTMLInputElement>$id('main-actions-nameInput')).value;
@@ -420,7 +421,8 @@ const Editor: IEditor = {
     },
     
     reset() {
-        this.currentNote = null;
+        this.editorViewed = false;
+        this.editorEdited = false;
         // Hide views
         $id('main-note-notChosen').style.display = 'flex';
         $id('main-note-view').style.display = 'none';

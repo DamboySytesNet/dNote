@@ -137,8 +137,6 @@ const Editor = {
             this.displayNote();
         }
         else {
-            this.editorViewed = false;
-            this.editorEdited = false;
             this.newNote();
         }
     },
@@ -177,7 +175,8 @@ const Editor = {
     },
     newNote() {
         this.changeState(2);
-        this.currentNote = null;
+        this.editorViewed = false;
+        this.editorEdited = false;
         $id('main-note-edit-content').innerHTML = '<div><br/></div>';
         $id('main-note-edit-tags-container').innerHTML = '';
     },
@@ -200,7 +199,8 @@ const Editor = {
                     return;
                 }
                 Left.notes.curr.update(name, $id('main-note-edit-content').innerHTML);
-                this.currentNote = null;
+                this.editorViewed = false;
+                this.editorEdited = false;
                 this.changeState(0);
             }
             else if (this.state === 2) {
@@ -278,7 +278,8 @@ const Editor = {
         }
     },
     reset() {
-        this.currentNote = null;
+        this.editorViewed = false;
+        this.editorEdited = false;
         // Hide views
         $id('main-note-notChosen').style.display = 'flex';
         $id('main-note-view').style.display = 'none';
