@@ -5,6 +5,9 @@ const Main = {
         this.loadContent();
         Editor.init();
         //? not its place
+        $id('left-actions-settings').addEventListener('click', () => {
+            Settings.open();
+        });
         $id('left-categories-add').addEventListener('click', () => {
             CategoryDialog.open();
         });
@@ -66,17 +69,18 @@ const Main = {
         }, 300);
     },
     saveContent() {
-        console.info('Saved');
-        // try {
-        //     FS.writeFileSync('src/data/dNote.json', '');
-        //     return true;
-        // } catch(e) {
-        //     console.error(['Main.saveContent()', e]);
-        //     return false;
-        // }
+        try {
+            FS.writeFileSync('src/data/dNote.json', JSON.stringify(Categories.stack));
+            return true;
+        }
+        catch (e) {
+            console.error(['Main.saveContent()', e]);
+            return false;
+        }
     },
 };
 setTimeout(() => {
+    // Settings.open();
     // Left.categories.choose(Main.data[0]);
     // Content.create();
     // Left.notes.choose(Main.data[0].notes[2]);

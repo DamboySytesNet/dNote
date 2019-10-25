@@ -1,9 +1,3 @@
-/**
- * Notes:
- * Set the background of category 
- * Search is toggled every time user presses 'Esc'... Needs a fix
- */
-
 //Setting constants
 const FS = require('fs');
 const PATH = require('path');
@@ -18,6 +12,7 @@ const WindowAction = {
 		Left.assignListeners();
 		ContextMenu.assignListeners();
 		Editor.assignListeners();
+		Settings.assignListeners();
 
 		Main.init();
 	},
@@ -29,6 +24,7 @@ const WindowAction = {
 		Input.keyHandler(ev);
 		CategoryDialog.keyHandler(ev);
 		ColorPicker.keyHandler(ev);
+		Settings.keyHandler(ev);
 
 		if (ev.key === 'F5') {
 			window.location.reload();

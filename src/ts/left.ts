@@ -131,7 +131,6 @@ const Left: ILeft = {
         clear() {
             (<HTMLInputElement>$id('left-notesSearch-input')).value = '';
             this.applySearch();
-            $id('left-notesSearch-input').focus();
         }
     },
 
@@ -291,7 +290,10 @@ const Left: ILeft = {
             .addEventListener('click', () => Editor.open(true));
             
         $id('left-notesSearch-clear')
-            .addEventListener('click', () => Left.search.clear());
+            .addEventListener('click', () => {
+                Left.search.clear();
+                $id('left-notesSearch-input').focus();
+            });
 
         $id('left-actions-menu')
             .addEventListener('click', () => Left.categories.toggle());

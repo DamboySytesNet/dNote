@@ -5,13 +5,17 @@ interface IEditor {
      * 2 - create state
      */
     state: number;
+    /** Cache already rendered content (view mode) */
     editorViewed: boolean,
+    /** Cache already rendered content (editing mode) */
     editorEdited: boolean,
 
     chosenColors: string[];
     chosenColorsCallbacks: any[];
-    words: number,
-    chars: number,
+    words: number;
+    chars: number;
+
+    newTags: string[];
 
     cursorPos: Range;
 
@@ -54,6 +58,8 @@ const Editor: IEditor = {
     chosenColorsCallbacks: [null, null, null, null],
     words: 0,
     chars: 0,
+
+    newTags: [],
 
     cursorPos: null,
 
@@ -201,6 +207,7 @@ const Editor: IEditor = {
 
     changeState(state) {
         this.state = state;
+        this.newTags = [];
         this.checkState();
     },
 
@@ -210,6 +217,8 @@ const Editor: IEditor = {
             this.editorEdited = false;
             this.displayNote();
         } else {
+            if (Left.notes.curr !== null)
+                Left.notes.curr.unchoose();
             this.newNote();
         }
     },
@@ -219,44 +228,46 @@ const Editor: IEditor = {
 
         let note = Left.notes.curr;
 
-        if (!this.editorViewed)
+        if (!this.editorViewed) {
+            this.editorViewed = true;
+
             $id('main-note-view').innerHTML = note.content;
 
-        this.editorViewed = true;
         
-        (<HTMLInputElement>$id('main-actions-nameInput')).value 
-            = note.name;
+            (<HTMLInputElement>$id('main-actions-nameInput')).value 
+                = note.name;
 
-        this.words = getTextFromDOM($id('main-note-view'))
-            .split(' ').length;
-        this.chars = $id('main-note-view').textContent.length;
+            this.words = getTextFromDOM($id('main-note-view'))
+                .split(' ').length;
+            this.chars = $id('main-note-view').textContent.length;
 
-        $id('footer-words').innerHTML = this.words.toString();
-        $id('footer-chars').innerHTML = this.chars.toString();
-        $id('footer-cDate').innerHTML = note.dateCreated;
-        $id('footer-mDate').innerHTML = note.dateModified;
+            $id('footer-words').innerHTML = this.words.toString();
+            $id('footer-chars').innerHTML = this.chars.toString();
+            $id('footer-cDate').innerHTML = note.dateCreated;
+            $id('footer-mDate').innerHTML = note.dateModified;
+        }
     },
-
 
     editNote() {
         this.changeState(1);
 
         let note = Left.notes.curr;
 
-        if (!this.editorEdited)
+        if (!this.editorEdited) {
+            this.editorEdited = true;
+
             $id('main-note-edit-content').innerHTML = note.content;
 
-        this.editorEdited = true;
-
-        $id('main-note-edit-tags-container').innerHTML = '';
-        for (let tag of note.tags) {
-            let parent = document.createElement('span') as HTMLSpanElement;
-            parent.innerHTML = tag;
-            parent.onclick = () => {
-                parent.remove();
-                Editor.options.removeTag(tag);
+            $id('main-note-edit-tags-container').innerHTML = '';
+            for (let tag of note.tags) {
+                let parent = document.createElement('span') as HTMLSpanElement;
+                parent.innerHTML = tag;
+                parent.onclick = () => {
+                    parent.remove();
+                    Editor.options.removeTag(tag);
+                }
+                $id('main-note-edit-tags-container').appendChild(parent);
             }
-            $id('main-note-edit-tags-container').appendChild(parent);
         }
     },  
 
@@ -265,6 +276,9 @@ const Editor: IEditor = {
 
         this.editorViewed = false;
         this.editorEdited = false;
+
+        (<HTMLInputElement>$id('main-actions-nameInput')).value 
+            = 'New note';
 
         $id('main-note-edit-content').innerHTML = '<div><br/></div>';
 
@@ -299,15 +313,16 @@ const Editor: IEditor = {
                     return;
                 }
 
+                Left.notes.curr
+                    .update(name, $id('main-note-edit-content').innerHTML);
 
-                Left.notes.curr.update(name,
-                                       $id('main-note-edit-content').innerHTML);
-
-                
                 this.editorViewed = false;
                 this.editorEdited = false;
                 this.changeState(0);
             } else if (this.state === 2) {
+                if (Left.categories.curr === null)
+                    return;
+
                 let name = (<HTMLInputElement>$id('main-actions-nameInput')).value;
                     name = name.trim();
 
@@ -347,14 +362,16 @@ const Editor: IEditor = {
                     {
                         active: false
                     },
-                    [],
+                    Editor.newTags,
                     today,
                     today
                 );
 
+                Left.categories.curr.notes.push(newNote);
                 Left.notes.add(newNote.leftHTML);
 
                 newNote.choose();
+                Main.saveContent();
             }
         }
     },
@@ -380,6 +397,8 @@ const Editor: IEditor = {
                 $id('main-note-edit-options').style.transform = 'translateY(140px)';
 
                 $id('main-note-edit-buttons').style.bottom = '30px';
+
+                (<HTMLInputElement>document.getElementById('main-note-edit-tags-input')).value = '';
             }
         },
         
@@ -387,28 +406,37 @@ const Editor: IEditor = {
             let value = (<HTMLInputElement>document.getElementById('main-note-edit-tags-input')).value;
                 value = value.trim();
 
-            if (Left.notes.curr === null)
-                return;
-
-            if (Left.notes.curr.tags.indexOf(value) !== -1)
-                return;
+            if (Left.notes.curr === null &&
+                Left.notes.curr.tags.indexOf(value) === -1
+            ) {
+                return; // Already there
+            }
             
             let parent = document.createElement('span') as HTMLSpanElement;
             parent.innerHTML = value;
+            parent.onclick = () => {
+                this.removeTag(value);
+            };
             $id('main-note-edit-tags-container').appendChild(parent);
 
-            Left.notes.curr.addTag(value);
+            if (Editor.state !== 2)
+                Left.notes.curr.addTag(value);
+            else
+                Editor.newTags.push(value);
         },
 
         removeTag(tagName) {
-            if (Left.notes.curr === null)
-                return;
+            if (Left.notes.curr !== null) {
+                let it = Left.notes.curr.tags.indexOf(tagName);
+                if (it !== -1)
+                    Left.notes.curr.removeTag(it);
+            }
 
-            let it = Left.notes.curr.tags.indexOf(tagName);
-            if (it === -1)
-                return;
-
-            Left.notes.curr.removeTag(it);
+            if (Editor.state === 2) {
+                let it = Editor.newTags.indexOf(tagName);
+                if (it !== -1)
+                    Editor.newTags.splice(it, 1);
+            }
 
             let children = $id('main-note-edit-tags-container').children;
             for (let tag of children) {
@@ -417,12 +445,18 @@ const Editor: IEditor = {
                     break;
                 }
             }
+
         }
     },
     
     reset() {
+        this.state = 0;
+
         this.editorViewed = false;
         this.editorEdited = false;
+
+        this.options.toggle(false);
+
         // Hide views
         $id('main-note-notChosen').style.display = 'flex';
         $id('main-note-view').style.display = 'none';
@@ -494,9 +528,28 @@ const Editor: IEditor = {
         });
 
         $id('main-note-edit-cancel').addEventListener('click', () => {
-            // Restore old content
-            $id('main-note-edit-content').innerHTML = Left.notes.curr.content;
-            Editor.displayNote();
+            function ok() {
+                if (Left.notes.curr !== null) {
+                    $id('main-note-edit-content').innerHTML = Left.notes.curr.content;
+                    Editor.displayNote();
+                } else {
+                    Editor.reset();
+                }
+            }
+
+            if (Editor.state !== 0) {
+                Confirm.open(
+                    'Editing',
+                    `Are you sure you want to stop editing
+                     this note? Any unsaved changes will be lost!`,
+                    'Understood',
+                    () => { 
+                        ok();
+                    });
+            } else {
+                ok();
+            }
+            
         });
 
         $id('main-note-edit-save').addEventListener('click', () => {

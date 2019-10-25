@@ -5,12 +5,15 @@ interface IEditor {
      * 2 - create state
      */
     state: number;
+    /** Cache already rendered content (view mode) */
     editorViewed: boolean;
+    /** Cache already rendered content (editing mode) */
     editorEdited: boolean;
     chosenColors: string[];
     chosenColorsCallbacks: any[];
     words: number;
     chars: number;
+    newTags: string[];
     cursorPos: Range;
     options: IContentOptions;
     init(): void;

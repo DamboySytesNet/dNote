@@ -55,6 +55,9 @@ class Category {
             Left.categories.curr.unchoose();
         Left.categories.curr = this;
         this.leftHTML.setAttribute('name', 'chosen');
+        Left.search.clear();
+        if (Left.notes.curr !== null)
+            Left.notes.curr.unchoose();
         this.addNotes();
     }
     unchoose() {
@@ -72,11 +75,17 @@ class Category {
     sortNotes(notes) {
         return notes.sort((a, b) => {
             if (a.pinned === b.pinned)
-                return a.name.localeCompare(b.name);
+                return a.id - b.id;
             else if (a.pinned)
                 return -1;
             else
                 return 1;
+            // if (a.pinned === b.pinned )
+            //     return a.name.localeCompare(b.name);
+            // else if (a.pinned)
+            //     return -1;
+            // else
+            //     return 1;
         });
     }
     addNotes() {

@@ -8,6 +8,7 @@ const Editor = {
     chosenColorsCallbacks: [null, null, null, null],
     words: 0,
     chars: 0,
+    newTags: [],
     cursorPos: null,
     init() {
         function initColors(section) {
@@ -128,6 +129,7 @@ const Editor = {
     },
     changeState(state) {
         this.state = state;
+        this.newTags = [];
         this.checkState();
     },
     open(newNote = false) {
@@ -137,46 +139,52 @@ const Editor = {
             this.displayNote();
         }
         else {
+            if (Left.notes.curr !== null)
+                Left.notes.curr.unchoose();
             this.newNote();
         }
     },
     displayNote() {
         this.changeState(0);
         let note = Left.notes.curr;
-        if (!this.editorViewed)
+        if (!this.editorViewed) {
+            this.editorViewed = true;
             $id('main-note-view').innerHTML = note.content;
-        this.editorViewed = true;
-        $id('main-actions-nameInput').value
-            = note.name;
-        this.words = getTextFromDOM($id('main-note-view'))
-            .split(' ').length;
-        this.chars = $id('main-note-view').textContent.length;
-        $id('footer-words').innerHTML = this.words.toString();
-        $id('footer-chars').innerHTML = this.chars.toString();
-        $id('footer-cDate').innerHTML = note.dateCreated;
-        $id('footer-mDate').innerHTML = note.dateModified;
+            $id('main-actions-nameInput').value
+                = note.name;
+            this.words = getTextFromDOM($id('main-note-view'))
+                .split(' ').length;
+            this.chars = $id('main-note-view').textContent.length;
+            $id('footer-words').innerHTML = this.words.toString();
+            $id('footer-chars').innerHTML = this.chars.toString();
+            $id('footer-cDate').innerHTML = note.dateCreated;
+            $id('footer-mDate').innerHTML = note.dateModified;
+        }
     },
     editNote() {
         this.changeState(1);
         let note = Left.notes.curr;
-        if (!this.editorEdited)
+        if (!this.editorEdited) {
+            this.editorEdited = true;
             $id('main-note-edit-content').innerHTML = note.content;
-        this.editorEdited = true;
-        $id('main-note-edit-tags-container').innerHTML = '';
-        for (let tag of note.tags) {
-            let parent = document.createElement('span');
-            parent.innerHTML = tag;
-            parent.onclick = () => {
-                parent.remove();
-                Editor.options.removeTag(tag);
-            };
-            $id('main-note-edit-tags-container').appendChild(parent);
+            $id('main-note-edit-tags-container').innerHTML = '';
+            for (let tag of note.tags) {
+                let parent = document.createElement('span');
+                parent.innerHTML = tag;
+                parent.onclick = () => {
+                    parent.remove();
+                    Editor.options.removeTag(tag);
+                };
+                $id('main-note-edit-tags-container').appendChild(parent);
+            }
         }
     },
     newNote() {
         this.changeState(2);
         this.editorViewed = false;
         this.editorEdited = false;
+        $id('main-actions-nameInput').value
+            = 'New note';
         $id('main-note-edit-content').innerHTML = '<div><br/></div>';
         $id('main-note-edit-tags-container').innerHTML = '';
     },
@@ -198,12 +206,15 @@ const Editor = {
                     Alert.open('Editing a note', 'New name of the note is busy!');
                     return;
                 }
-                Left.notes.curr.update(name, $id('main-note-edit-content').innerHTML);
+                Left.notes.curr
+                    .update(name, $id('main-note-edit-content').innerHTML);
                 this.editorViewed = false;
                 this.editorEdited = false;
                 this.changeState(0);
             }
             else if (this.state === 2) {
+                if (Left.categories.curr === null)
+                    return;
                 let name = $id('main-actions-nameInput').value;
                 name = name.trim();
                 if (name.length === 0) {
@@ -225,9 +236,11 @@ const Editor = {
                 let today = formatDate(new Date());
                 let newNote = new Note(lastId + 1, name, $id('main-note-edit-content').innerHTML, false, {
                     active: false
-                }, [], today, today);
+                }, Editor.newTags, today, today);
+                Left.categories.curr.notes.push(newNote);
                 Left.notes.add(newNote.leftHTML);
                 newNote.choose();
+                Main.saveContent();
             }
         }
     },
@@ -247,27 +260,38 @@ const Editor = {
                 $id('main-note-edit-options-toggleImg').setAttribute('name', '');
                 $id('main-note-edit-options').style.transform = 'translateY(140px)';
                 $id('main-note-edit-buttons').style.bottom = '30px';
+                document.getElementById('main-note-edit-tags-input').value = '';
             }
         },
         addTag() {
             let value = document.getElementById('main-note-edit-tags-input').value;
             value = value.trim();
-            if (Left.notes.curr === null)
-                return;
-            if (Left.notes.curr.tags.indexOf(value) !== -1)
-                return;
+            if (Left.notes.curr === null &&
+                Left.notes.curr.tags.indexOf(value) === -1) {
+                return; // Already there
+            }
             let parent = document.createElement('span');
             parent.innerHTML = value;
+            parent.onclick = () => {
+                this.removeTag(value);
+            };
             $id('main-note-edit-tags-container').appendChild(parent);
-            Left.notes.curr.addTag(value);
+            if (Editor.state !== 2)
+                Left.notes.curr.addTag(value);
+            else
+                Editor.newTags.push(value);
         },
         removeTag(tagName) {
-            if (Left.notes.curr === null)
-                return;
-            let it = Left.notes.curr.tags.indexOf(tagName);
-            if (it === -1)
-                return;
-            Left.notes.curr.removeTag(it);
+            if (Left.notes.curr !== null) {
+                let it = Left.notes.curr.tags.indexOf(tagName);
+                if (it !== -1)
+                    Left.notes.curr.removeTag(it);
+            }
+            if (Editor.state === 2) {
+                let it = Editor.newTags.indexOf(tagName);
+                if (it !== -1)
+                    Editor.newTags.splice(it, 1);
+            }
             let children = $id('main-note-edit-tags-container').children;
             for (let tag of children) {
                 if (tag.innerHTML === tagName) {
@@ -278,8 +302,10 @@ const Editor = {
         }
     },
     reset() {
+        this.state = 0;
         this.editorViewed = false;
         this.editorEdited = false;
+        this.options.toggle(false);
         // Hide views
         $id('main-note-notChosen').style.display = 'flex';
         $id('main-note-view').style.display = 'none';
@@ -337,9 +363,24 @@ const Editor = {
             Editor.saveSelection();
         });
         $id('main-note-edit-cancel').addEventListener('click', () => {
-            // Restore old content
-            $id('main-note-edit-content').innerHTML = Left.notes.curr.content;
-            Editor.displayNote();
+            function ok() {
+                if (Left.notes.curr !== null) {
+                    $id('main-note-edit-content').innerHTML = Left.notes.curr.content;
+                    Editor.displayNote();
+                }
+                else {
+                    Editor.reset();
+                }
+            }
+            if (Editor.state !== 0) {
+                Confirm.open('Editing', `Are you sure you want to stop editing
+                     this note? Any unsaved changes will be lost!`, 'Understood', () => {
+                    ok();
+                });
+            }
+            else {
+                ok();
+            }
         });
         $id('main-note-edit-save').addEventListener('click', () => {
             Editor.saveNote();
