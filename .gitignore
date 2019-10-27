@@ -1,8 +1,10 @@
 node_modules/*
-src/data/*
+src/data/dNote.json
 
 scss
 tsc
+
+.directory
 
 *.git
 *.sh

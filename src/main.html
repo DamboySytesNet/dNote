@@ -274,12 +274,142 @@
 
 <section id="settings">
 	<img id="settings-close" src="./icons/common/close_color.png" alt="Close" title="Close" />
-	<div id="settings-content" class="scrollable">
-		<div class="settings-group">
-			<h4>Appearance</h4>
-			<div class="settings-radio">
-				<p>Show tags under notes</p>
-				<div></div>
+	<div id="settings-content">
+		<div id="settings-sections">
+			<h2>Settings</h2>
+			<div id="settings-section-general">General</div>
+			<div id="settings-section-appearance">Appearance</div>
+		</div>
+		<div id="settings-main">
+			<div id="settings-main-general" class="scrollable">
+				<h3>General</h3>
+
+				<div class="settings-group">
+					<h4>Sorting</h4>
+					<div>
+						<div class="settings-radio" data-for="settings-general-sorting-order">
+							<div>
+								<input type="radio" id="settings-general-sorting-order" name="settings-general-sorting" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+							<p>chronologically</p>
+						</div>
+						<div class="settings-radio" data-for="settings-general-sorting-name">
+							<div>
+								<input type="radio" id="settings-general-sorting-name" name="settings-general-sorting" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+							<p>alphabetically</p>
+						</div>
+						<div class="settings-checkbox" data-for="settings-general-sorting-ascending">
+							<p>Ascending</p>
+							<div>
+								<input id="settings-general-sorting-ascending" type="checkbox" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="settings-main-appearance" class="scrollable">
+				<h3>Appearance</h3>
+
+				<div class="settings-group">
+					<h4>Left categories tab</h4>
+					<div>
+						<div class="settings-radio" data-for="settings-appearance-categories-remember">
+							<div>
+								<input type="radio" id="settings-appearance-categories-remember" name="settings-appearance-categories" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+							<p>Remember last state</p>
+						</div>
+						<div class="settings-radio" data-for="settings-appearance-categories-shown">
+							<div>
+								<input type="radio" id="settings-appearance-categories-shown" name="settings-appearance-categories" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+							<p>Always shown</p>
+						</div>
+						<div class="settings-radio" data-for="settings-appearance-categories-hidden">
+							<div>
+								<input type="radio" id="settings-appearance-categories-hidden" name="settings-appearance-categories" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+							<p>Always hidden</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="settings-group">
+					<h4>Left notes tab</h4>
+					<div>
+						<div class="settings-checkbox" data-for="settings-appearance-notes-showTop">
+							<p>Show top panel <em>(pinned, secured, etc)</em></p>
+							<div>
+								<input id="settings-appearance-notes-showTop" type="checkbox" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+						</div>
+						<div class="settings-checkbox" data-for="settings-appearance-notes-showText">
+							<p>Show preview text</p>
+							<div>
+								<input id="settings-appearance-notes-showText" type="checkbox" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+						</div>
+						<div class="settings-checkbox" data-for="settings-appearance-notes-showTags">
+							<p>Show tags</p>
+							<div>
+								<input id="settings-appearance-notes-showTags" type="checkbox" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="settings-group">
+					<h4>Left top tab</h4>
+					<div>
+						<div class="settings-checkbox" data-for="settings-appearance-top-showNotes">
+							<p>Show <em>Add new note</em> button</p>
+							<div>
+								<input id="settings-appearance-top-showNotes" type="checkbox" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+						</div>
+						<div class="settings-checkbox" data-for="settings-appearance-top-showCategories">
+							<p>Show <em>Add new category</em> button</p>
+							<div>
+								<input id="settings-appearance-top-showCategories" type="checkbox" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 	</div>
@@ -448,6 +578,7 @@
 
 	<script type="text/javascript" src="js/dataTypes/category.js"></script>
 	<script type="text/javascript" src="js/dataTypes/note.js"></script>
+	<script type="text/javascript" src="js/dataTypes/userSettings.js"></script>
 
 	<script type="text/javascript" src="js/utils.js"></script>
 

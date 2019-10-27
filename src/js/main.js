@@ -1,8 +1,12 @@
 "use strict";
 ;
+;
 const Main = {
+    filesLoaded: 0,
+    filesToLoad: 2,
     init() {
-        this.loadContent();
+        this.content.init();
+        this.settings.init();
         Editor.init();
         //? not its place
         $id('left-actions-settings').addEventListener('click', () => {
@@ -15,58 +19,138 @@ const Main = {
             CategoryDialog.open();
         });
     },
-    loadContent() {
-        try {
-            // Read content from file
-            FS.readFile('src/data/dNote.json', 'utf8', (err, fileContent) => {
-                if (err)
-                    throw err;
-                this.parseData(fileContent);
-            });
-        }
-        catch (e) {
-            // If file not found
-            if (e.code === 'ENOENT') {
-                // Create data dir if needed
-                if (!FS.existsSync('src/data'))
-                    FS.mkdirSync('src/data');
-                // Create new data for notes
-                FS.writeFile('src/data/dNote.json', '[]', 'utf8', () => {
-                    this.handleData([]);
+    content: {
+        init() {
+            this.load();
+        },
+        load() {
+            try {
+                // Read content from file
+                FS.readFile('src/data/dNote.json', 'utf8', (err, fileContent) => {
+                    if (err)
+                        throw err;
+                    this.parse(fileContent);
                 });
             }
+            catch (e) {
+                // If file not found
+                if (e.code === 'ENOENT') {
+                    // Create data dir if needed
+                    if (!FS.existsSync('src/data'))
+                        FS.mkdirSync('src/data');
+                    // Create new data for notes
+                    FS.writeFile('src/data/dNote.json', '[]', 'utf8', () => {
+                        this.handle([]);
+                    });
+                }
+                else {
+                    console.error(['Main.loadContent()', e]);
+                    Main.failure();
+                }
+            }
+        },
+        parse(strFromFile) {
+            let parsedData = [];
+            try {
+                parsedData = JSON.parse(strFromFile);
+            }
+            catch (e) {
+                console.error(['Main.init()', e, strFromFile]);
+                Main.failure();
+            }
+            finally {
+                this.handle(parsedData);
+            }
+        },
+        handle(parsedData) {
+            Categories.init(parsedData);
+            Main.stopLoading();
+            Left.categories.init();
+        }
+    },
+    settings: {
+        init() {
+            this.load();
+        },
+        load() {
+            try {
+                // Read content from file
+                FS.readFile('src/data/settings.json', 'utf8', (err, fileContent) => {
+                    if (err)
+                        throw err;
+                    this.parse(fileContent);
+                });
+            }
+            catch (e) {
+                // If file not found
+                if (e.code === 'ENOENT') {
+                    // Create data dir if needed
+                    if (!FS.existsSync('src/data'))
+                        FS.mkdirSync('src/data');
+                    // Create new data for notes
+                    FS.writeFile('src/data/settings.json', JSON.stringify(UserSettings), 'utf8', () => {
+                        this.handle(UserSettings);
+                    });
+                }
+                else {
+                    console.error(['Main.loadSettings()', e]);
+                    Main.failure();
+                }
+            }
+        },
+        parse(strFromFile) {
+            let parsedData = [];
+            try {
+                parsedData = JSON.parse(strFromFile);
+            }
+            catch (e) {
+                console.error(['Main.init()', e, strFromFile]);
+                Main.failure();
+            }
+            finally {
+                this.handle(parsedData);
+            }
+        },
+        handle(parsedData) {
+            if (UserSettings === parsedData)
+                return;
+            // Dumb? way to validate if settings are ok
+            if (typeof parsedData.general !== 'undefined' &&
+                typeof parsedData.general.sort !== 'undefined' &&
+                typeof parsedData.general.sort.type !== 'undefined' &&
+                typeof parsedData.general.sort.asc !== 'undefined' &&
+                typeof parsedData.appearance !== 'undefined' &&
+                typeof parsedData.appearance.categories !== 'undefined' &&
+                typeof parsedData.appearance.categories.state !== 'undefined' &&
+                typeof parsedData.appearance.categories.remembered !== 'undefined' &&
+                typeof parsedData.appearance.notes !== 'undefined' &&
+                typeof parsedData.appearance.notes.showTop !== 'undefined' &&
+                typeof parsedData.appearance.notes.showText !== 'undefined' &&
+                typeof parsedData.appearance.notes.showTags !== 'undefined' &&
+                typeof parsedData.appearance.top !== 'undefined' &&
+                typeof parsedData.appearance.top.addNote !== 'undefined' &&
+                typeof parsedData.appearance.top.addCategory !== 'undefined') {
+                UserSettings = parsedData;
+                Settings.init();
+                Main.stopLoading();
+            }
             else {
-                console.error(['Main.loadContent()', e]);
+                alert('Using default settings...');
             }
         }
     },
-    parseData(strToParse) {
-        let parsedData = [];
-        try {
-            parsedData = JSON.parse(strToParse);
-        }
-        catch (e) {
-            console.error(['Main.init()', e]);
-        }
-        finally {
-            this.handleData(parsedData);
-        }
-    },
-    handleData(data) {
-        Categories.init(data);
-        this.stopLoading();
-        Left.categories.init();
-        // Left.categories.build(data);
-    },
     stopLoading() {
-        $id('loading')
-            .style.opacity = '0';
-        $id('loading')
-            .style.transform = 'translateY(-10px)';
-        setTimeout(() => {
+        this.filesLoaded++;
+        if (this.filesLoaded === this.filesToLoad) {
             $id('loading')
-                .remove();
-        }, 300);
+                .style.opacity = '0';
+            $id('loading')
+                .style.transform = 'translateY(-10px)';
+            setTimeout(() => {
+                $id('loading')
+                    .remove();
+            }, 300);
+        }
     },
     saveContent() {
         try {
@@ -78,12 +162,11 @@ const Main = {
             return false;
         }
     },
+    failure() {
+        confirm(`Unfortunately, app was not able to start. It means that it encountered problems with your data. If you changed it manually, it is time to bring backup. To restart data to default rename "data" folder...`);
+        window.close();
+    }
 };
 setTimeout(() => {
-    // Settings.open();
-    // Left.categories.choose(Main.data[0]);
-    // Content.create();
-    // Left.notes.choose(Main.data[0].notes[2]);
-    // Content.changeState(true);
-    // Content.options.toggle();
+    Settings.open();
 }, 200);
