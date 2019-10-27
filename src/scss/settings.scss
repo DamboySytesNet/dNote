@@ -1,0 +1,245 @@
+#settings {
+	position: fixed;
+	top:30px;
+	left:0;
+	width:100%;
+	height: calc(100% - 30px);
+	background: #fff;
+	// visibility: hidden;
+    display: none;;
+	opacity: 0;
+	transform: scale(1.2);
+	transition: transform 0.3s, opacity 0.3s;
+
+	> img {
+		position: absolute;
+		top:20px;
+		right: 20px;
+		width: 32px;
+		height: 32px;
+		cursor: pointer;
+	}
+}
+	#settings-content {
+		width:100%;
+		max-width:1000px;
+		height:calc(100% - 40px);
+		margin:20px auto;
+	}
+        #settings-sections {
+            position: relative;
+            width: 220px;
+            height: 100%;
+            background: #fff;
+            float: left;
+            z-index: 1;
+
+            > h2 {
+                font:1.4em "OpenSans";
+                font-weight: 700;
+                text-indent: 10px;
+                margin-bottom: 30px;
+            }
+
+            > div {
+                border-radius: 10px;
+                width:calc(100% - 20px);
+                margin-bottom: 5px;
+                font:0.9em "OpenSans";
+                padding: 7px 10px;
+                cursor: pointer;
+                @include prefix(user-select, none, webkit moz ms);
+
+                &:not([name="chosen"]):hover {
+                    background: rgba($color: $basecolor, $alpha: 0.3);
+                }
+
+                &[name="chosen"],
+                &:not([name="chosen"]):active {
+                    background: $basecolor;
+                    color: #fff;
+                }
+            }
+        }
+        #settings-main {
+            position: relative;
+            width:calc(100% - 220px);
+            height:100%;
+            float: left;
+
+            > div {
+                position: absolute;
+                top:0;
+                left:0;
+                width:calc(100% - 40px);
+                height:calc(100% - 40px);
+                padding: 20px;
+                overflow: auto;
+
+                visibility: hidden;
+                opacity: 0;
+                transform: translateY(-40px);
+                transition: transform 0.3s, opacity 0.2s;
+
+                > h3 {
+                    font: 1.4em "OpenSans";
+                    text-indent: 10px;
+                    font-weight: 700;
+                    margin-bottom: 20px;
+                }
+
+                > div {
+                    margin-bottom: 20px;
+
+                    &:last-of-type {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+        }
+                .settings-group {
+                    width:calc(100% - 20px - 2px);
+
+                    > h4 {
+                        font: 1.1em "OpenSans";
+                        text-indent: 20px;
+                        margin-bottom: 5px;
+                    }
+
+                    > div {
+                        border:solid 1px #ccc;
+                        border-radius: 10px;
+
+                        > div {
+                            border-bottom: solid 1px #ccc;
+
+                            &:last-of-type {
+                                border-bottom: none;
+                            }
+                        }
+                    }
+                }
+
+                .settings-checkbox {
+                    width: calc(100% - 20px);
+                    padding: 10px;
+                    height: 32px;
+                    cursor: pointer;
+                    @include prefix(user-select, none, webkit moz ms);
+
+                    $width: 80px;
+
+                    > p {
+                        width:calc(100% - #{$width});
+                        height:100%;
+                        text-indent: 10px;
+                        font:1em/32px "OpenSans";
+                        float:left;
+                    }
+
+                    > div {
+                        width:$width;
+                        height:100%;
+                        float: left;
+
+                        > input {
+                            display: none;
+
+                            &:checked ~ label {
+                                background: $basecolor;
+
+                                > div {
+                                    left: calc(100% - 26px);
+                                }
+                            }
+                        }
+
+                        > label {
+                            position: relative;
+                            width:54px;
+                            height:26px;
+                            margin: 2px auto;
+                            border-radius: 40px;
+                            border:solid 1px #ccc;
+                            overflow: hidden;
+                            display: block;
+                            cursor: pointer;
+
+                            transition: background 0.3s;
+
+                            > div {
+                                position: absolute;
+                                top: 0;
+                                left:0;
+                                width:26px;
+                                height:26px;
+                                border-radius: 50%;
+                                background: #fff;
+                                box-shadow: 0 0 5px 1px #ccc;
+
+                                transition: left 0.3s;
+                            }
+                        }
+                    }
+                }
+
+                .settings-radio {
+                    width: calc(100% - 20px);
+                    padding: 10px;
+                    height: 32px;
+                    cursor: pointer;
+                    @include prefix(user-select, none, webkit moz ms);
+
+                    $width: 40px;
+
+                    > p {
+                        width:calc(100% - #{$width});
+                        height:100%;
+                        text-indent: 10px;
+                        font:1em/32px "OpenSans";
+                        float:left;
+                    }
+
+                    > div {
+                        width:$width;
+                        height:100%;
+                        float: left;
+
+                        > input {
+                            display: none;
+
+                            &:checked ~ label {
+                                border-color: $basecolor;
+
+                                > div {
+                                    transform: scale(1);
+                                }
+                            }
+                        }
+
+                        > label {
+                            position: relative;
+                            width:16px;
+                            height:16px;
+                            margin: 5px auto;
+                            border-radius: 50%;
+                            border:solid 3px #ccc;
+                            overflow: hidden;
+                            display: block;
+                            cursor: pointer;
+
+                            transition: border-color 0.3s;
+
+                            > div {
+                                width:10px;
+                                height:10px;
+                                margin: 3px;
+                                border-radius: 50%;
+                                background: $basecolor;
+                                transform: scale(0);
+
+                                transition: transform 0.3s;
+                            }
+                        }
+                    }
+                }

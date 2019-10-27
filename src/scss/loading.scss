@@ -1,0 +1,25 @@
+#loading {
+	position: fixed;
+	top:30px;
+	left:0;
+	width:100%;
+	height: calc(100% - 30px);
+	background: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transform: translateY(0px);
+	opacity: 1;
+	transition: transform 0.3s, opacity 0.3s;
+	pointer-events: none;
+
+	> div {
+		width:128px;
+		height:128px;
+		border:solid 2px #bbb;
+		border-right-color: transparent;
+		border-left-color: transparent;
+		border-radius: 50%;
+		animation: rotateImg 1s ease-in-out 0s infinite forwards normal;
+	}
+}
