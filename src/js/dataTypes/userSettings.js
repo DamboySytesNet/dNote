@@ -10,13 +10,13 @@ let UserSettings = {
     general: {
         sort: {
             type: 0,
-            asc: false
+            asc: true
         }
     },
     appearance: {
         categories: {
             state: 0,
-            remembered: 0
+            shown: true
         },
         notes: {
             showTop: true,

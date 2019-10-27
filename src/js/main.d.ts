@@ -22,6 +22,10 @@ interface IMain {
      */
     saveContent(): void;
     /**
+     * Save current settings to a file
+     */
+    saveSettings(): void;
+    /**
      * Inform user about failure in reading files and exit app afterwards
      */
     failure(): void;

@@ -10,6 +10,8 @@ declare class Category {
     unchoose(): void;
     update(name: string, color: string): void;
     sortNotes(notes: Note[]): Note[];
+    rebuildNotes(): void;
+    checkNotesDisplay(): void;
     addNotes(): void;
     promptRemoveNote(note: Note): void;
     removeNote(searchedNote: Note): void;

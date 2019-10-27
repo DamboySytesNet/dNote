@@ -80,6 +80,7 @@ class Category {
         if (Left.notes.curr !== null)
             Left.notes.curr.unchoose();
         this.addNotes();
+        this.checkNotesDisplay();
     }
 
     unchoose() {
@@ -99,18 +100,31 @@ class Category {
 
     sortNotes(notes: Note[]) {
         return notes.sort((a, b) => {
-            if (a.pinned === b.pinned)
-                return a.id - b.id;
-            else if (a.pinned)
+            if (a.pinned === b.pinned) {
+                let sign = UserSettings.general.sort.asc === true ? 1 : -1;
+
+                if (UserSettings.general.sort.type === 1) {
+                    return a.name.localeCompare(b.name) * sign;
+                } else {
+                    return (a.id - b.id) * sign;
+                }
+            } else if (a.pinned)
                 return -1;
             else
                 return 1;
-            // if (a.pinned === b.pinned )
-            //     return a.name.localeCompare(b.name);
-            // else if (a.pinned)
-            //     return -1;
-            // else
-            //     return 1;
+        });
+    }
+
+    rebuildNotes() {
+        $id('left-notes-content').innerHTML = '';
+        const limit = this.notes.length;
+        for (let i = 0; i < limit; i++)
+            $id('left-notes-content').appendChild(this.notes[i].leftHTML);
+    }
+
+    checkNotesDisplay() {
+        this.notes.forEach(note => {
+            note.checkDisplay();
         });
     }
     

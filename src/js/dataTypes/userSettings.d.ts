@@ -16,7 +16,7 @@ interface IUserSettings_appearance {
 }
 interface IUserSettings_appearance_categories {
     state: number;
-    remembered: number;
+    shown: boolean;
 }
 interface IUserSettings_appearance_notes {
     showTop: boolean;

@@ -13,10 +13,10 @@
   "author": "Damian Kolczyński",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^6.0.9"
+    "electron": "^6.1.2"
   },
   "dependencies": {
-    "@types/node": "^12.7.12",
+    "@types/node": "^12.11.7",
     "async": "^3.1.0",
     "wysiwyg": "^2.0.0"
   }

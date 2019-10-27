@@ -20,7 +20,7 @@ interface IUserSettings_appearance {
 
 interface IUserSettings_appearance_categories {
     state: number;
-    remembered: number;
+    shown: boolean;
 };
 
 interface IUserSettings_appearance_notes {
@@ -38,14 +38,14 @@ let UserSettings: IUserSettings = {
     general: {
         sort: {
             type: 0,
-            asc: false
+            asc: true
         }
     },
 
     appearance: {
         categories: {
             state: 0,
-            remembered: 0
+            shown: true
         },
         notes: {
             showTop: true,

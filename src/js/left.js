@@ -53,6 +53,10 @@ const Left = {
                 $id('left-categories').style.width = '0px';
                 $id('left-notes').style.width = 'calc(100% - 1px)';
             }
+            if (UserSettings.appearance.categories.state === 0) {
+                UserSettings.appearance.categories.shown = this.shown;
+                Main.saveSettings();
+            }
         },
         add(category) {
             $id('left-categories-content')
@@ -145,6 +149,16 @@ const Left = {
                     .innerHTML = getTextFromDOM(tmp);
             }
         }
+    },
+    checkShowTop() {
+        if (UserSettings.appearance.top.addNote)
+            $id('left-actions-addNote').style.display = 'block';
+        else
+            $id('left-actions-addNote').style.display = 'none';
+        if (UserSettings.appearance.top.addCategory)
+            $id('left-actions-addCategory').style.display = 'block';
+        else
+            $id('left-actions-addCategory').style.display = 'none';
     },
     assignListeners() {
         $id('left-notesSearch-input')

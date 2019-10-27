@@ -14,6 +14,10 @@ class Note {
 
     leftHTML: HTMLDivElement;
 
+    topBarHTML:  HTMLDivElement;
+    textBarHTML: HTMLDivElement;
+    tagsBarHTML: HTMLDivElement;
+
     constructor(id: number,
                 name: string,
                 content: string,
@@ -79,6 +83,7 @@ class Note {
                     child.appendChild(img);
                 }
             parent.appendChild(child);
+            this.topBarHTML = child;
 
             child = document.createElement('div') as HTMLDivElement;
             child.classList.add('left-note-name');
@@ -97,6 +102,7 @@ class Note {
                 subChild.innerHTML = getTextFromDOM(tmp);
                 child.appendChild(subChild);
             parent.appendChild(child);
+            this.textBarHTML = child;
 
             child = document.createElement('div') as HTMLDivElement;
             child.classList.add('left-note-tags');
@@ -113,6 +119,7 @@ class Note {
                     child.appendChild(tag);
                 }
             parent.appendChild(child);
+            this.tagsBarHTML = child;
 
 
         return parent;
@@ -149,6 +156,31 @@ class Note {
 
         Left.notes.curr = null;
         this.leftHTML.setAttribute('name', '');
+    }
+
+    checkDisplay() {
+        if (UserSettings.appearance.notes.showTop) {
+            this.topBarHTML.style.display = 'block';
+            if (this.pinned || this.protection.active)
+                this.leftHTML.style.paddingTop = '20px';
+        } else {
+            this.topBarHTML.style.display = 'none';
+            this.leftHTML.style.paddingTop = '0px';
+        }
+            
+        if (UserSettings.appearance.notes.showText)
+            this.textBarHTML.style.display = 'block';
+        else
+            this.textBarHTML.style.display = 'none';
+
+        if (UserSettings.appearance.notes.showTags) {
+            if (this.tags.length > 0)
+                this.leftHTML.style.paddingBottom = '30px';
+            this.tagsBarHTML.style.display = 'block';
+        } else {
+            this.tagsBarHTML.style.display = 'none';
+            this.leftHTML.style.paddingBottom = '0px';
+        }
     }
 
     update(name: string, content: string) {

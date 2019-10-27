@@ -5,7 +5,6 @@ const Main = {
     filesLoaded: 0,
     filesToLoad: 2,
     init() {
-        this.content.init();
         this.settings.init();
         Editor.init();
         //? not its place
@@ -63,8 +62,8 @@ const Main = {
             }
         },
         handle(parsedData) {
-            Categories.init(parsedData);
             Main.stopLoading();
+            Categories.init(parsedData);
             Left.categories.init();
         }
     },
@@ -122,7 +121,7 @@ const Main = {
                 typeof parsedData.appearance !== 'undefined' &&
                 typeof parsedData.appearance.categories !== 'undefined' &&
                 typeof parsedData.appearance.categories.state !== 'undefined' &&
-                typeof parsedData.appearance.categories.remembered !== 'undefined' &&
+                typeof parsedData.appearance.categories.shown !== 'undefined' &&
                 typeof parsedData.appearance.notes !== 'undefined' &&
                 typeof parsedData.appearance.notes.showTop !== 'undefined' &&
                 typeof parsedData.appearance.notes.showText !== 'undefined' &&
@@ -132,6 +131,7 @@ const Main = {
                 typeof parsedData.appearance.top.addCategory !== 'undefined') {
                 UserSettings = parsedData;
                 Settings.init();
+                Main.content.init();
                 Main.stopLoading();
             }
             else {
@@ -153,8 +153,19 @@ const Main = {
         }
     },
     saveContent() {
+        console.log('saved');
         try {
             FS.writeFileSync('src/data/dNote.json', JSON.stringify(Categories.stack));
+            return true;
+        }
+        catch (e) {
+            console.error(['Main.saveContent()', e]);
+            return false;
+        }
+    },
+    saveSettings() {
+        try {
+            FS.writeFileSync('src/data/settings.json', JSON.stringify(UserSettings));
             return true;
         }
         catch (e) {

@@ -2,6 +2,8 @@ interface ICategories {
     stack: Category[];
 
     init(data: any): void;
+    sort(): void;
+    rebuild(): void;
     remove(category: Category): void;
 };
 
@@ -40,6 +42,27 @@ const Categories: ICategories = {
                 )
             );
         }
+
+        this.sort();
+    },
+
+    sort() {
+        this.stack.sort((a, b) => {
+            let sign = UserSettings.general.sort.asc === true ? 1 : -1;
+
+            if (UserSettings.general.sort.type === 1) {
+                return a.name.localeCompare(b.name) * sign;
+            } else {
+                return (a.id - b.id) * sign;
+            }
+        });
+    },
+
+    rebuild() {
+        $id('left-categories').innerHTML = '';
+        const limit = this.stack.length;
+        for (let i = 0; i < limit; i++)
+            $id('left-categories').appendChild(this.stack[i].leftHTML);
     },
 
     remove(searchedCategory) {

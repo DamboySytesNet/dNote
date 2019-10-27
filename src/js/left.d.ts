@@ -12,6 +12,11 @@ interface ILeft {
      */
     notes: ILeftNotes;
     /**
+     * Checks if icons on top should be display
+     * due to user settings
+     */
+    checkShowTop(): void;
+    /**
      * Assign listeners
      */
     assignListeners(): void;

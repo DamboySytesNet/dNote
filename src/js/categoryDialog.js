@@ -106,11 +106,14 @@ const CategoryDialog = {
         const color = this.colors[this.currentColor - 1];
         if (this.editedElement !== null) {
             this.editedElement.update(name, color);
+            Main.saveContent();
         }
         else {
             const newId = Categories.stack.length !== 0 ? Categories.stack[Categories.stack.length - 1].id + 1 : 1;
             let category = new Category(newId, name, color, []);
             Left.categories.add(category.leftHTML);
+            Categories.stack.push(category);
+            Main.saveContent();
         }
         this.close();
     },
