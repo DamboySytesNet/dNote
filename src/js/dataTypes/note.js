@@ -130,12 +130,12 @@ class Note {
             this.textBarHTML.style.display = 'none';
         if (UserSettings.appearance.notes.showTags) {
             if (this.tags.length > 0)
-                this.leftHTML.style.paddingBottom = '30px';
+                this.leftHTML.style.paddingBottom = '34px';
             this.tagsBarHTML.style.display = 'block';
         }
         else {
             this.tagsBarHTML.style.display = 'none';
-            this.leftHTML.style.paddingBottom = '0px';
+            this.leftHTML.style.paddingBottom = '8px';
         }
     }
     update(name, content) {

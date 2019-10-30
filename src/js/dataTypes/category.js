@@ -15,8 +15,6 @@ class Category {
             if (Editor.state !== 0) {
                 Confirm.open('Editing', `Are you sure you want to stop editing
                      this note? Any unsaved changes will be lost!`, 'Understood', () => {
-                    //?
-                    // Editor.unselect();
                     this.choose();
                 });
             }

@@ -178,6 +178,6 @@ const Main = {
         window.close();
     }
 };
-setTimeout(() => {
-    Settings.open();
-}, 200);
+// setTimeout(() => {
+//     Settings.open();
+// }, 200);

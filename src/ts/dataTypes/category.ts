@@ -30,8 +30,6 @@ class Category {
                      this note? Any unsaved changes will be lost!`,
                     'Understood',
                     () => {
-                        //?
-                        // Editor.unselect();
                         this.choose();
                     });
             } else {

@@ -1,5 +1,5 @@
 node_modules/*
-src/data/dNote.json
+src/data/*
 
 .directory
 

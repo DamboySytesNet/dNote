@@ -104,7 +104,6 @@ const Left = {
             topPart.innerHTML = '';
             let img;
             if (note.pinned) {
-                note.leftHTML.style.paddingTop = '20px';
                 img = new Image();
                 img.src = 'icons/common/pin_color.png';
                 img.setAttribute('name', 'left');
@@ -113,7 +112,6 @@ const Left = {
                 topPart.appendChild(img);
             }
             if (note.protection.active) {
-                note.leftHTML.style.paddingTop = '20px';
                 img = new Image();
                 img.src = 'icons/common/lock_color.png';
                 img.setAttribute('name', 'right');
@@ -124,12 +122,7 @@ const Left = {
             let tagPart = note.leftHTML.querySelector('.left-note-tags');
             tagPart.innerHTML = '';
             const limit = note.tags.length > 5 ? 5 : note.tags.length;
-            if (limit === 0)
-                note.leftHTML.style.paddingBottom = '0px';
-            else
-                note.leftHTML.style.paddingBottom = '30px';
             for (let i = 0; i < limit; i++) {
-                note.leftHTML.style.paddingBottom = '30px';
                 let tag = document.createElement('span');
                 tag.innerHTML = note.tags[i];
                 tag.onclick = ev => {
@@ -148,6 +141,7 @@ const Left = {
                 note.leftHTML.querySelector('.left-note-text > p')
                     .innerHTML = getTextFromDOM(tmp);
             }
+            note.checkDisplay();
         }
     },
     checkShowTop() {
