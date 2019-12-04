@@ -6,5 +6,7 @@ export interface ICategories {
     init(data: any): void;
     sort(): void;
     rebuild(): void;
+    add(category: Category): void;
     remove(category: Category): void;
+    checkState(): void;
 };

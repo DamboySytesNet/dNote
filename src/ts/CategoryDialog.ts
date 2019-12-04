@@ -83,7 +83,7 @@ export const CategoryDialog: ICategoryDialog = {
             CategoryDialog.colors[0] = category.color;
             CategoryDialog.chooseColor(1);
             (<HTMLDivElement>$id('categoryDialog-colors-1')
-                    .children[0]).style.background = category.color;
+                .children[0]).style.background = category.color;
         }
 
         this.shown = true;
@@ -108,7 +108,7 @@ export const CategoryDialog: ICategoryDialog = {
     check() {
         // Get values
         let name = (<HTMLInputElement>$id('categoryDialog-inputValue')).value;
-            name = name.trim();
+        name = name.trim();
 
         // Validate name
         if (name.length === 0) {
@@ -156,7 +156,7 @@ export const CategoryDialog: ICategoryDialog = {
 
             Left.categories.add(category.leftHTML);
 
-            Categories.stack.push(category);
+            Categories.add(category);
             Main.saveContent();
         }
 
@@ -168,11 +168,11 @@ export const CategoryDialog: ICategoryDialog = {
             this.unselectColor();
 
         for (let i = 1; i <= this.colorSquares; i++) {
-            const min   = 0;
-            const max   = 255;
-            const red   = randomize(min, max);
+            const min = 0;
+            const max = 255;
+            const red = randomize(min, max);
             const green = randomize(min, max);
-            const blue  = randomize(min, max);
+            const blue = randomize(min, max);
             const color = `rgb(${red}, ${green}, ${blue})`;
             this.colors[i - 1] = color;
 

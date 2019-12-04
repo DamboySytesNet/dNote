@@ -66,6 +66,12 @@ export const Categories: ICategories = {
             $id('left-categories').appendChild(this.stack[i].leftHTML);
     },
 
+    add(category: Category) {
+        this.stack.push(category);
+
+        this.checkState();
+    },
+
     remove(searchedCategory) {
         this.stack.find((category: Category, index: number) => {
             if (searchedCategory === category) {
@@ -76,5 +82,14 @@ export const Categories: ICategories = {
             }
             return false;
         });
+
+        this.checkState();
+    },
+
+    checkState() {
+        if (this.stack.length === 0)
+            $id('left-noCategories').style.display = 'block';
+        else
+            $id('left-noCategories').style.display = 'none';
     }
 }
