@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>dNote</title>
+</head>
+<body>
+
+<header>
+	<div id="header-icon">
+		<img src="icons/app/16x16.png" alt="Icon" title="dNote" />
+		<p>dNote</p>
+	</div>
+	<div id="header-handle">
+		<img src="icons/header/handle.png" alt="Handle" />
+	</div>
+	<div id="header-nav">
+		<!-- <img id="header_max" onclick="WindowAction.maximize();" src="icons/header/maximize.png" alt="Maximize" /> -->
+		<img id="header-minimize" src="icons/header/minimize.png" alt="Minimize" />
+		<img id="header-close" src="icons/header/close.png" alt="Close" />
+	</div>
+</header>
+
+<main>
+	<section id="left">
+		<div id="left-actions">
+			<img class="tabButton" id="left-actions-menu" src="icons/common/menu_color.png" alt="Menu" />
+
+			<img class="tabButton" id="left-actions-settings" src="icons/common/settings_color.png" alt="Settings" />
+			<img class="tabButton" id="left-actions-addNote" src="icons/common/add_note_color.png" alt="Add note" title="Add note" />
+			<img class="tabButton" id="left-actions-addCategory" src="icons/common/add_category_color.png" alt="Add category" title="Add category" />
+		</div>
+		<div id="left-categories">
+			<div id="left-noCategories">
+				<p>
+					No categories...<br/>
+					To add one click the button above or the circle below...
+				</p>
+			</div>
+			<div id="left-categories-content" class="scrollable"></div>
+			<img id="left-categories-add" class="left-addButton" src="icons/common/add_category.png" alt="Add category" title="Add category" />
+		</div>
+		<div id="left-notes">
+			<div id="left-notesSearch">
+				<img id="left-notesSearch-search" src="icons/common/search_color.png" alt="Search" />
+				<div id="left-notesSearch-content">
+					<input id="left-notesSearch-input" type="text" placeholder="Search..." />
+					<div></div>
+				</div>
+				<img id="left-notesSearch-clear" src="icons/common/backspace_color.png" alt="Clear" />
+			</div>
+			<div id="left-noNotes">
+				<p>
+					No notes in this category...<br/>
+					To add one click the button above or the circle below...
+				</p>
+			</div>
+			<div id="left-noCategoryChosen">
+				<p>
+					Choose a category and its notes will appear here...
+				</p>
+			</div>
+			<div id="left-notes-content" class="scrollable"></div>
+			<img id="left-notes-add" class="left-addButton" src="icons/common/add_note.png" alt="Add note" title="Add note" />
+		</div>
+	</section>
+	<section id="main">
+		<div id="main-actions">
+			<img class="tabButton" id="main-actions-state" name="left" src="icons/common/edit_color.png" alt="Edit note" />
+			<div id="main-actions-name">
+				<input id="main-actions-nameInput" type="text" placeholder="" disabled>
+				<div></div>
+			</div>
+			<img class="tabButton" id="main-actions-info" name="right" src="icons/common/info_color.png" alt="More info" title="More info" />
+			<img class="tabButton" id="main-actions-delete" name="right" src="icons/common/delete_color.png" alt="Delete note" title="Delete note" />
+		</div>
+		<div id="main-note">
+			<div id="main-note-notChosen">
+				<div>
+					<h2>Choose a note</h2>
+					<p>
+						and its content will be displayed here...
+					</p>
+				</div>
+			</div>
+			<div id="main-note-view" class="note scrollable"></div>
+			<div id="main-note-edit">
+				<div id="main-note-edit-tools">
+					<div>
+						<div class="main-note-edit-tools-separator"></div>
+
+						<div data-cmd="bold" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-bold.png" alt="Bold" title="Bold" />
+						</div>
+						<div data-cmd="italic" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-italic.png" alt="Italic" title="Italic" />
+						</div>
+						<div data-cmd="underline" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-underline.png" alt="Underline" title="Underline" />
+						</div>
+						<div data-cmd="strikeThrough" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-strikethrough.png" alt="Strike through" title="Strike through" />
+						</div>
+
+						<div class="main-note-edit-tools-separator"></div>
+
+						<div data-cmd="foreColor" class="main-note-edit-tools-post" name="noHover">
+							<img src="icons/editor/format-color-text.png" alt="Color text" title="Color text" />
+							<div class="main-note-edit-tools-colors">
+								<p>Default colors</p>
+								<div>
+									<div id="main-note-edit-foreColor-d1"></div>
+									<div id="main-note-edit-foreColor-d2"></div>
+									<div id="main-note-edit-foreColor-d3"></div>
+									<div id="main-note-edit-foreColor-d4"></div>
+									<div id="main-note-edit-foreColor-d5"></div>
+									<div id="main-note-edit-foreColor-d6"></div>
+									<div id="main-note-edit-foreColor-d7"></div>
+									<div id="main-note-edit-foreColor-d8"></div>
+								</div>
+								<p>Your colors</p>
+								<div>
+									<div id="main-note-edit-foreColor-c1"></div>
+									<div id="main-note-edit-foreColor-c2"></div>
+									<div id="main-note-edit-foreColor-c3"></div>
+									<div id="main-note-edit-foreColor-c4"></div>
+								</div>
+								<button id="main-note-edit-foreColor-button">Color picker</button>
+							</div>
+						</div>
+						<div data-cmd="backColor" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-color-fill.png" alt="Color background" title="Color background" />
+							<div class="main-note-edit-tools-colors">
+								<p>Default colors</p>
+								<div>
+									<div id="main-note-edit-backColor-d1"></div>
+									<div id="main-note-edit-backColor-d2"></div>
+									<div id="main-note-edit-backColor-d3"></div>
+									<div id="main-note-edit-backColor-d4"></div>
+									<div id="main-note-edit-backColor-d5"></div>
+									<div id="main-note-edit-backColor-d6"></div>
+									<div id="main-note-edit-backColor-d7"></div>
+									<div id="main-note-edit-backColor-d8"></div>
+								</div>
+								<p>Your colors</p>
+								<div>
+									<div id="main-note-edit-backColor-c1"></div>
+									<div id="main-note-edit-backColor-c2"></div>
+									<div id="main-note-edit-backColor-c3"></div>
+									<div id="main-note-edit-backColor-c4"></div>
+								</div>
+								<button id="main-note-edit-backColor-button">Color picker</button>
+							</div>
+						</div>
+
+						<div class="main-note-edit-tools-separator"></div>
+
+						<div data-cmd="headers" class="main-note-edit-tools-post" name="noHover">
+							<img src="icons/editor/format-header.png" alt="Headers" title="Headers" />
+							<div class="main-note-edit-tools-list">
+								<img id="main-note-edit-heading-1" src="icons/editor/format-header-1.png" alt="Heading 1" title="Heading 1" />
+								<img id="main-note-edit-heading-2" src="icons/editor/format-header-2.png" alt="Heading 2" title="Heading 2" />
+								<img id="main-note-edit-heading-3" src="icons/editor/format-header-3.png" alt="Heading 3" title="Heading 3" />
+								<img id="main-note-edit-heading-4" src="icons/editor/format-header-4.png" alt="Heading 4" title="Heading 4" />
+								<img id="main-note-edit-heading-5" src="icons/editor/format-header-5.png" alt="Heading 5" title="Heading 5" />
+								<img id="main-note-edit-heading-0" src="icons/common/close_black.png" alt="Remove heading" title="Remove heading" />
+							</div>
+						</div>
+
+						<div class="main-note-edit-tools-separator"></div>
+
+						<div data-cmd="superscript" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-superscript.png" alt="Superscript" title="Superscript" />
+						</div>
+						<div data-cmd="subscript" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-subscript.png" alt="Subscript" title="Subscript" />
+						</div>
+
+						<div class="main-note-edit-tools-separator"></div>
+
+						<div data-cmd="justifyLeft" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-align-left.png" alt="Align left" title="Align left" />
+						</div>
+						<div data-cmd="justifyCenter" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-align-center.png" alt="Align center" title="Align center" />
+						</div>
+						<div data-cmd="justifyRight" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-align-right.png" alt="Align right" title="Align right" />
+						</div>
+						<div data-cmd="justifyFull" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-align-justify.png" alt="Align justify" title="Align justify" />
+						</div>
+
+						<div class="main-note-edit-tools-separator"></div>
+
+						<div data-cmd="outdent" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-indent-decrease.png" alt="Decrease indent" title="Decrease indent" />
+						</div>
+						<div data-cmd="indent" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-indent-increase.png" alt="Increase indent" title="Increase indent" />
+						</div>
+
+						<div class="main-note-edit-tools-separator"></div>
+
+						<div data-cmd="insertUnorderedList" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-list-bulleted.png" alt="Listing" title="Listing" />
+						</div>
+						<div data-cmd="insertOrderedList" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-list-numbered.png" alt="Listing" title="Listing" />
+						</div>
+
+						<div class="main-note-edit-tools-separator"></div>
+
+						<div data-cmd="link" class="main-note-edit-tools-post">
+							<img src="icons/editor/link.png" alt="Add a link" title="Add a link" />
+						</div>
+						<div data-cmd="unlink" class="main-note-edit-tools-post">
+							<img src="icons/editor/unlink.png" alt="Unlink" title="Unlink" />
+						</div>
+
+						<div class="main-note-edit-tools-separator"></div>
+
+						<div data-cmd="removeFormat" class="main-note-edit-tools-post">
+							<img src="icons/editor/format-clear.png" alt="Clear" title="Clear" />
+						</div>
+
+						<div class="main-note-edit-tools-separator"></div>
+
+						<div data-cmd="undo" class="main-note-edit-tools-post">
+							<img src="icons/editor/undo.png" alt="Clear" title="Clear" />
+						</div>
+						<div data-cmd="redo" class="main-note-edit-tools-post">
+							<img src="icons/editor/redo.png" alt="Clear" title="Clear" />
+						</div>
+
+						<div class="main-note-edit-tools-separator"></div>
+					</div>
+				</div>
+				<div id="main-note-edit-content" class="note scrollable" contenteditable="true"></div>
+				<div id="main-note-edit-buttons">
+					<button id="main-note-edit-cancel">
+						<img src="icons/common/close.png" alt="Cancel" title="Cancel" />
+					</button>
+					<button id="main-note-edit-save">
+						<img src="icons/common/check.png" alt="Save" title="Save" />
+					</button>
+				</div>
+				<div id="main-note-edit-options">
+					<div id="main-note-edit-options-toggle">
+						<img id="main-note-edit-options-toggleImg" src="icons/common/arrow_color.png" alt="Toggle options" title="Toggle options" />
+					</div>
+
+					<div id="main-note-edit-tags">
+						<div id="main-note-edit-tags-block">
+							<input id="main-note-edit-tags-input" placeholder="Enter new tag" />
+							<div></div>
+						</div>
+						<button id="main-note-edit-tags-button">Add</button>
+						<div id="main-note-edit-tags-container"></div>
+					</div>
+					<div id="main-note-edit-options-options">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+
+<section id="loading">
+	<div></div>
+</section>
+
+<section id="settings">
+	<img id="settings-close" src="./icons/common/close_color.png" alt="Close" title="Close" />
+	<div id="settings-content">
+		<div id="settings-sections">
+			<h2>Settings</h2>
+			<div id="settings-section-general">General</div>
+			<div id="settings-section-appearance">Appearance</div>
+		</div>
+		<div id="settings-main">
+			<div id="settings-main-general" class="scrollable">
+				<h3>General</h3>
+
+				<div class="settings-group">
+					<h4>Sorting</h4>
+					<div>
+						<div class="settings-radio" data-for="settings-general-sorting-order">
+							<div>
+								<input type="radio" id="settings-general-sorting-order" name="settings-general-sorting" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+							<p>chronologically</p>
+						</div>
+						<div class="settings-radio" data-for="settings-general-sorting-name">
+							<div>
+								<input type="radio" id="settings-general-sorting-name" name="settings-general-sorting" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+							<p>alphabetically</p>
+						</div>
+						<div class="settings-checkbox" data-for="settings-general-sorting-ascending">
+							<p>Ascending</p>
+							<div>
+								<input id="settings-general-sorting-ascending" type="checkbox" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="settings-main-appearance" class="scrollable">
+				<h3>Appearance</h3>
+
+				<div class="settings-group">
+					<h4>Left categories tab</h4>
+					<div>
+						<div class="settings-radio" data-for="settings-appearance-categories-remember">
+							<div>
+								<input type="radio" id="settings-appearance-categories-remember" name="settings-appearance-categories" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+							<p>Remember last state</p>
+						</div>
+						<div class="settings-radio" data-for="settings-appearance-categories-shown">
+							<div>
+								<input type="radio" id="settings-appearance-categories-shown" name="settings-appearance-categories" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+							<p>Always shown</p>
+						</div>
+						<div class="settings-radio" data-for="settings-appearance-categories-hidden">
+							<div>
+								<input type="radio" id="settings-appearance-categories-hidden" name="settings-appearance-categories" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+							<p>Always hidden</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="settings-group">
+					<h4>Left notes tab</h4>
+					<div>
+						<div class="settings-checkbox" data-for="settings-appearance-notes-showTop">
+							<p>Show top panel <em>(pinned, secured, etc)</em></p>
+							<div>
+								<input id="settings-appearance-notes-showTop" type="checkbox" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+						</div>
+						<div class="settings-checkbox" data-for="settings-appearance-notes-showText">
+							<p>Show preview text</p>
+							<div>
+								<input id="settings-appearance-notes-showText" type="checkbox" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+						</div>
+						<div class="settings-checkbox" data-for="settings-appearance-notes-showTags">
+							<p>Show tags</p>
+							<div>
+								<input id="settings-appearance-notes-showTags" type="checkbox" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="settings-group">
+					<h4>Left top tab</h4>
+					<div>
+						<div class="settings-checkbox" data-for="settings-appearance-top-showNotes">
+							<p>Show <em>Add new note</em> button</p>
+							<div>
+								<input id="settings-appearance-top-showNotes" type="checkbox" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+						</div>
+						<div class="settings-checkbox" data-for="settings-appearance-top-showCategories">
+							<p>Show <em>Add new category</em> button</p>
+							<div>
+								<input id="settings-appearance-top-showCategories" type="checkbox" />
+								<label>
+									<div></div>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="categoryDialog" class="dialog">
+	<div id="categoryDialog-content" class="dialog-content">
+		<h2>Add new category</h2>
+		<div id="categoryDialog-input">
+			<input id="categoryDialog-inputValue" type="text" placeholder="New category name..." />
+			<div></div>
+		</div>
+		<p id="categoryDialog-inputError"></p>
+		<div id="categoryDialog-colors">
+			<h3>Choose a color</h3>
+			<div id="categoryDialog-colors-random">
+				<div id="categoryDialog-colors-1"><div></div></div>
+				<div id="categoryDialog-colors-2"><div></div></div>
+				<div id="categoryDialog-colors-3"><div></div></div>
+				<div id="categoryDialog-colors-4"><div></div></div>
+				<div id="categoryDialog-colors-5"><div></div></div>
+			</div>
+			<button id="categoryDialog-colors-randomButton">Randomize</button>
+			<div id="categoryDialog-colors-customColor">
+				<p>or pick your: </p>
+				<div id="categoryDialog-colors-6"><div style="background: rgb(255, 255, 255);"></div></div>
+			</div>
+			<p id="categoryDialog-colorError"></p>
+		</div>
+		<div class="dialogButtons">
+			<button id="categoryDialog-dialogButton-action" class="dialogButton-primary" name="right">Create</button>
+			<button id="categoryDialog-dialogButton-abort" class="dialogButton-abort" name="left">Cancel</button>
+		</div>
+	</div>
+</section>
+
+<section id="noteInfo" class="dialog">
+	<div id="noteInfo-content" class="dialog-content">
+		<h2>Note information</h2>
+
+		<div id="noteInfo-table">
+			<div>
+				<div>Name</div>
+				<div id="noteInfo-name"></div>
+			</div>
+			<div>
+				<div>Words</div>
+				<div id="noteInfo-words"></div>
+			</div>
+			<div>
+				<div>Characters</div>
+				<div id="noteInfo-chars"></div>
+			</div>
+			<div>
+				<div>Pinned</div>
+				<div id="noteInfo-pinned"></div>
+			</div>
+			<div>
+				<div>Protected</div>
+				<div id="noteInfo-protect"></div>
+			</div>
+			<div>
+				<div>Date modified</div>
+				<div id="noteInfo-mDate"></div>
+			</div>
+			<div>
+				<div>Date created</div>
+				<div id="noteInfo-cDate"></div>
+			</div>
+		</div>
+
+		<div id="noteInfo-tags"></div>
+
+		<div class="dialogButtons">
+			<button id="noteInfo-dialogButton-abort" class="dialogButton-abort" name="left">Cancel</button>
+		</div>
+	</div>
+</section>
+
+<section id="colorPicker" class="dialog">
+	<div id="colorPicker-content" class="dialog-content">
+		<h2>Choose a color</h2>
+
+		<div id="colorPicker-main">
+			<div id="colorPicker-chooser">
+				<div id="colorPicker-picker"></div>
+			</div>
+			<div id="colorPicker-slide">
+				<div id="colorPicker-slider"></div>
+			</div>
+			<h3>Selected color: </h3>
+			<div id="colorPicker-picked"></div>
+		</div>
+
+		<canvas width="200" height="200" id="colorPicker-canvasChooser"></canvas>
+		<canvas width="200" height="32"  id="colorPicker-canvasSlide"></canvas>
+
+		<div class="dialogButtons">
+			<button id="colorPicker-dialogButton-action" class="dialogButton-primary" name="right">Choose</button>
+			<button id="colorPicker-dialogButton-abort" class="dialogButton-abort" name="left">Cancel</button>
+		</div>
+	</div>
+</section>
+
+<div id="input" class="dialog">
+	<div id="input-content" class="dialog-content">
+		<h2 id="input-title"></h2>
+
+		<div id="input-block">
+			<p id="input-text"></p>
+			<div>
+				<input id="input-input" type="text" placeholder="Enter here" />
+				<div></div>
+			</div>
+		</div>
+
+		<div class="dialogButtons">
+			<button id="input-dialogButton-action" class="dialogButton-primary" name="right">Do it</button>
+			<button id="input-dialogButton-abort" class="dialogButton-abort" name="left">Cancel</button>
+		</div>
+	</div>
+</div>
+
+<div id="confirm" class="dialog">
+	<div id="confirm-content" class="dialog-content">
+		<h2 id="confirm-title"></h2>
+
+		<p id="confirm-text"></p>
+
+		<div class="dialogButtons">
+			<button id="confirm-dialogButton-action" class="dialogButton-primary" name="right">Do it</button>
+			<button id="confirm-dialogButton-abort" class="dialogButton-abort" name="left">Cancel</button>
+		</div>
+	</div>
+</div>
+
+<div id="alert" class="dialog">
+	<div id="alert-content" class="dialog-content">
+		<h2 id="alert-title"></h2>
+
+		<p id="alert-text"></p>
+
+		<div class="dialogButtons">
+			<button id="alert-dialogButton-abort" class="dialogButton-abort" name="right">Ok</button>
+		</div>
+	</div>
+</div>
+
+<div id="contextMenu" tabindex="-1"></div>
+
+<footer>
+	<div id="footer-categories">
+		damboy.sytes.net
+	</div>
+	<div id="footer-main">
+		<p id="footer-main-p1">
+			<span id="footer-words"></span> words,
+			<span id="footer-chars"></span> characters
+		</p>
+		<p id="footer-main-p2">
+			Date modified: <span id="footer-mDate"></span>
+			Date created: <span id="footer-cDate"></span>
+		</p>
+	</div>
+</footer>
+
+</body>
+</html>

@@ -1,19 +1,18 @@
 {
     "compilerOptions": {
-        "module": "es2015",
+        "module": "CommonJS",
         "target": "es6",
-        "noImplicitAny": true,
         "sourceMap": true,
-        "alwaysStrict": true,
-        "declaration": true,
+        "declaration": false,
         "forceConsistentCasingInFileNames": true,
+        "alwaysStrict": true,
+        "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
-        "outDir": "dist/declarations",
-        "strictNullChecks": false
+        "strictNullChecks": false,
+        "resolveJsonModule": true
     },
     "include": [
-        "src/ts/*.ts",
-        "src/ts/dataTypes/*.ts"
+        "./src/ts/index.ts"
     ]
 }

@@ -4,7 +4,8 @@
   "description": "App for taking notes",
   "main": "index.js",
   "scripts": {
-    "start": "electron index.js"
+    "start": "electron index.js",
+    "build": "webpack --config webpack.config.js --watch"
   },
   "keywords": [
     "note",
@@ -13,11 +14,38 @@
   "author": "Damian Kolczyński",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^6.1.2"
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "autoprefixer": "^9.7.2",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.2.0",
+    "electron": "^6.1.2",
+    "eslint-plugin-import": "^2.18.2",
+    "extract-loader": "^3.1.0",
+    "file-loader": "^4.3.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "json-loader": "^0.5.7",
+    "mini-css-extract-plugin": "^0.8.0",
+    "node-sass": "^4.13.0",
+    "postcss-loader": "^3.0.0",
+    "sass": "^1.23.7",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "ts-loader": "^6.2.1",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.7.2",
+    "url-loader": "^2.2.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
+    "webpack-merge": "^4.2.2"
   },
   "dependencies": {
     "@types/node": "^12.11.7",
     "async": "^3.1.0",
+    "fs": "0.0.1-security",
     "wysiwyg": "^2.0.0"
   }
 }

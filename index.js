@@ -19,11 +19,11 @@ app.on('ready', () => {
 			center: true,
 			transparent: true,
 			frame: false,
-			icon: path.join(__dirname, 'icon/128x128.png'),
+			icon: path.join(__dirname, './dist/icons/128x128.png'),
 			webPreferences: {
 				nodeIntegration: true
 			}
 		}
 	);
-	win.loadURL("file://" + __dirname + "/src/main.html");
+	win.loadURL('file://' + __dirname + "/dist/index.html");
 })
