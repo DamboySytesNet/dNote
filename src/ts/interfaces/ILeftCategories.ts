@@ -17,12 +17,6 @@ export interface ILeftCategories {
     init(): void;
 
     /**
-     * Checks if there are any categories,
-     * to display appropriate message.
-     */
-    checkState(): void;
-
-    /**
      * Toggles folding and unfolding category tab
      */
     toggle(): void;

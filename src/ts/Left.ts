@@ -24,7 +24,7 @@ export const Left: ILeft = {
                 if (el.name.indexOf(value) > -1 ||
                     div.textContent.indexOf(value) > -1 ||
                     el.tags.indexOf(value) > -1)
-                        el.leftHTML.style.display = 'block';
+                    el.leftHTML.style.display = 'block';
                 else
                     el.leftHTML.style.display = 'none';
             }
@@ -50,14 +50,7 @@ export const Left: ILeft = {
             if (Categories.stack.length !== 0)
                 Categories.stack[0].choose();
 
-            this.checkState();
-        },
-
-        checkState() {
-            if (Categories.stack.length !== 0)
-                $id('left-noCategories').style.display = 'none';
-            else
-                $id('left-noCategories').style.display = 'block';
+            Categories.checkState();
         },
 
         toggle() {
@@ -105,13 +98,7 @@ export const Left: ILeft = {
                 $id('left-noCategoryChosen').style.display = 'block';
                 $id('left-noNotes').style.display = 'none';
             } else {
-                if (Left.categories.curr.notes.length !== 0) {
-                    $id('left-noCategoryChosen').style.display = 'none';
-                    $id('left-noNotes').style.display = 'none';
-                } else {
-                    $id('left-noCategoryChosen').style.display = 'none';
-                    $id('left-noNotes').style.display = 'block';
-                }
+                Left.categories.curr.checkState();
             }
         },
 

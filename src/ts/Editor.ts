@@ -332,7 +332,7 @@ export const Editor: IEditor = {
                     today
                 );
 
-                Left.categories.curr.notes.push(newNote);
+                Left.categories.curr.addNote(newNote);
                 Left.notes.add(newNote.leftHTML);
 
                 newNote.choose();

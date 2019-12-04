@@ -17,9 +17,9 @@ export class Category {
     leftHTML: HTMLDivElement;
 
     constructor(id: number,
-                name: string,
-                color: string,
-                notes: Note[]) {
+        name: string,
+        color: string,
+        notes: Note[]) {
 
         this.id = id;
         this.name = name;
@@ -49,22 +49,22 @@ export class Category {
         parent.oncontextmenu = () => {
             ContextMenu.addToContext('category', this);
         }
-            let child = document.createElement('div') as HTMLDivElement;
-            child.classList.add('left-category-color');
-            child.style.background = this.color;
-            parent.appendChild(child);
+        let child = document.createElement('div') as HTMLDivElement;
+        child.classList.add('left-category-color');
+        child.style.background = this.color;
+        parent.appendChild(child);
 
-            child = document.createElement('div') as HTMLDivElement;
-            child.classList.add('left-category-background');
-            child.style.background = this.color;
-            parent.appendChild(child);
+        child = document.createElement('div') as HTMLDivElement;
+        child.classList.add('left-category-background');
+        child.style.background = this.color;
+        parent.appendChild(child);
 
-            child = document.createElement('div') as HTMLDivElement;
-            child.classList.add('left-category-name');
-                let subChild = document.createElement('p') as HTMLParagraphElement;
-                subChild.innerHTML = this.name;
-                child.appendChild(subChild);
-            parent.appendChild(child);
+        child = document.createElement('div') as HTMLDivElement;
+        child.classList.add('left-category-name');
+        let subChild = document.createElement('p') as HTMLParagraphElement;
+        subChild.innerHTML = this.name;
+        child.appendChild(subChild);
+        parent.appendChild(child);
         return parent;
 
         // <div id="left-category-${id}" class="left-category">
@@ -89,6 +89,7 @@ export class Category {
             Left.notes.curr.unchoose();
         this.addNotes();
         this.checkNotesDisplay();
+        this.checkState();
     }
 
     unchoose() {
@@ -138,11 +139,23 @@ export class Category {
 
     addNotes() {
         const notesLength = this.notes.length;
-        for(let i = 0; i < notesLength; i++) {
+        for (let i = 0; i < notesLength; i++)
             Left.notes.add(this.notes[i].leftHTML);
-        }
+    }
 
-        Left.notes.checkState();
+    addNote(newNote: Note) {
+        this.notes.push(newNote);
+        this.checkState();
+    }
+
+    checkState() {
+        if (this.notes.length !== 0) {
+            $id('left-noCategoryChosen').style.display = 'none';
+            $id('left-noNotes').style.display = 'none';
+        } else {
+            $id('left-noCategoryChosen').style.display = 'none';
+            $id('left-noNotes').style.display = 'block';
+        }
     }
 
     promptRemoveNote(note: Note) {
@@ -168,6 +181,8 @@ export class Category {
             }
             return false;
         });
+
+        this.checkState();
     }
 
     prepRemove() {
