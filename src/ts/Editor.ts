@@ -313,14 +313,20 @@ export const Editor: IEditor = {
                     return;
                 }
 
-                let lastId = Math.max.apply(Math, Left.categories.curr.notes.map((note: Note) => {
-                    return note.id;
-                }));
+                let newId;
+                if (Left.categories.curr.notes.length === 0)
+                    newId = 0;
+                else {
+                    newId = Math.max.apply(Math, Left.categories.curr.notes.map((note: Note) => {
+                        return note.id;
+                    }));
+                    newId++;
+                }
 
                 let today = formatDate(new Date());
 
                 let newNote = new Note(
-                    lastId + 1,
+                    newId,
                     name,
                     $id('main-note-edit-content').innerHTML,
                     false,

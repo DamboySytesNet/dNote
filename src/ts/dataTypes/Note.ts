@@ -193,7 +193,7 @@ export class Note {
             this.tagsBarHTML.style.display = 'block';
         } else {
             this.tagsBarHTML.style.display = 'none';
-            this.leftHTML.style.paddingBottom = '8px';
+            this.leftHTML.style.paddingBottom = '0px';
         }
     }
 
