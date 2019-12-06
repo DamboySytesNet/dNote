@@ -68,7 +68,7 @@ export const Categories: ICategories = {
 
     add(category: Category) {
         this.stack.push(category);
-
+        category.choose();
         this.checkState();
     },
 

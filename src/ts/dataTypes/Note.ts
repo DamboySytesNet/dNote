@@ -49,6 +49,7 @@ export class Note {
         this.dateCreated = dateCreated;
         this.dateModified = dateModified;
         this.leftHTML = this.buildLeftHTML();
+        this.checkDisplay();
     }
 
     buildLeftHTML(): HTMLDivElement {
@@ -78,7 +79,6 @@ export class Note {
         child.classList.add('left-note-additions');
         let img;
         if (this.pinned) {
-            parent.style.paddingTop = '20px';
             img = new Image();
             img.src = pinColor;
             img.setAttribute('name', 'left');
@@ -88,7 +88,6 @@ export class Note {
         }
 
         if (this.protection.active) {
-            parent.style.paddingTop = '20px';
             img = new Image();
             img.src = lockColor;
             img.setAttribute('name', 'right');
@@ -122,7 +121,6 @@ export class Note {
         child.classList.add('left-note-tags');
         const limit = this.tags.length > 5 ? 5 : this.tags.length;
         for (let i = 0; i < limit; i++) {
-            parent.style.paddingBottom = '30px';
             let tag = document.createElement('span') as HTMLSpanElement;
             tag.innerHTML = this.tags[i];
             tag.onclick = ev => {
@@ -134,7 +132,6 @@ export class Note {
         }
         parent.appendChild(child);
         this.tagsBarHTML = child;
-
 
         return parent;
 
@@ -189,7 +186,7 @@ export class Note {
 
         if (UserSettings.appearance.notes.showTags) {
             if (this.tags.length > 0)
-                this.leftHTML.style.paddingBottom = '34px';
+                this.leftHTML.style.paddingBottom = '27px';
             this.tagsBarHTML.style.display = 'block';
         } else {
             this.tagsBarHTML.style.display = 'none';

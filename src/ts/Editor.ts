@@ -315,7 +315,7 @@ export const Editor: IEditor = {
 
                 let newId;
                 if (Left.categories.curr.notes.length === 0)
-                    newId = 0;
+                    newId = 1;
                 else {
                     newId = Math.max.apply(Math, Left.categories.curr.notes.map((note: Note) => {
                         return note.id;

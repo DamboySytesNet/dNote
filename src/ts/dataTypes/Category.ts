@@ -20,7 +20,6 @@ export class Category {
         name: string,
         color: string,
         notes: Note[]) {
-
         this.id = id;
         this.name = name;
         this.color = color;

@@ -183,7 +183,6 @@
                 @include prefix(user-select, none, webkit moz ms);
                 cursor: pointer;
                 overflow: hidden;
-                padding-bottom: 8px;
 
                 &:not([name="chosen"]) {
                     &:hover {
