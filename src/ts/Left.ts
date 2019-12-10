@@ -3,8 +3,10 @@ import { ILeft } from './interfaces/ILeft';
 import { UserSettings } from './dataTypes/UserSettings';
 
 import { Categories } from './Categories';
+import { CategoryDialog } from './CategoryDialog';
 import { Editor } from './Editor';
 import { Main } from './Main';
+import { Settings } from './Settings';
 
 import { $id, getTextFromDOM } from './utils';
 
@@ -180,6 +182,18 @@ export const Left: ILeft = {
     },
 
     assignListeners(): void {
+        $id('left-actions-settings').addEventListener('click', () => {
+            Settings.open();
+        });
+
+        $id('left-categories-add').addEventListener('click', () => {
+            CategoryDialog.open();
+        });
+
+        $id('left-actions-addCategory').addEventListener('click', () => {
+            CategoryDialog.open();
+        });
+
         $id('left-notesSearch-input')
             .addEventListener('keyup', () => Left.search.applySearch());
 
@@ -197,11 +211,11 @@ export const Left: ILeft = {
 
         $id('left-actions-menu')
             .addEventListener('click', () => Left.categories.toggle());
-    },
-
-    keyHandler(ev) {
-        if (ev.key === 'Escape') {
-
-        }
     }
+
+    // keyHandler(ev) {
+    //     if (ev.key === 'Escape') {
+    //
+    //     }
+    // }
 };

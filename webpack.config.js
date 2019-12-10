@@ -87,7 +87,6 @@ module.exports = {
                     loader: 'json-loader',
                     options: {
                         name: '[name].[ext]',
-                        // publicPath: '../data/',
                         outputPath: './data/'
                     }
                 }

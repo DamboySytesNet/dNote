@@ -18,22 +18,9 @@ export const Main: IMain = {
     filesToLoad: 2,
 
     init() {
-        this.settings.init();
+        this.settings.load();
 
         Editor.init();
-
-        //? not its place
-        $id('left-actions-settings').addEventListener('click', () => {
-            Settings.open();
-        });
-
-        $id('left-categories-add').addEventListener('click', () => {
-            CategoryDialog.open();
-        });
-
-        $id('left-actions-addCategory').addEventListener('click', () => {
-            CategoryDialog.open();
-        });
     },
 
     content: {
@@ -99,10 +86,6 @@ export const Main: IMain = {
     },
 
     settings: {
-        init() {
-            this.load();
-        },
-
         load() {
             const thisRef = this;
 

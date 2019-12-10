@@ -1,10 +1,5 @@
 export interface IMainFileHandlers {
     /**
-     * Init loading
-     */
-    init(): void;
-
-    /**
      * Load data from file
      */
     load(): void;

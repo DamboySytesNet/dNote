@@ -32,5 +32,5 @@ export interface ILeft {
     /**
      * Assign key handler
      */
-    keyHandler(ev: KeyboardEvent): void
+    // keyHandler(ev: KeyboardEvent): void
 };

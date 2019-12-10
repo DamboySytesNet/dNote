@@ -2,17 +2,19 @@ import { IMainFileHandlers } from './IMainFileHandlers';
 
 export interface IMain {
     /**
-     * Number of files that already has been read to app
+     * Number of files that already has been loaded
      */
     filesLoaded: number;
 
     /**
-     * Number of files that has to be read to app
+     * Number of files that are necessary to run app
      */
     filesToLoad: number;
 
     /**
-     * Initialize app
+     * Starts basic app functionality
+     * 1. Loads settings
+     * 2. Initializes editor
      */
     init(): void;
 

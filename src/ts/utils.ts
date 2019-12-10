@@ -21,7 +21,7 @@ export function decToHex(dec: number, format: number) {
  * @param selector selector of the searched element
  */
 export function $(selector: string): NodeList {
-	return document.querySelectorAll(selector);
+    return document.querySelectorAll(selector);
 }
 
 /**
@@ -29,13 +29,13 @@ export function $(selector: string): NodeList {
  * @param id id of the searched element
  */
 export function $id(id: string): HTMLElement {
-	return document.getElementById(id);
+    return document.getElementById(id);
 }
 
 /**
  * Randomize integers from given range
  */
-export function randomize(min: number, max:number): number {
+export function randomize(min: number, max: number): number {
     if (max < min)
         return 0;
 
@@ -73,9 +73,9 @@ export function getTextFromDOM(el: HTMLElement | ChildNode) {
  * @param date date to format
  */
 export function formatDate(date: Date): string {
-    let day   = date.getDay();
+    let day = date.getDay();
     let month = date.getMonth();
-    let year  = date.getFullYear();
+    let year = date.getFullYear();
 
     let ret = `${year}-`;
 

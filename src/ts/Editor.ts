@@ -177,6 +177,9 @@ export const Editor: IEditor = {
     },
 
     open(newNote = false) {
+        if (Left.categories.curr === null)
+            return;
+
         if (Left.notes.curr !== null && newNote === false) {
             this.editorViewed = false;
             this.editorEdited = false;

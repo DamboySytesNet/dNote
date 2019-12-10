@@ -3,6 +3,8 @@ import '../icons/app/128x128.png';
 
 import * as Electron from 'electron';
 
+import { IWindowAction } from './interfaces/IWindowAction';
+
 import { Alert } from './Alert';
 import { CategoryDialog } from './CategoryDialog';
 import { ColorPicker } from './ColorPicker';
@@ -18,20 +20,8 @@ import { $id } from './utils';
 
 const Remote = Electron.remote;
 
-const WindowAction = {
-    init() {
-        Left.assignListeners();
-        ContextMenu.assignListeners();
-        Editor.assignListeners();
-        Settings.assignListeners();
-
-        Main.init();
-
-        this.assignListeners();
-    },
-
+const WindowAction: IWindowAction = {
     keyHandler(ev: KeyboardEvent) {
-        Left.keyHandler(ev);
         Alert.keyHandler(ev);
         Confirm.keyHandler(ev);
         Input.keyHandler(ev);
@@ -45,12 +35,17 @@ const WindowAction = {
     },
 
     assignListeners() {
-        document.body.addEventListener('click', (ev: KeyboardEvent) => {
-            this.keyHandler(ev);
-        });
+        Left.assignListeners();
+        ContextMenu.assignListeners();
+        Editor.assignListeners();
+        Settings.assignListeners();
 
         $id('header-minimize').addEventListener('click', () => {
             this.minimize();
+        });
+
+        $id('header-maximize').addEventListener('click', () => {
+            this.maximize();
         });
 
         $id('header-close').addEventListener('click', () => {
@@ -63,13 +58,13 @@ const WindowAction = {
         Remote.BrowserWindow.getFocusedWindow().minimize();
     },
 
-    // maximize() {
-    // 	//Maximize the window
-    // 	if (!REMOTE.BrowserWindow.getFocusedWindow().isMaximized())
-    // 		REMOTE.BrowserWindow.getFocusedWindow().maximize();
-    // 	else
-    // 		REMOTE.BrowserWindow.getFocusedWindow().unmaximize();
-    // },
+    maximize() {
+        //Maximize the window
+        if (!Remote.BrowserWindow.getFocusedWindow().isMaximized())
+            Remote.BrowserWindow.getFocusedWindow().maximize();
+        else
+            Remote.BrowserWindow.getFocusedWindow().unmaximize();
+    },
 
     close() {
         window.close();
@@ -77,5 +72,10 @@ const WindowAction = {
 };
 
 window.onload = () => {
-    WindowAction.init();
+    WindowAction.assignListeners();
+    Main.init();
 }
+
+window.addEventListener('keyup', (ev: KeyboardEvent) => {
+    WindowAction.keyHandler(ev);
+});
