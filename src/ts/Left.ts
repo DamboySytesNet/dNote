@@ -10,6 +10,9 @@ import { Settings } from './Settings';
 
 import { $id, getTextFromDOM } from './utils';
 
+const pinColorImg = require('../icons/common/pin_color.png');
+const lockColorImg = require('../icons/common/lock_color.png');
+
 export const Left: ILeft = {
     search: {
         applySearch() {
@@ -56,6 +59,7 @@ export const Left: ILeft = {
         },
 
         toggle() {
+            //Show / hide
             this.shown = !this.shown;
 
             if (this.shown) {
@@ -66,6 +70,7 @@ export const Left: ILeft = {
                 $id('left-notes').style.width = 'calc(100% - 1px)';
             }
 
+            // Save state
             if (UserSettings.appearance.categories.state === 0) {
                 UserSettings.appearance.categories.shown = this.shown;
                 Main.saveSettings();
@@ -120,7 +125,7 @@ export const Left: ILeft = {
             let img;
             if (note.pinned) {
                 img = new Image();
-                img.src = 'icons/common/pin_color.png';
+                img.src = pinColorImg;
                 img.setAttribute('name', 'left');
                 img.alt = 'Pinned';
                 img.title = 'Pinned';
@@ -129,7 +134,7 @@ export const Left: ILeft = {
 
             if (note.protection.active) {
                 img = new Image();
-                img.src = 'icons/common/lock_color.png';
+                img.src = lockColorImg;
                 img.setAttribute('name', 'right');
                 img.alt = 'Password protected';
                 img.title = 'Password protected';

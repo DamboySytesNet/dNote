@@ -15,7 +15,6 @@ export const Settings: ISettings = {
 
     init() {
         this.initialized = true;
-        this.choose('general');
 
         /** GENERAL */
 
@@ -50,7 +49,10 @@ export const Settings: ISettings = {
         (<HTMLInputElement>$id('settings-appearance-top-showNotes')).checked = UserSettings.appearance.top.addNote;
         (<HTMLInputElement>$id('settings-appearance-top-showCategories')).checked = UserSettings.appearance.top.addCategory;
 
+        /** END */
+
         Left.checkShowTop();
+        this.choose('general');
     },
 
     open() {
@@ -91,7 +93,7 @@ export const Settings: ISettings = {
 
     unchoose() {
         // For timeout
-        let sectionToUnset = this.section;
+        const sectionToUnset = this.section;
 
         $id(`settings-section-${sectionToUnset}`).setAttribute('name', '');
 

@@ -6,7 +6,6 @@ import { IUserSettings } from './interfaces/IUserSettings';
 import { UserSettings, setter as UserSettingsSetter } from './dataTypes/UserSettings';
 
 import { Categories } from './Categories';
-import { CategoryDialog } from './CategoryDialog';
 import { Editor } from './Editor';
 import { Left } from './Left';
 import { Settings } from './Settings';
@@ -24,10 +23,6 @@ export const Main: IMain = {
     },
 
     content: {
-        init() {
-            this.load();
-        },
-
         load() {
             const thisRef = this;
 
@@ -89,7 +84,7 @@ export const Main: IMain = {
         load() {
             const thisRef = this;
 
-            function loadingFailed(err: any) {
+            const loadingFailed = (err: any) => {
                 // If file not found
                 if (err.code === 'ENOENT') {
                     // Create data dir if needed
@@ -115,9 +110,9 @@ export const Main: IMain = {
                 './dist/data/settings.json',
                 'utf8',
                 (err: any, fileContent: string) => {
-                    if (err) {
+                    if (err)
                         loadingFailed(err);
-                    } else
+                    else
                         this.parse(fileContent);
                 },
             );
@@ -125,53 +120,48 @@ export const Main: IMain = {
 
         parse(strFromFile) {
             let parsedData = [];
+
             try {
                 parsedData = JSON.parse(strFromFile);
+                this.handle(parsedData);
             } catch (e) {
                 console.error(['Main.init()', e, strFromFile]);
                 Main.failure();
-            } finally {
-                this.handle(parsedData);
             }
         },
 
         handle(parsedData: IUserSettings) {
+            // If default settings are used
             if (UserSettings === parsedData) {
                 Main.saveSettings();
-                Settings.init();
-                Main.content.init();
-                Main.stopLoading();
-                return;
+            } else {
+                // Dumb? way to validate settings
+                if (typeof parsedData.general !== 'undefined' &&
+                    typeof parsedData.general.sort !== 'undefined' &&
+                    typeof parsedData.general.sort.type !== 'undefined' &&
+                    typeof parsedData.general.sort.asc !== 'undefined' &&
+                    typeof parsedData.appearance !== 'undefined' &&
+                    typeof parsedData.appearance.categories !== 'undefined' &&
+                    typeof parsedData.appearance.categories.state !== 'undefined' &&
+                    typeof parsedData.appearance.categories.shown !== 'undefined' &&
+                    typeof parsedData.appearance.notes !== 'undefined' &&
+                    typeof parsedData.appearance.notes.showTop !== 'undefined' &&
+                    typeof parsedData.appearance.notes.showText !== 'undefined' &&
+                    typeof parsedData.appearance.notes.showTags !== 'undefined' &&
+                    typeof parsedData.appearance.top !== 'undefined' &&
+                    typeof parsedData.appearance.top.addNote !== 'undefined' &&
+                    typeof parsedData.appearance.top.addCategory !== 'undefined'
+                ) {
+                    UserSettingsSetter(parsedData);
+                } else {
+                    alert('Using default settings...');
+                    Main.saveSettings();
+                }
             }
 
-            // Dumb? way to validate if settings are ok
-            if (typeof parsedData.general !== 'undefined' &&
-                typeof parsedData.general.sort !== 'undefined' &&
-                typeof parsedData.general.sort.type !== 'undefined' &&
-                typeof parsedData.general.sort.asc !== 'undefined' &&
-                typeof parsedData.appearance !== 'undefined' &&
-                typeof parsedData.appearance.categories !== 'undefined' &&
-                typeof parsedData.appearance.categories.state !== 'undefined' &&
-                typeof parsedData.appearance.categories.shown !== 'undefined' &&
-                typeof parsedData.appearance.notes !== 'undefined' &&
-                typeof parsedData.appearance.notes.showTop !== 'undefined' &&
-                typeof parsedData.appearance.notes.showText !== 'undefined' &&
-                typeof parsedData.appearance.notes.showTags !== 'undefined' &&
-                typeof parsedData.appearance.top !== 'undefined' &&
-                typeof parsedData.appearance.top.addNote !== 'undefined' &&
-                typeof parsedData.appearance.top.addCategory !== 'undefined'
-            ) {
-                UserSettingsSetter(parsedData);
-                Settings.init();
-                Main.content.init();
-                Main.stopLoading();
-            } else {
-                alert('Using default settings...');
-                Main.saveSettings();
-                Settings.init();
-                Main.content.init();
-                Main.stopLoading();
-            }
+            Settings.init();
+            Main.content.load();
+            Main.stopLoading();
         }
     },
 

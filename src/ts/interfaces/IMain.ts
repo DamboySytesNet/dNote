@@ -29,12 +29,12 @@ export interface IMain {
     /**
      * Save current categories and notes to a file
      */
-    saveContent(): void;
+    saveContent(): boolean;
 
     /**
      * Save current settings to a file
      */
-    saveSettings(): void;
+    saveSettings(): boolean;
 
     /**
      * Inform user about failure in reading files and exit app afterwards
