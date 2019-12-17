@@ -12,6 +12,7 @@ export interface IEditor {
     /** Cache already rendered content (editing mode) */
     editorEdited: boolean,
 
+    /** */
     chosenColors: string[];
     chosenColorsCallbacks: any[];
     words: number;

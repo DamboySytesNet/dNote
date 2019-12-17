@@ -95,7 +95,7 @@ export class Category implements ICategory {
             Left.notes.curr.unchoose();
 
         // Append notes to tab
-        this.appendNotes();
+        this.rebuildNotes();
 
         // Check how every note is displayed
         this.checkNotesDisplay();
@@ -141,21 +141,16 @@ export class Category implements ICategory {
     }
 
     rebuildNotes() {
-        $id('left-notes-content').innerHTML = '';
-        const limit = this.notes.length;
-        for (let i = 0; i < limit; i++)
-            $id('left-notes-content').appendChild(this.notes[i].leftHTML);
+        Left.notes.clear();
+
+        for (let note of this.notes)
+            $id('left-notes-content').appendChild(note.leftHTML);
     }
 
     checkNotesDisplay() {
         this.notes.forEach(note => {
             note.checkDisplay();
         });
-    }
-
-    appendNotes() {
-        for (let note of this.notes)
-            Left.notes.add(note.leftHTML);
     }
 
     addNote(newNote: INote) {
