@@ -26,9 +26,9 @@ export const Left: ILeft = {
 
                 let div = document.createElement('div');
                 div.innerHTML = el.content;
-                if (el.name.indexOf(value) > -1 ||
-                    div.textContent.indexOf(value) > -1 ||
-                    el.tags.indexOf(value) > -1)
+                if (el.name.includes(value) ||
+                    div.textContent.includes(value) ||
+                    el.tags.includes(value))
                     el.leftHTML.style.display = 'block';
                 else
                     el.leftHTML.style.display = 'none';
@@ -47,15 +47,12 @@ export const Left: ILeft = {
 
         init() {
             // Add all categories to left tab
-            const categoriesLength = Categories.stack.length;
-            for (let i = 0; i < categoriesLength; i++)
-                this.add(Categories.stack[i].leftHTML);
+            for (let category of Categories.stack)
+                this.add(category.leftHTML);
 
             // Select first category as default if exists
             if (Categories.stack.length !== 0)
                 Categories.stack[0].choose();
-
-            Categories.checkState();
         },
 
         toggle() {
@@ -77,9 +74,9 @@ export const Left: ILeft = {
             }
         },
 
-        add(category) {
+        add(categoryDOM) {
             $id('left-categories-content')
-                .appendChild(category);
+                .appendChild(categoryDOM);
         },
 
         update(category) {
@@ -95,6 +92,10 @@ export const Left: ILeft = {
                 .querySelector('.left-category-name > p'))
                 .innerHTML = category.name;
         },
+
+        clear() {
+            $id('left-categories').innerHTML = '';
+        }
     },
 
     notes: {
@@ -107,10 +108,6 @@ export const Left: ILeft = {
             } else {
                 Left.categories.curr.checkState();
             }
-        },
-
-        clear() {
-            $id('left-notes-content').innerHTML = '';
         },
 
         add(note) {
@@ -171,6 +168,10 @@ export const Left: ILeft = {
             }
 
             note.checkDisplay();
+        },
+
+        clear() {
+            $id('left-notes-content').innerHTML = '';
         }
     },
 

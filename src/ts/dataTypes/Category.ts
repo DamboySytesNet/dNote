@@ -1,25 +1,26 @@
-import { Note } from './Note';
-import { UserSettings } from './UserSettings';
+import { ICategory } from '../interfaces/ICategory';
+import { INote } from '../interfaces/INote';
 
 import { Confirm } from '../Confirm';
 import { ContextMenu } from '../ContextMenu';
 import { Editor } from '../Editor';
 import { Left } from '../Left';
 import { Main } from '../Main';
+import { UserSettings } from './UserSettings';
 
 import { $id } from '../utils';
 
-export class Category {
+export class Category implements ICategory {
     id: number;
     name: string;
     color: string;
-    notes: Note[];
+    notes: INote[];
     leftHTML: HTMLDivElement;
 
     constructor(id: number,
         name: string,
         color: string,
-        notes: Note[]) {
+        notes: INote[]) {
         this.id = id;
         this.name = name;
         this.color = color;
@@ -76,25 +77,41 @@ export class Category {
     }
 
     choose() {
+        // If any other category is chosen, unchoose it
         if (Left.categories.curr !== null)
             Left.categories.curr.unchoose();
 
+        // Update current category
         Left.categories.curr = this;
+
+        // Highlight HTML element
         this.leftHTML.setAttribute('name', 'chosen');
 
+        // Clear search input
         Left.search.clear();
 
+        // If any other note was chosen, unchoose it
         if (Left.notes.curr !== null)
             Left.notes.curr.unchoose();
-        this.addNotes();
+
+        // Append notes to tab
+        this.appendNotes();
+
+        // Check how every note is displayed
         this.checkNotesDisplay();
+
+        // Check if info should be displayed
         this.checkState();
     }
 
     unchoose() {
+        // Set current category as null
         Left.categories.curr = null;
-        Left.notes.checkState();
+
+        // Clear notes
         Left.notes.clear();
+
+        // HTML element unchoose
         this.leftHTML.setAttribute('name', '');
     }
 
@@ -106,7 +123,7 @@ export class Category {
         Main.saveContent();
     }
 
-    sortNotes(notes: Note[]) {
+    sortNotes(notes: INote[]) {
         return notes.sort((a, b) => {
             if (a.pinned === b.pinned) {
                 let sign = UserSettings.general.sort.asc === true ? 1 : -1;
@@ -136,13 +153,12 @@ export class Category {
         });
     }
 
-    addNotes() {
-        const notesLength = this.notes.length;
-        for (let i = 0; i < notesLength; i++)
-            Left.notes.add(this.notes[i].leftHTML);
+    appendNotes() {
+        for (let note of this.notes)
+            Left.notes.add(note.leftHTML);
     }
 
-    addNote(newNote: Note) {
+    addNote(newNote: INote) {
         this.notes.push(newNote);
         this.checkState();
     }
@@ -157,7 +173,7 @@ export class Category {
         }
     }
 
-    promptRemoveNote(note: Note) {
+    promptRemoveNote(note: INote) {
         Confirm.open(
             'Delete a note',
             `You are about to delete a note.
@@ -170,7 +186,7 @@ export class Category {
         );
     }
 
-    removeNote(searchedNote: Note) {
+    removeNote(searchedNote: INote) {
         this.notes.find((note, index) => {
             if (searchedNote === note) {
                 note.prepRemove();
@@ -185,9 +201,11 @@ export class Category {
     }
 
     prepRemove() {
+        // If this category is currently selected, then unchoose it
         if (Left.categories.curr === this)
             Left.categories.curr.unchoose();
 
+        // Remove its html body
         this.leftHTML.remove();
     }
 };

@@ -4,6 +4,7 @@ import { Category } from './dataTypes/Category';
 import { Note } from './dataTypes/Note';
 import { UserSettings } from './dataTypes/UserSettings';
 
+import { Left } from './Left';
 import { Main } from './Main';
 
 import { $id } from './utils';
@@ -13,77 +14,88 @@ export const Categories: ICategories = {
 
     init(categories) {
         // For every category from file
-        const categoriesLength = categories.length;
-        for (let i = 0; i < categoriesLength; i++) {
+        for (let category of categories) {
             // Parse its notes
             let parsedNotes = []
-            const notesLength = categories[i].notes.length;
-            for (let j = 0; j < notesLength; j++) {
+            for (let note of category.notes) {
                 parsedNotes.push(
                     new Note(
-                        categories[i].notes[j].id,
-                        categories[i].notes[j].name,
-                        categories[i].notes[j].content,
-                        categories[i].notes[j].pinned,
-                        categories[i].notes[j].protection,
-                        categories[i].notes[j].tags,
-                        categories[i].notes[j].dateCreated,
-                        categories[i].notes[j].dateModified
+                        note.id,
+                        note.name,
+                        note.content,
+                        note.pinned,
+                        note.protection,
+                        note.tags,
+                        note.dateCreated,
+                        note.dateModified
                     )
                 );
             }
 
-            // Parse it into js class object
+            // Push category to stack
             this.stack.push(
                 new Category(
-                    categories[i].id,
-                    categories[i].name,
-                    categories[i].color,
+                    category.id,
+                    category.name,
+                    category.color,
                     parsedNotes
                 )
             );
         }
 
+        this.checkState();
         this.sort();
     },
 
     sort() {
+        // Sort stack
         this.stack.sort((a: Category, b: Category) => {
+            // Check if sorting asc or desc
             let sign = UserSettings.general.sort.asc === true ? 1 : -1;
 
-            if (UserSettings.general.sort.type === 1) {
+            // Sort by category name or by ID (creation order)
+            if (UserSettings.general.sort.type === 1)
                 return a.name.localeCompare(b.name) * sign;
-            } else {
+            else
                 return (a.id - b.id) * sign;
-            }
         });
     },
 
     rebuild() {
-        $id('left-categories').innerHTML = '';
-        const limit = this.stack.length;
-        for (let i = 0; i < limit; i++)
-            $id('left-categories').appendChild(this.stack[i].leftHTML);
+        // Clear content
+        Left.categories.clear();
+
+        // Append categories from stack
+        for (let category of this.stack)
+            $id('left-categories').appendChild(category.leftHTML);
     },
 
-    add(category: Category) {
+    add(category) {
+        // Add
         this.stack.push(category);
+
+        // Select
         category.choose();
+
+        // Check
         this.checkState();
     },
 
     remove(searchedCategory) {
-        this.stack.find((category: Category, index: number) => {
-            if (searchedCategory === category) {
-                category.prepRemove();
-                this.stack.splice(index, 1);
-                Main.saveContent();
-                return true;
-            }
-            return false;
+        // Find index of search category
+        const index = this.stack.findIndex((category: Category) => {
+            return searchedCategory === category;
         });
 
-        this.checkState();
+        // If found
+        if (index > -1) {
+            this.stack[index].prepRemove();
+            this.stack.splice(index, 1);
+
+            this.checkState();
+
+            Main.saveContent();
+        }
     },
 
     checkState() {

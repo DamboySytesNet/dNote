@@ -31,4 +31,9 @@ export interface ILeftCategories {
      * @param obj - category object to be updated
      */
     update(obj: Category): void;
+
+    /**
+     * Remove all categories from tab
+     */
+    clear(): void;
 }

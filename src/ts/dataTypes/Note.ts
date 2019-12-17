@@ -1,5 +1,6 @@
 import { UserSettings } from './UserSettings';
 
+import { INote } from '../interfaces/INote';
 import { IProtection } from '../interfaces/IProtection';
 
 import { Confirm } from '../Confirm';
@@ -16,7 +17,7 @@ import { $id, getTextFromDOM, formatDate } from '../utils';
 const pinColor = require('../../icons/common/pin_color.png');
 const lockColor = require('../../icons/common/lock_color.png');
 
-export class Note {
+export class Note implements INote {
     id: number;
     name: string;
     content: string;
@@ -52,7 +53,7 @@ export class Note {
         this.checkDisplay();
     }
 
-    buildLeftHTML(): HTMLDivElement {
+    buildLeftHTML() {
         let parent = document.createElement('div') as HTMLDivElement;
         parent.id = `left-note-${this.id}`;
         parent.classList.add('left-note');

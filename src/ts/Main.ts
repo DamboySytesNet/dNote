@@ -22,64 +22,6 @@ export const Main: IMain = {
         Editor.init();
     },
 
-    content: {
-        load() {
-            const thisRef = this;
-
-            function loadingFailed(err: any) {
-                // If file not found
-                if (err.code === 'ENOENT') {
-                    // Create data dir if needed
-                    if (!FS.existsSync('./dist/data'))
-                        FS.mkdirSync('./dist/data');
-
-                    // Create new data for notes
-                    FS.writeFile(
-                        './dist/data/dNote.json',
-                        '[]',
-                        'utf8',
-                        () => {
-                            thisRef.handle([]);
-                        });
-                } else {
-                    console.error(['Main.loadContent()', err]);
-                    Main.failure();
-                }
-            };
-
-            // Read content from file
-            FS.readFile(
-                './dist/data/dNote.json',
-                'utf8',
-                (err: any, fileContent: string) => {
-                    if (err)
-                        loadingFailed(err);
-                    else
-                        this.parse(fileContent);
-                }
-            );
-        },
-
-        parse(strFromFile) {
-            let parsedData = [];
-            try {
-                parsedData = JSON.parse(strFromFile);
-            } catch (e) {
-                console.error(['Main.init()', e, strFromFile]);
-                Main.failure();
-            } finally {
-                this.handle(parsedData);
-            }
-        },
-
-        handle(parsedData) {
-            Main.stopLoading();
-
-            Categories.init(parsedData);
-            Left.categories.init();
-        }
-    },
-
     settings: {
         load() {
             const thisRef = this;
@@ -87,7 +29,7 @@ export const Main: IMain = {
             const loadingFailed = (err: any) => {
                 // If file not found
                 if (err.code === 'ENOENT') {
-                    // Create data dir if needed
+                    // Create 'data' directory if needed
                     if (!FS.existsSync('./dist/data'))
                         FS.mkdirSync('./dist/data');
 
@@ -165,6 +107,64 @@ export const Main: IMain = {
         }
     },
 
+    content: {
+        load() {
+            const thisRef = this;
+
+            function loadingFailed(err: any) {
+                // If file not found
+                if (err.code === 'ENOENT') {
+                    // Create data dir if needed
+                    if (!FS.existsSync('./dist/data'))
+                        FS.mkdirSync('./dist/data');
+
+                    // Create new data for notes
+                    FS.writeFile(
+                        './dist/data/dNote.json',
+                        '[]',
+                        'utf8',
+                        () => {
+                            thisRef.handle([]);
+                        });
+                } else {
+                    console.error(['Main.loadContent()', err]);
+                    Main.failure();
+                }
+            };
+
+            // Read content from file
+            FS.readFile(
+                './dist/data/dNote.json',
+                'utf8',
+                (err: any, fileContent: string) => {
+                    if (err)
+                        loadingFailed(err);
+                    else
+                        this.parse(fileContent);
+                }
+            );
+        },
+
+        parse(strFromFile) {
+            let parsedData = [];
+            try {
+                parsedData = JSON.parse(strFromFile);
+            } catch (e) {
+                console.error(['Main.init()', e, strFromFile]);
+                Main.failure();
+            } finally {
+                this.handle(parsedData);
+            }
+        },
+
+        handle(parsedData) {
+            Main.stopLoading();
+
+            Categories.init(parsedData);
+            Left.categories.init();
+        }
+    },
+
     stopLoading() {
         this.filesLoaded++;
 
@@ -207,7 +207,7 @@ export const Main: IMain = {
     },
 
     failure() {
-        confirm(`Unfortunately, app was not able to start. It means that it encountered problems with your data. If you changed it manually, it is time to bring backup. To restart data to default rename "data" folder...`);
+        alert(`Unfortunately, app was not able to start. It means that it encountered problems with your data. If you changed it manually, it is time to bring backup. To restart data to default rename "data" folder...`);
         window.close();
     }
 };

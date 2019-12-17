@@ -54,10 +54,14 @@ export const Editor: IEditor = {
             });
         }
 
+        // Init colors for background and foreground
         initColors('fore');
         initColors('back');
+
+        // Init custom colors for background and foreground
         this.colorCustomColors();
 
+        // Assign header listeners
         const limit = 5;
         for (let i = 1; i <= limit; i++) {
             $id(`main-note-edit-heading-${i}`).addEventListener('click', () => {
@@ -66,6 +70,7 @@ export const Editor: IEditor = {
             });
         }
 
+        // Assign 'clear header' listener
         $id('main-note-edit-heading-0').addEventListener('click', () => {
             Editor.restoreSelection();
             document.execCommand('formatBlock', false, 'div');
