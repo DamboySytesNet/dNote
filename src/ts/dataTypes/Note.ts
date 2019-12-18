@@ -30,6 +30,7 @@ export class Note implements INote {
     leftHTML: HTMLDivElement;
 
     topBarHTML: HTMLDivElement;
+    nameBarHTML: HTMLDivElement;
     textBarHTML: HTMLDivElement;
     tagsBarHTML: HTMLDivElement;
 
@@ -76,63 +77,31 @@ export class Note implements INote {
         parent.oncontextmenu = () => {
             ContextMenu.addToContext('note', this);
         };
+
         let child = document.createElement('div') as HTMLDivElement;
         child.classList.add('left-note-additions');
-        let img;
-        if (this.pinned) {
-            img = new Image();
-            img.src = pinColor;
-            img.setAttribute('name', 'left');
-            img.alt = 'Pinned';
-            img.title = 'Pinned';
-            child.appendChild(img);
-        }
-
-        if (this.protection.active) {
-            img = new Image();
-            img.src = lockColor;
-            img.setAttribute('name', 'right');
-            img.alt = 'Password protected';
-            img.title = 'Password protected';
-            child.appendChild(img);
-        }
-        parent.appendChild(child);
+        parent.appendChild(child)
         this.topBarHTML = child;
+        this.rebuildLeftAdditions();
 
         child = document.createElement('div') as HTMLDivElement;
         child.classList.add('left-note-name');
         let subChild = document.createElement('p') as HTMLParagraphElement;
-        subChild.innerHTML = this.name;
+        this.nameBarHTML = subChild;
         child.appendChild(subChild);
         parent.appendChild(child);
-
 
         child = document.createElement('div') as HTMLDivElement;
         child.classList.add('left-note-text');
-        let tmp = document.createElement('div') as HTMLDivElement;
-        tmp.innerHTML = this.content.substr(0, 150);
-
-        subChild = document.createElement('p') as HTMLParagraphElement;
-        subChild.innerHTML = getTextFromDOM(tmp);
-        child.appendChild(subChild);
         parent.appendChild(child);
         this.textBarHTML = child;
+        this.rebuildLeftContent();
 
         child = document.createElement('div') as HTMLDivElement;
         child.classList.add('left-note-tags');
-        const limit = this.tags.length > 5 ? 5 : this.tags.length;
-        for (let i = 0; i < limit; i++) {
-            let tag = document.createElement('span') as HTMLSpanElement;
-            tag.innerHTML = this.tags[i];
-            tag.onclick = ev => {
-                ev.stopPropagation();
-                (<HTMLInputElement>$id('left-notesSearch-input')).value = this.tags[i];
-                Left.search.applySearch();
-            }
-            child.appendChild(tag);
-        }
         parent.appendChild(child);
         this.tagsBarHTML = child;
+        this.rebuildLeftTags();
 
         return parent;
 
@@ -170,50 +139,121 @@ export class Note implements INote {
         this.leftHTML.setAttribute('name', '');
     }
 
-    checkDisplay() {
-        if (UserSettings.appearance.notes.showTop) {
-            this.topBarHTML.style.display = 'block';
-            if (this.pinned || this.protection.active)
-                this.leftHTML.style.paddingTop = '20px';
-        } else {
+    rebuildLeftAdditions() {
+        this.topBarHTML.innerHTML = '';
+
+        if (!UserSettings.appearance.notes.showTop) {
             this.topBarHTML.style.display = 'none';
-            this.leftHTML.style.paddingTop = '0px';
+            return;
         }
 
-        if (UserSettings.appearance.notes.showText)
-            this.textBarHTML.style.display = 'block';
-        else
+        if (!this.pinned && !this.protection.active) {
+            this.topBarHTML.style.display = 'none';
+            return;
+        }
+
+        this.topBarHTML.style.display = 'block';
+        let img;
+        if (this.pinned) {
+            img = new Image();
+            img.src = pinColor;
+            img.setAttribute('name', 'left');
+            img.alt = 'Pinned';
+            img.title = 'Pinned';
+            this.topBarHTML.appendChild(img);
+        }
+
+        if (this.protection.active) {
+            img = new Image();
+            img.src = lockColor;
+            img.setAttribute('name', 'right');
+            img.alt = 'Password protected';
+            img.title = 'Password protected';
+            this.topBarHTML.appendChild(img);
+        }
+    }
+
+    rebuildLeftContent() {
+        this.nameBarHTML.innerHTML = this.name;
+        this.textBarHTML.innerHTML = '';
+
+        if (!UserSettings.appearance.notes.showText) {
             this.textBarHTML.style.display = 'none';
-
-        if (UserSettings.appearance.notes.showTags) {
-            if (this.tags.length > 0)
-                this.leftHTML.style.paddingBottom = '27px';
-            this.tagsBarHTML.style.display = 'block';
-        } else {
-            this.tagsBarHTML.style.display = 'none';
-            this.leftHTML.style.paddingBottom = '0px';
+            return;
         }
+
+        if (this.content.length === 0) {
+            this.textBarHTML.style.display = 'none';
+            return;
+        }
+
+        this.textBarHTML.style.display = 'block';
+
+        let tmp = document.createElement('div') as HTMLDivElement;
+        tmp.innerHTML = this.content.substr(0, 150);
+        this.textBarHTML.innerHTML = getTextFromDOM(tmp);
+    }
+
+    rebuildLeftTags() {
+        this.tagsBarHTML.innerHTML = '';
+
+        if (!UserSettings.appearance.notes.showTags) {
+            this.tagsBarHTML.style.display = 'none';
+            return;
+        }
+
+        if (this.tags.length === 0) {
+            this.tagsBarHTML.style.display = 'none';
+            return;
+        }
+
+        this.tagsBarHTML.style.display = 'block';
+
+        const limit = this.tags.length > 5 ? 5 : this.tags.length;
+        let i = 0;
+        for (let tag of this.tags) {
+            if (i >= limit)
+                break;
+
+            let tagElement = document.createElement('span') as HTMLSpanElement;
+            tagElement.innerHTML = tag;
+            tagElement.onclick = ev => {
+                ev.stopPropagation();
+                Left.search.applySearch(tag);
+            }
+            this.tagsBarHTML.appendChild(tagElement);
+            i++;
+        }
+    }
+
+    checkDisplay() {
+        this.rebuildLeftAdditions();
+        this.rebuildLeftContent();
+        this.rebuildLeftTags();
     }
 
     update(name: string, content: string) {
         this.name = name;
         this.content = content;
         this.dateModified = formatDate(new Date());
-        Left.notes.update(this, false);
+        this.rebuildLeftContent();
+        $id('footer-mDate').innerHTML = this.dateModified;
 
         Main.saveContent();
     }
 
     addTag(value: string) {
         this.tags.push(value);
-        Left.notes.update(this, true);
+        this.rebuildLeftTags();
+        $id('footer-mDate').innerHTML = this.dateModified;
 
         Main.saveContent();
     }
 
     removeTag(it: number) {
         this.tags.splice(it, 1);
-        Left.notes.update(this, true);
+        this.rebuildLeftTags();
+        $id('footer-mDate').innerHTML = this.dateModified;
 
         Main.saveContent();
     }

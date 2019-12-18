@@ -15,7 +15,10 @@ const lockColorImg = require('../icons/common/lock_color.png');
 
 export const Left: ILeft = {
     search: {
-        applySearch() {
+        applySearch(searchedValue) {
+            if (typeof searchedValue !== 'undefined')
+                (<HTMLInputElement>$id('left-notesSearch-input')).value = searchedValue
+
             const value = (<HTMLInputElement>$id('left-notesSearch-input')).value;
 
             for (let el of Left.categories.curr.notes) {
@@ -113,61 +116,6 @@ export const Left: ILeft = {
         add(note) {
             $id('left-notes-content')
                 .appendChild(note);
-        },
-
-        update(note, onlyOptions) {
-            let topPart = note.leftHTML.querySelector('.left-note-additions');
-
-            topPart.innerHTML = '';
-            let img;
-            if (note.pinned) {
-                img = new Image();
-                img.src = pinColorImg;
-                img.setAttribute('name', 'left');
-                img.alt = 'Pinned';
-                img.title = 'Pinned';
-                topPart.appendChild(img);
-            }
-
-            if (note.protection.active) {
-                img = new Image();
-                img.src = lockColorImg;
-                img.setAttribute('name', 'right');
-                img.alt = 'Password protected';
-                img.title = 'Password protected';
-                topPart.appendChild(img);
-            }
-
-            let tagPart = note.leftHTML.querySelector('.left-note-tags');
-            tagPart.innerHTML = '';
-
-            const limit = note.tags.length > 5 ? 5 : note.tags.length;
-
-            for (let i = 0; i < limit; i++) {
-                let tag = document.createElement('span') as HTMLSpanElement;
-                tag.innerHTML = note.tags[i];
-                tag.onclick = ev => {
-                    ev.stopPropagation();
-                    (<HTMLInputElement>$id('left-notesSearch-input')).value = note.tags[i];
-                    Left.search.applySearch();
-                }
-                tagPart.appendChild(tag);
-            }
-
-            $id('footer-mDate').innerHTML = note.dateModified;
-
-            if (onlyOptions) {
-                note.leftHTML.querySelector('.left-note-name')
-                    .innerHTML = note.name;
-
-                let tmp = document.createElement('div') as HTMLDivElement;
-                tmp.innerHTML = note.content.substr(0, 150);
-
-                note.leftHTML.querySelector('.left-note-text > p')
-                    .innerHTML = getTextFromDOM(tmp);
-            }
-
-            note.checkDisplay();
         },
 
         clear() {

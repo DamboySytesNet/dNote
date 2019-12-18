@@ -16,6 +16,10 @@ import { Main } from './Main';
 import { Left } from './Left';
 import { Settings } from './Settings';
 
+require('../fonts/opensans/OpenSans-Bold.ttf');
+require('../fonts/opensans/OpenSans-Regular.ttf');
+require('../fonts/opensans/OpenSans-Light.ttf');
+
 import { $id } from './utils';
 
 const Remote = Electron.remote;

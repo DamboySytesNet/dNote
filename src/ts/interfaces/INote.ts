@@ -13,6 +13,7 @@ export interface INote {
     leftHTML: HTMLDivElement;
 
     topBarHTML: HTMLDivElement;
+    nameBarHTML: HTMLDivElement;
     textBarHTML: HTMLDivElement;
     tagsBarHTML: HTMLDivElement;
 

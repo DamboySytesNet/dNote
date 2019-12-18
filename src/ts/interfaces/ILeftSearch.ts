@@ -1,8 +1,10 @@
 export interface ILeftSearch {
     /**
-     * Apply search string to notes
+     * Search notes that contain parameter
+     * or else if parameter is not specified, read value from input
+     * @param searchedValue - search for specific string in notes
      */
-    applySearch(): void;
+    applySearch(searchedValue?: string): void;
 
     /**
      * Clear search input

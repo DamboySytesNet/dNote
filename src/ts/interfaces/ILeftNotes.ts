@@ -22,10 +22,4 @@ export interface ILeftNotes {
      * @param obj - note to be added
      */
     add(obj: HTMLDivElement): void;
-
-    /**
-     * Updated note
-     * @param note - note to be updated
-     */
-    update(note: Note, onlyOptions: boolean): void;
 }
