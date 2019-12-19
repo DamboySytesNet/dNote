@@ -32,4 +32,4 @@ export interface INote {
     removeTag(it: number): void;
 
     prepRemove(): void;
-};
+}

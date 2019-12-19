@@ -3,7 +3,10 @@ import * as FS from 'fs';
 import { IMain } from './interfaces/IMain';
 import { IUserSettings } from './interfaces/IUserSettings';
 
-import { UserSettings, setter as UserSettingsSetter } from './dataTypes/UserSettings';
+import {
+    UserSettings,
+    setter as UserSettingsSetter
+} from './dataTypes/UserSettings';
 
 import { Categories } from './Categories';
 import { Editor } from './Editor';
@@ -40,7 +43,8 @@ export const Main: IMain = {
                         'utf8',
                         () => {
                             thisRef.handle(UserSettings);
-                        });
+                        }
+                    );
                 } else {
                     console.error(['Main.loadSettings()', err]);
                     Main.failure();
@@ -52,11 +56,9 @@ export const Main: IMain = {
                 './dist/data/settings.json',
                 'utf8',
                 (err: any, fileContent: string) => {
-                    if (err)
-                        loadingFailed(err);
-                    else
-                        this.parse(fileContent);
-                },
+                    if (err) loadingFailed(err);
+                    else this.parse(fileContent);
+                }
             );
         },
 
@@ -78,18 +80,24 @@ export const Main: IMain = {
                 Main.saveSettings();
             } else {
                 // Dumb? way to validate settings
-                if (typeof parsedData.general !== 'undefined' &&
+                if (
+                    typeof parsedData.general !== 'undefined' &&
                     typeof parsedData.general.sort !== 'undefined' &&
                     typeof parsedData.general.sort.type !== 'undefined' &&
                     typeof parsedData.general.sort.asc !== 'undefined' &&
                     typeof parsedData.appearance !== 'undefined' &&
                     typeof parsedData.appearance.categories !== 'undefined' &&
-                    typeof parsedData.appearance.categories.state !== 'undefined' &&
-                    typeof parsedData.appearance.categories.shown !== 'undefined' &&
+                    typeof parsedData.appearance.categories.state !==
+                        'undefined' &&
+                    typeof parsedData.appearance.categories.shown !==
+                        'undefined' &&
                     typeof parsedData.appearance.notes !== 'undefined' &&
-                    typeof parsedData.appearance.notes.showTop !== 'undefined' &&
-                    typeof parsedData.appearance.notes.showText !== 'undefined' &&
-                    typeof parsedData.appearance.notes.showTags !== 'undefined' &&
+                    typeof parsedData.appearance.notes.showTop !==
+                        'undefined' &&
+                    typeof parsedData.appearance.notes.showText !==
+                        'undefined' &&
+                    typeof parsedData.appearance.notes.showTags !==
+                        'undefined' &&
                     typeof parsedData.appearance.top !== 'undefined' &&
                     typeof parsedData.appearance.top.addNote !== 'undefined' &&
                     typeof parsedData.appearance.top.addCategory !== 'undefined'
@@ -119,28 +127,22 @@ export const Main: IMain = {
                         FS.mkdirSync('./dist/data');
 
                     // Create new data for notes
-                    FS.writeFile(
-                        './dist/data/dNote.json',
-                        '[]',
-                        'utf8',
-                        () => {
-                            thisRef.handle([]);
-                        });
+                    FS.writeFile('./dist/data/dNote.json', '[]', 'utf8', () => {
+                        thisRef.handle([]);
+                    });
                 } else {
                     console.error(['Main.loadContent()', err]);
                     Main.failure();
                 }
-            };
+            }
 
             // Read content from file
             FS.readFile(
                 './dist/data/dNote.json',
                 'utf8',
                 (err: any, fileContent: string) => {
-                    if (err)
-                        loadingFailed(err);
-                    else
-                        this.parse(fileContent);
+                    if (err) loadingFailed(err);
+                    else this.parse(fileContent);
                 }
             );
         },
@@ -169,15 +171,12 @@ export const Main: IMain = {
         this.filesLoaded++;
 
         if (this.filesLoaded === this.filesToLoad) {
-            $id('loading')
-                .style.opacity = '0';
+            $id('loading').style.opacity = '0';
 
-            $id('loading')
-                .style.transform = 'translateY(-10px)';
+            $id('loading').style.transform = 'translateY(-10px)';
 
             setTimeout(() => {
-                $id('loading')
-                    .remove();
+                $id('loading').remove();
             }, 300);
         }
     },
@@ -185,7 +184,10 @@ export const Main: IMain = {
     saveContent() {
         try {
             console.time('Content saved in');
-            FS.writeFileSync('./dist/data/dNote.json', JSON.stringify(Categories.stack));
+            FS.writeFileSync(
+                './dist/data/dNote.json',
+                JSON.stringify(Categories.stack)
+            );
             console.timeEnd('Content saved in');
             return true;
         } catch (e) {
@@ -197,7 +199,10 @@ export const Main: IMain = {
     saveSettings() {
         try {
             console.time('Settings saved in');
-            FS.writeFileSync('./dist/data/settings.json', JSON.stringify(UserSettings));
+            FS.writeFileSync(
+                './dist/data/settings.json',
+                JSON.stringify(UserSettings)
+            );
             console.timeEnd('Settings saved in');
             return true;
         } catch (e) {
@@ -207,7 +212,9 @@ export const Main: IMain = {
     },
 
     failure() {
-        alert(`Unfortunately, app was not able to start. It means that it encountered problems with your data. If you changed it manually, it is time to bring backup. To restart data to default rename "data" folder...`);
+        alert(
+            `Unfortunately, app was not able to start. It means that it encountered problems with your data. If you changed it manually, it is time to bring backup. To restart data to default rename "data" folder...`
+        );
         window.close();
     }
 };

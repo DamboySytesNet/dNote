@@ -16,7 +16,7 @@ export const Categories: ICategories = {
         // For every category from file
         for (let category of categories) {
             // Parse its notes
-            let parsedNotes = []
+            let parsedNotes = [];
             for (let note of category.notes) {
                 parsedNotes.push(
                     new Note(
@@ -56,8 +56,7 @@ export const Categories: ICategories = {
             // Sort by category name or by ID (creation order)
             if (UserSettings.general.sort.type === 1)
                 return a.name.localeCompare(b.name) * sign;
-            else
-                return (a.id - b.id) * sign;
+            else return (a.id - b.id) * sign;
         });
     },
 
@@ -101,7 +100,6 @@ export const Categories: ICategories = {
     checkState() {
         if (this.stack.length === 0)
             $id('left-noCategories').style.display = 'block';
-        else
-            $id('left-noCategories').style.display = 'none';
+        else $id('left-noCategories').style.display = 'none';
     }
-}
+};

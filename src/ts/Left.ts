@@ -17,9 +17,12 @@ export const Left: ILeft = {
     search: {
         applySearch(searchedValue) {
             if (typeof searchedValue !== 'undefined')
-                (<HTMLInputElement>$id('left-notesSearch-input')).value = searchedValue
+                (<HTMLInputElement>(
+                    $id('left-notesSearch-input')
+                )).value = searchedValue;
 
-            const value = (<HTMLInputElement>$id('left-notesSearch-input')).value;
+            const value = (<HTMLInputElement>$id('left-notesSearch-input'))
+                .value;
 
             for (let el of Left.categories.curr.notes) {
                 if (value === '') {
@@ -29,12 +32,13 @@ export const Left: ILeft = {
 
                 let div = document.createElement('div');
                 div.innerHTML = el.content;
-                if (el.name.includes(value) ||
+                if (
+                    el.name.includes(value) ||
                     div.textContent.includes(value) ||
-                    el.tags.includes(value))
+                    el.tags.includes(value)
+                )
                     el.leftHTML.style.display = 'block';
-                else
-                    el.leftHTML.style.display = 'none';
+                else el.leftHTML.style.display = 'none';
             }
         },
 
@@ -50,12 +54,10 @@ export const Left: ILeft = {
 
         init() {
             // Add all categories to left tab
-            for (let category of Categories.stack)
-                this.add(category.leftHTML);
+            for (let category of Categories.stack) this.add(category.leftHTML);
 
             // Select first category as default if exists
-            if (Categories.stack.length !== 0)
-                Categories.stack[0].choose();
+            if (Categories.stack.length !== 0) Categories.stack[0].choose();
         },
 
         toggle() {
@@ -78,22 +80,21 @@ export const Left: ILeft = {
         },
 
         add(categoryDOM) {
-            $id('left-categories-content')
-                .appendChild(categoryDOM);
+            $id('left-categories-content').appendChild(categoryDOM);
         },
 
         update(category) {
-            (<HTMLDivElement>category.leftHTML
-                .querySelector('.left-category-color'))
-                .style.background = category.color;
+            (<HTMLDivElement>(
+                category.leftHTML.querySelector('.left-category-color')
+            )).style.background = category.color;
 
-            (<HTMLDivElement>category.leftHTML
-                .querySelector('.left-category-background'))
-                .style.background = category.color;
+            (<HTMLDivElement>(
+                category.leftHTML.querySelector('.left-category-background')
+            )).style.background = category.color;
 
-            (<HTMLDivElement>category.leftHTML
-                .querySelector('.left-category-name > p'))
-                .innerHTML = category.name;
+            (<HTMLDivElement>(
+                category.leftHTML.querySelector('.left-category-name > p')
+            )).innerHTML = category.name;
         },
 
         clear() {
@@ -114,8 +115,7 @@ export const Left: ILeft = {
         },
 
         add(note) {
-            $id('left-notes-content')
-                .appendChild(note);
+            $id('left-notes-content').appendChild(note);
         },
 
         clear() {
@@ -126,13 +126,11 @@ export const Left: ILeft = {
     checkShowTop() {
         if (UserSettings.appearance.top.addNote)
             $id('left-actions-addNote').style.display = 'block';
-        else
-            $id('left-actions-addNote').style.display = 'none';
+        else $id('left-actions-addNote').style.display = 'none';
 
         if (UserSettings.appearance.top.addCategory)
             $id('left-actions-addCategory').style.display = 'block';
-        else
-            $id('left-actions-addCategory').style.display = 'none';
+        else $id('left-actions-addCategory').style.display = 'none';
     },
 
     assignListeners(): void {
@@ -148,23 +146,26 @@ export const Left: ILeft = {
             CategoryDialog.open();
         });
 
-        $id('left-notesSearch-input')
-            .addEventListener('keyup', () => Left.search.applySearch());
+        $id('left-notesSearch-input').addEventListener('keyup', () =>
+            Left.search.applySearch()
+        );
 
-        $id('left-actions-addNote')
-            .addEventListener('click', () => Editor.open(true));
+        $id('left-actions-addNote').addEventListener('click', () =>
+            Editor.newMode.open()
+        );
 
-        $id('left-notes-add')
-            .addEventListener('click', () => Editor.open(true));
+        $id('left-notes-add').addEventListener('click', () =>
+            Editor.newMode.open()
+        );
 
-        $id('left-notesSearch-clear')
-            .addEventListener('click', () => {
-                Left.search.clear();
-                $id('left-notesSearch-input').focus();
-            });
+        $id('left-notesSearch-clear').addEventListener('click', () => {
+            Left.search.clear();
+            $id('left-notesSearch-input').focus();
+        });
 
-        $id('left-actions-menu')
-            .addEventListener('click', () => Left.categories.toggle());
+        $id('left-actions-menu').addEventListener('click', () =>
+            Left.categories.toggle()
+        );
     }
 
     // keyHandler(ev) {

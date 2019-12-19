@@ -17,10 +17,7 @@ export class Category implements ICategory {
     notes: INote[];
     leftHTML: HTMLDivElement;
 
-    constructor(id: number,
-        name: string,
-        color: string,
-        notes: INote[]) {
+    constructor(id: number, name: string, color: string, notes: INote[]) {
         this.id = id;
         this.name = name;
         this.color = color;
@@ -33,22 +30,11 @@ export class Category implements ICategory {
         parent.id = `left-category-${this.id}`;
         parent.classList.add('left-category');
         parent.onclick = () => {
-            if (Editor.state !== 0) {
-                Confirm.open(
-                    'Editing',
-                    `Are you sure you want to stop editing
-                     this note? Any unsaved changes will be lost!`,
-                    'Understood',
-                    () => {
-                        this.choose();
-                    });
-            } else {
-                this.choose();
-            }
-        }
+            this.choose();
+        };
         parent.oncontextmenu = () => {
             ContextMenu.addToContext('category', this);
-        }
+        };
         let child = document.createElement('div') as HTMLDivElement;
         child.classList.add('left-category-color');
         child.style.background = this.color;
@@ -77,42 +63,67 @@ export class Category implements ICategory {
     }
 
     choose() {
-        // If any other category is chosen, unchoose it
-        if (Left.categories.curr !== null)
-            Left.categories.curr.unchoose();
+        if (Left.categories.curr === this) return;
 
-        // Update current category
-        Left.categories.curr = this;
+        const thisNote = this;
 
-        // Highlight HTML element
-        this.leftHTML.setAttribute('name', 'chosen');
+        Editor.allowStateChange()
+            .then(() => {
+                function nextStep() {
+                    // Update current category
+                    Left.categories.curr = thisNote;
 
-        // Clear search input
-        Left.search.clear();
+                    // Highlight HTML element
+                    thisNote.leftHTML.setAttribute('name', 'chosen');
 
-        // If any other note was chosen, unchoose it
-        if (Left.notes.curr !== null)
-            Left.notes.curr.unchoose();
+                    // Clear search input
+                    Left.search.clear();
 
-        // Append notes to tab
-        this.rebuildNotes();
+                    // Append notes to tab
+                    thisNote.rebuildNotes();
 
-        // Check how every note is displayed
-        this.checkNotesDisplay();
+                    // Check how every note is displayed
+                    thisNote.checkNotesDisplay();
 
-        // Check if info should be displayed
-        this.checkState();
+                    // Check if info should be displayed
+                    thisNote.checkState();
+                }
+                // If any other category is chosen, unchoose it
+                if (Left.categories.curr !== null)
+                    Left.categories.curr
+                        .unchoose(true)
+                        .then(() => {
+                            nextStep();
+                        })
+                        .catch();
+                else nextStep();
+            })
+            .catch();
     }
 
-    unchoose() {
-        // Set current category as null
-        Left.categories.curr = null;
+    unchoose(accepted?: boolean) {
+        return new Promise((revoke, reject) => {
+            let force = !accepted ? false : true;
 
-        // Clear notes
-        Left.notes.clear();
+            Editor.emptyMode
+                .open(force)
+                .then(() => {
+                    // If any other note was chosen, unchoose it
+                    if (Left.notes.curr !== null) Left.notes.curr.unchoose();
 
-        // HTML element unchoose
-        this.leftHTML.setAttribute('name', '');
+                    // Set current category as null
+                    Left.categories.curr = null;
+
+                    // Clear notes
+                    Left.notes.clear();
+
+                    // HTML element unchoose
+                    this.leftHTML.setAttribute('name', '');
+
+                    revoke();
+                })
+                .catch(() => reject());
+        });
     }
 
     update(name: string, color: string) {
@@ -133,10 +144,8 @@ export class Category implements ICategory {
                 } else {
                     return (a.id - b.id) * sign;
                 }
-            } else if (a.pinned)
-                return -1;
-            else
-                return 1;
+            } else if (a.pinned) return -1;
+            else return 1;
         });
     }
 
@@ -197,10 +206,9 @@ export class Category implements ICategory {
 
     prepRemove() {
         // If this category is currently selected, then unchoose it
-        if (Left.categories.curr === this)
-            Left.categories.curr.unchoose();
+        if (Left.categories.curr === this) Left.categories.curr.unchoose();
 
         // Remove its html body
         this.leftHTML.remove();
     }
-};
+}

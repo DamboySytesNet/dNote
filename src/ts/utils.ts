@@ -1,6 +1,12 @@
 export const DefaultColors = [
-    '#ffffff', '#e60000', '#ff9900', '#ffff00',
-    '#000000', '#008a00', '#0066cc', '#888888'
+    '#ffffff',
+    '#e60000',
+    '#ff9900',
+    '#ffff00',
+    '#000000',
+    '#008a00',
+    '#0066cc',
+    '#888888'
 ];
 
 /**
@@ -10,8 +16,7 @@ export const DefaultColors = [
  */
 export function decToHex(dec: number, format: number) {
     let hex = Number(dec).toString(16);
-    if (hex.length < format)
-        hex = '0'.repeat(format - hex.length) + hex;
+    if (hex.length < format) hex = '0'.repeat(format - hex.length) + hex;
 
     return hex;
 }
@@ -36,10 +41,9 @@ export function $id(id: string): HTMLElement {
  * Randomize integers from given range
  */
 export function randomize(min: number, max: number): number {
-    if (max < min)
-        return 0;
+    if (max < min) return 0;
 
-    return Math.floor(Math.random() * ((max - min) + 1)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**
@@ -51,14 +55,16 @@ export function getTextFromDOM(el: HTMLElement | ChildNode) {
     const length = el.childNodes.length;
     for (let i = 0; i < length; i++) {
         let node = el.childNodes[i];
-        if (node.nodeName !== 'FONT' &&
+        if (
+            node.nodeName !== 'FONT' &&
             node.nodeName !== 'H1' &&
             node.nodeName !== 'H2' &&
             node.nodeName !== 'H3' &&
             node.nodeName !== 'H4' &&
             node.nodeName !== 'H5' &&
             node.nodeName !== 'H6' &&
-            node.nodeName !== '#text')
+            node.nodeName !== '#text'
+        )
             ret += ' ';
 
         if (node.nodeType !== 8)
@@ -79,17 +85,13 @@ export function formatDate(date: Date): string {
 
     let ret = `${year}-`;
 
-    if (month < 10)
-        ret += `0${month}`;
-    else
-        ret += month;
+    if (month < 10) ret += `0${month}`;
+    else ret += month;
 
     ret += '-';
 
-    if (day < 10)
-        ret += `0${day}`;
-    else
-        ret += day;
+    if (day < 10) ret += `0${day}`;
+    else ret += day;
 
     return ret;
 }

@@ -34,14 +34,16 @@ export class Note implements INote {
     textBarHTML: HTMLDivElement;
     tagsBarHTML: HTMLDivElement;
 
-    constructor(id: number,
+    constructor(
+        id: number,
         name: string,
         content: string,
         pinned: boolean,
         protection: IProtection,
         tags: string[],
         dateCreated: string,
-        dateModified: string) {
+        dateModified: string
+    ) {
         this.id = id;
         this.name = name;
         this.content = content;
@@ -59,20 +61,7 @@ export class Note implements INote {
         parent.id = `left-note-${this.id}`;
         parent.classList.add('left-note');
         parent.addEventListener('click', () => {
-            if (Editor.state !== 0) {
-                Confirm.open(
-                    'Editing',
-                    `Are you sure you want to stop editing
-                     this note? Any unsaved changes will be lost!`,
-                    'Understood',
-                    () => {
-                        //?
-                        // Editor.unselect();
-                        this.choose();
-                    });
-            } else {
-                this.choose();
-            }
+            this.choose();
         });
         parent.oncontextmenu = () => {
             ContextMenu.addToContext('note', this);
@@ -80,7 +69,7 @@ export class Note implements INote {
 
         let child = document.createElement('div') as HTMLDivElement;
         child.classList.add('left-note-additions');
-        parent.appendChild(child)
+        parent.appendChild(child);
         this.topBarHTML = child;
         this.rebuildLeftAdditions();
 
@@ -117,24 +106,24 @@ export class Note implements INote {
         //         <p>{content}</p>
         //     </div>
         //     <div class="left-note-tags">
-        //          <span>{tag}</span>
+        //          [<span>{tag}</span>]
         //     </div>
         // </div>
     }
 
     choose() {
-        if (Left.notes.curr !== null)
-            Left.notes.curr.unchoose();
+        Editor.viewMode
+            .open(this)
+            .then(() => {
+                if (Left.notes.curr !== null) Left.notes.curr.unchoose();
 
-        Left.notes.curr = this;
-        this.leftHTML.setAttribute('name', 'chosen');
-
-        Editor.open();
+                Left.notes.curr = this;
+                this.leftHTML.setAttribute('name', 'chosen');
+            })
+            .catch();
     }
 
     unchoose() {
-        Editor.reset();
-
         Left.notes.curr = null;
         this.leftHTML.setAttribute('name', '');
     }
@@ -182,7 +171,7 @@ export class Note implements INote {
             return;
         }
 
-        if (this.content.length === 0) {
+        if (this.content.length === 0 || this.content === '<br>') {
             this.textBarHTML.style.display = 'none';
             return;
         }
@@ -212,15 +201,14 @@ export class Note implements INote {
         const limit = this.tags.length > 5 ? 5 : this.tags.length;
         let i = 0;
         for (let tag of this.tags) {
-            if (i >= limit)
-                break;
+            if (i >= limit) break;
 
             let tagElement = document.createElement('span') as HTMLSpanElement;
             tagElement.innerHTML = tag;
             tagElement.onclick = ev => {
                 ev.stopPropagation();
                 Left.search.applySearch(tag);
-            }
+            };
             this.tagsBarHTML.appendChild(tagElement);
             i++;
         }
@@ -259,9 +247,12 @@ export class Note implements INote {
     }
 
     prepRemove() {
-        if (Left.notes.curr === this)
+        if (Left.notes.curr === this) {
+            // No need to ask, as user is sure to delete
+            Editor.emptyMode.open(true);
             Left.notes.curr.unchoose();
+        }
 
         this.leftHTML.remove();
     }
-};
+}

@@ -35,9 +35,12 @@ export const CategoryDialog: ICategoryDialog = {
             });
         }
 
-        $id('categoryDialog-colors-randomButton').addEventListener('mousedown', () => {
-            CategoryDialog.randomizeColors();
-        });
+        $id('categoryDialog-colors-randomButton').addEventListener(
+            'mousedown',
+            () => {
+                CategoryDialog.randomizeColors();
+            }
+        );
 
         $id('categoryDialog-colors-6').addEventListener('click', () => {
             CategoryDialog.chooseColor(6);
@@ -48,21 +51,27 @@ export const CategoryDialog: ICategoryDialog = {
                 CategoryDialog.colors[5] = color;
                 CategoryDialog.chooseColor(6);
 
-
-                (<HTMLDivElement>$id('categoryDialog-colors-6')
-                    .children[0]).style.background = color;
+                (<HTMLDivElement>(
+                    $id('categoryDialog-colors-6').children[0]
+                )).style.background = color;
             });
         });
 
         this.randomizeColors();
 
-        $id('categoryDialog-dialogButton-action').addEventListener('click', () => {
-            CategoryDialog.check();
-        });
+        $id('categoryDialog-dialogButton-action').addEventListener(
+            'click',
+            () => {
+                CategoryDialog.check();
+            }
+        );
 
-        $id('categoryDialog-dialogButton-abort').addEventListener('click', () => {
-            CategoryDialog.close();
-        });
+        $id('categoryDialog-dialogButton-abort').addEventListener(
+            'click',
+            () => {
+                CategoryDialog.close();
+            }
+        );
 
         $id('categoryDialog-inputValue').addEventListener('focus', () => {
             CategoryDialog.clearInputError();
@@ -78,12 +87,14 @@ export const CategoryDialog: ICategoryDialog = {
         if (typeof category !== 'undefined' && category !== null) {
             this.editedElement = category;
 
-            (<HTMLInputElement>$id('categoryDialog-inputValue')).value = category.name;
+            (<HTMLInputElement>$id('categoryDialog-inputValue')).value =
+                category.name;
 
             CategoryDialog.colors[0] = category.color;
             CategoryDialog.chooseColor(1);
-            (<HTMLDivElement>$id('categoryDialog-colors-1')
-                .children[0]).style.background = category.color;
+            (<HTMLDivElement>(
+                $id('categoryDialog-colors-1').children[0]
+            )).style.background = category.color;
         }
 
         this.shown = true;
@@ -96,8 +107,7 @@ export const CategoryDialog: ICategoryDialog = {
 
     keyHandler(ev) {
         if (ev.key === 'Escape') {
-            if (this.shown && !ColorPicker.shown)
-                this.close();
+            if (this.shown && !ColorPicker.shown) this.close();
         }
     },
 
@@ -116,12 +126,14 @@ export const CategoryDialog: ICategoryDialog = {
             return;
         }
 
-        let nameBusy = Categories.stack.some((val) => {
+        let nameBusy = Categories.stack.some(val => {
             if (val.name === name) {
-                if (this.editedElement !== null && this.editedElement.name === name)
+                if (
+                    this.editedElement !== null &&
+                    this.editedElement.name === name
+                )
                     return false;
-                else
-                    return true;
+                else return true;
             }
 
             return false;
@@ -145,14 +157,12 @@ export const CategoryDialog: ICategoryDialog = {
             this.editedElement.update(name, color);
             Main.saveContent();
         } else {
-            const newId = Categories.stack.length !== 0 ? Categories.stack[Categories.stack.length - 1].id + 1 : 1;
+            const newId =
+                Categories.stack.length !== 0
+                    ? Categories.stack[Categories.stack.length - 1].id + 1
+                    : 1;
 
-            let category = new Category(
-                newId,
-                name,
-                color,
-                []
-            );
+            let category = new Category(newId, name, color, []);
 
             Left.categories.add(category.leftHTML);
 
@@ -164,8 +174,7 @@ export const CategoryDialog: ICategoryDialog = {
     },
 
     randomizeColors() {
-        if (this.currentColor !== 6)
-            this.unselectColor();
+        if (this.currentColor !== 6) this.unselectColor();
 
         for (let i = 1; i <= this.colorSquares; i++) {
             const min = 0;
@@ -176,8 +185,9 @@ export const CategoryDialog: ICategoryDialog = {
             const color = `rgb(${red}, ${green}, ${blue})`;
             this.colors[i - 1] = color;
 
-            (<HTMLDivElement>$id(`categoryDialog-colors-${i}`)
-                .children[0]).style.background = color;
+            (<HTMLDivElement>(
+                $id(`categoryDialog-colors-${i}`).children[0]
+            )).style.background = color;
         }
     },
 
@@ -187,24 +197,26 @@ export const CategoryDialog: ICategoryDialog = {
 
         this.currentColor = no;
 
-        $id(`categoryDialog-colors-${this.currentColor}`)
-            .setAttribute('name', 'chosen');
+        $id(`categoryDialog-colors-${this.currentColor}`).setAttribute(
+            'name',
+            'chosen'
+        );
     },
 
     unselectColor() {
         if (this.currentColor !== null) {
-            $id(`categoryDialog-colors-${this.currentColor}`)
-                .setAttribute('name', '');
+            $id(`categoryDialog-colors-${this.currentColor}`).setAttribute(
+                'name',
+                ''
+            );
 
             this.currentColor = null;
         }
     },
 
     checkClose() {
-        if (this.allowClose)
-            this.close();
-        else
-            this.allowClose = true;
+        if (this.allowClose) this.close();
+        else this.allowClose = true;
     },
 
     clear() {

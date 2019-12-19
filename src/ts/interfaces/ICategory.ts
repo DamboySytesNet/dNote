@@ -34,8 +34,9 @@ export interface ICategory {
 
     /**
      * Unchoose category
+     * @param accepted - if user already accepted the editor state change
      */
-    unchoose(): void;
+    unchoose(accepted?: boolean): void;
 
     /**
      * Change category
@@ -81,4 +82,4 @@ export interface ICategory {
      * Prepare before removal
      */
     prepRemove(): void;
-};
+}

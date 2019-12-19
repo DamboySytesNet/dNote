@@ -6,27 +6,34 @@ export const Confirm: IConfirm = {
     initialized: false,
     shown: false,
     allowClose: true,
+    confirmed: false,
+    cancelCallback: null,
 
     init() {
         // Assign listeners
         $id('confirm-dialogButton-abort').onclick = () => {
             Confirm.close();
-        }
+        };
     },
 
-    open(title, text, buttonText, callback) {
+    open(title, text, buttonText, callback, cancelCallback) {
         if (!this.initialized) {
             this.init();
             this.initialized = true;
         }
+
+        this.confirmed = false;
+        this.cancelCallback =
+            cancelCallback !== undefined ? cancelCallback : null;
 
         $id('confirm-title').innerHTML = title;
         $id('confirm-text').innerHTML = text;
         $id('confirm-dialogButton-action').innerHTML = buttonText;
         $id('confirm-dialogButton-action').onclick = () => {
             callback();
+            this.confirmed = true;
             Confirm.close();
-        }
+        };
 
         this.shown = true;
         $id('confirm').style.display = 'flex';
@@ -38,19 +45,18 @@ export const Confirm: IConfirm = {
 
     keyHandler(ev) {
         if (ev.key === 'Escape') {
-            if (this.shown)
-                this.close();
+            if (this.shown) this.close();
         }
     },
 
     checkClose() {
-        if (this.allowClose)
-            this.close();
-        else
-            this.allowClose = true;
+        if (this.allowClose) this.close();
+        else this.allowClose = true;
     },
 
     close() {
+        if (this.cancelCallback !== null && !this.confirmed)
+            this.cancelCallback();
         this.shown = false;
         $id('confirm').style.display = 'none';
         $id('confirm-content').style.opacity = '0';

@@ -18,16 +18,16 @@ export const ColorPicker: IColorPicker = {
         mouseDown: false,
 
         update() {
-            $id('colorPicker-picker').style.top  = `${this.y - 3}px`;
+            $id('colorPicker-picker').style.top = `${this.y - 3}px`;
             $id('colorPicker-picker').style.left = `${this.x - 3}px`;
 
-            let rgb = ColorPicker.pickerCTX.getImageData(this.x, this.y, 1, 1).data;
+            let rgb = ColorPicker.pickerCTX.getImageData(this.x, this.y, 1, 1)
+                .data;
 
             let color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
             ColorPicker.color = color;
 
-            $id('colorPicker-picked')
-                .style.background = color;
+            $id('colorPicker-picked').style.background = color;
         }
     },
 
@@ -42,11 +42,16 @@ export const ColorPicker: IColorPicker = {
             ColorPicker.updatePickerCTX(`rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`);
             ColorPicker.updatePickerDIV(`rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`);
 
-            rgb = ColorPicker.pickerCTX.getImageData(ColorPicker.picker.x,
-                                                     ColorPicker.picker.y, 1, 1).data;
+            rgb = ColorPicker.pickerCTX.getImageData(
+                ColorPicker.picker.x,
+                ColorPicker.picker.y,
+                1,
+                1
+            ).data;
 
-            $id('colorPicker-picked')
-                .style.background = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+            $id(
+                'colorPicker-picked'
+            ).style.background = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
         }
     },
 
@@ -59,13 +64,13 @@ export const ColorPicker: IColorPicker = {
         this.sliderCTX = c_2.getContext('2d');
 
         let grd = this.sliderCTX.createLinearGradient(0, 0, 200, 0);
-        grd.addColorStop(0     , 'rgb(255, 0, 0)');
+        grd.addColorStop(0, 'rgb(255, 0, 0)');
         grd.addColorStop(0.1666, 'rgb(255, 255, 0)');
         grd.addColorStop(0.3333, 'rgb(0, 255, 0)');
-        grd.addColorStop(0.5000, 'rgb(0, 255, 255)');
+        grd.addColorStop(0.5, 'rgb(0, 255, 255)');
         grd.addColorStop(0.6666, 'rgb(0, 0, 255)');
         grd.addColorStop(0.8333, 'rgb(255, 0, 255)');
-        grd.addColorStop(1     , 'rgb(255, 0, 0)');
+        grd.addColorStop(1, 'rgb(255, 0, 0)');
         this.sliderCTX.fillStyle = grd;
         this.sliderCTX.fillRect(0, 0, 200, 32);
 
@@ -80,7 +85,10 @@ export const ColorPicker: IColorPicker = {
 
         function pickerMouseEventHandler(ev: MouseEvent) {
             if (ColorPicker.picker.mouseDown) {
-                if ((<HTMLDivElement>ev.composedPath()[0]).id === 'colorPicker-chooser') {
+                if (
+                    (<HTMLDivElement>ev.composedPath()[0]).id ===
+                    'colorPicker-chooser'
+                ) {
                     if (ev.offsetY > 0 && ev.offsetY <= 200)
                         ColorPicker.picker.y = ev.offsetY;
                     if (ev.offsetX > 0 && ev.offsetX <= 200)
@@ -93,7 +101,10 @@ export const ColorPicker: IColorPicker = {
 
         function sliderMouseEventHandler(ev: MouseEvent) {
             if (ColorPicker.slider.mouseDown) {
-                if ((<HTMLDivElement>ev.composedPath()[0]).id === 'colorPicker-slide') {
+                if (
+                    (<HTMLDivElement>ev.composedPath()[0]).id ===
+                    'colorPicker-slide'
+                ) {
                     if (ev.offsetX > 0 && ev.offsetX <= 200) {
                         ColorPicker.slider.x = ev.offsetX;
                         ColorPicker.slider.update();
@@ -103,7 +114,7 @@ export const ColorPicker: IColorPicker = {
         }
 
         // Assign listeners
-        $id('colorPicker-chooser').addEventListener('mousedown', (ev) => {
+        $id('colorPicker-chooser').addEventListener('mousedown', ev => {
             ColorPicker.picker.mouseDown = true;
             pickerMouseEventHandler(ev);
         });
@@ -129,8 +140,10 @@ export const ColorPicker: IColorPicker = {
             sliderMouseEventHandler(ev);
         });
 
-        $id('colorPicker-dialogButton-abort')
-            .addEventListener('click', ColorPicker.close);
+        $id('colorPicker-dialogButton-abort').addEventListener(
+            'click',
+            ColorPicker.close
+        );
     },
 
     open(callback) {
@@ -146,8 +159,10 @@ export const ColorPicker: IColorPicker = {
             callback(ColorPicker.color);
         };
 
-        $id('colorPicker-dialogButton-action')
-            .addEventListener('click', this.callback);
+        $id('colorPicker-dialogButton-action').addEventListener(
+            'click',
+            this.callback
+        );
 
         // Show
         $id('colorPicker').style.display = 'flex';
@@ -160,20 +175,20 @@ export const ColorPicker: IColorPicker = {
     updatePickerCTX(color) {
         this.pickerCTX.clearRect(0, 0, 200, 200);
 
-        this.pickerCTX.fillStyle = color
+        this.pickerCTX.fillStyle = color;
         this.pickerCTX.fillRect(0, 0, 200, 200);
 
         let grd = this.pickerCTX.createLinearGradient(0, 0, 200, 0);
-        grd.addColorStop(0  , 'rgb(128, 128, 128)');
-        grd.addColorStop(1  , 'rgba(128, 128, 128, 0)');
+        grd.addColorStop(0, 'rgb(128, 128, 128)');
+        grd.addColorStop(1, 'rgba(128, 128, 128, 0)');
         this.pickerCTX.fillStyle = grd;
         this.pickerCTX.fillRect(0, 0, 200, 200);
 
         grd = this.pickerCTX.createLinearGradient(0, 0, 0, 200);
-        grd.addColorStop(0  , 'rgb(255, 255, 255)');
+        grd.addColorStop(0, 'rgb(255, 255, 255)');
         grd.addColorStop(0.5, 'rgba(255, 255, 255, 0)');
         grd.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
-        grd.addColorStop(1  , 'rgb(0, 0, 0)');
+        grd.addColorStop(1, 'rgb(0, 0, 0)');
         this.pickerCTX.fillStyle = grd;
         this.pickerCTX.fillRect(0, 0, 200, 200);
     },
@@ -196,22 +211,21 @@ export const ColorPicker: IColorPicker = {
 
     keyHandler(ev) {
         if (ev.key === 'Escape') {
-            if (this.shown)
-                this.close();
+            if (this.shown) this.close();
         }
     },
 
     checkClose() {
-        if (this.allowClose)
-            this.close();
-        else
-            this.allowClose = true;
+        if (this.allowClose) this.close();
+        else this.allowClose = true;
     },
 
     close() {
         this.shown = false;
-        $id('colorPicker-dialogButton-action')
-            .removeEventListener('click', this.callback);
+        $id('colorPicker-dialogButton-action').removeEventListener(
+            'click',
+            this.callback
+        );
         this.callback = null;
         $id('colorPicker').style.display = 'none';
         $id('colorPicker-content').style.opacity = '0';

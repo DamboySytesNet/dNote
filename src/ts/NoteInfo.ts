@@ -26,8 +26,7 @@ export const NoteInfo: INoteInfo = {
     },
 
     open(el) {
-        if (el === null)
-            return;
+        if (el === null) return;
 
         if (!this.initialized) {
             this.init();
@@ -45,22 +44,22 @@ export const NoteInfo: INoteInfo = {
     },
 
     fill(el) {
-        $id('noteInfo-name').innerHTML    = el.name;
-        $id('noteInfo-words').innerHTML   = Editor.words.toString();
-        $id('noteInfo-chars').innerHTML   = Editor.chars.toString();
-        $id('noteInfo-pinned').innerHTML  = el.pinned ? 'Yes' : 'No';
+        $id('noteInfo-name').innerHTML = el.name;
+        $id('noteInfo-words').innerHTML = Editor.words.toString();
+        $id('noteInfo-chars').innerHTML = Editor.chars.toString();
+        $id('noteInfo-pinned').innerHTML = el.pinned ? 'Yes' : 'No';
         $id('noteInfo-protect').innerHTML = el.protection.active ? 'Yes' : 'No';
-        $id('noteInfo-mDate').innerHTML   = el.dateModified;
-        $id('noteInfo-cDate').innerHTML   = el.dateCreated;
+        $id('noteInfo-mDate').innerHTML = el.dateModified;
+        $id('noteInfo-cDate').innerHTML = el.dateCreated;
 
-        $id('noteInfo-tags').innerHTML    = '';
+        $id('noteInfo-tags').innerHTML = '';
         for (let tag of el.tags) {
             let parent = document.createElement('span') as HTMLSpanElement;
             parent.onclick = () => {
                 (<HTMLInputElement>$id('left-notesSearch-input')).value = tag;
                 Left.search.applySearch();
                 NoteInfo.close();
-            }
+            };
             parent.innerHTML = tag;
             $id('noteInfo-tags').appendChild(parent);
         }
@@ -68,27 +67,24 @@ export const NoteInfo: INoteInfo = {
 
     keyHandler(ev) {
         if (ev.key === 'Escape') {
-            if (this.shown)
-                this.close();
+            if (this.shown) this.close();
         }
     },
 
     checkClose() {
-        if (this.allowClose)
-            this.close();
-        else
-            this.allowClose = true;
+        if (this.allowClose) this.close();
+        else this.allowClose = true;
     },
 
     clear() {
-        $id('noteInfo-name').innerHTML    = '';
-        $id('noteInfo-words').innerHTML   = '';
-        $id('noteInfo-chars').innerHTML   = '';
-        $id('noteInfo-pinned').innerHTML  = '';
+        $id('noteInfo-name').innerHTML = '';
+        $id('noteInfo-words').innerHTML = '';
+        $id('noteInfo-chars').innerHTML = '';
+        $id('noteInfo-pinned').innerHTML = '';
         $id('noteInfo-protect').innerHTML = '';
-        $id('noteInfo-mDate').innerHTML   = '';
-        $id('noteInfo-cDate').innerHTML   = '';
-        $id('noteInfo-tags').innerHTML    = '';
+        $id('noteInfo-mDate').innerHTML = '';
+        $id('noteInfo-cDate').innerHTML = '';
+        $id('noteInfo-tags').innerHTML = '';
     },
 
     close() {
@@ -98,4 +94,4 @@ export const NoteInfo: INoteInfo = {
         $id('noteInfo-content').style.opacity = '0';
         $id('noteInfo-content').style.transform = 'translateY(-20px)';
     }
-}
+};

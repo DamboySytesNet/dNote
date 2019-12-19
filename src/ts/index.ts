@@ -13,6 +13,7 @@ import { ContextMenu } from './ContextMenu';
 import { Editor } from './Editor';
 import { Input } from './Input';
 import { Main } from './Main';
+import { NoteInfo } from './NoteInfo';
 import { Left } from './Left';
 import { Settings } from './Settings';
 
@@ -30,6 +31,7 @@ const WindowAction: IWindowAction = {
         Confirm.keyHandler(ev);
         Input.keyHandler(ev);
         CategoryDialog.keyHandler(ev);
+        NoteInfo.keyHandler(ev);
         ColorPicker.keyHandler(ev);
         Settings.keyHandler(ev);
 
@@ -66,8 +68,7 @@ const WindowAction: IWindowAction = {
         //Maximize the window
         if (!Remote.BrowserWindow.getFocusedWindow().isMaximized())
             Remote.BrowserWindow.getFocusedWindow().maximize();
-        else
-            Remote.BrowserWindow.getFocusedWindow().unmaximize();
+        else Remote.BrowserWindow.getFocusedWindow().unmaximize();
     },
 
     close() {
@@ -78,7 +79,7 @@ const WindowAction: IWindowAction = {
 window.onload = () => {
     WindowAction.assignListeners();
     Main.init();
-}
+};
 
 window.addEventListener('keyup', (ev: KeyboardEvent) => {
     WindowAction.keyHandler(ev);

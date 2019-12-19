@@ -1,23 +1,28 @@
 import { IContentOptions } from './IContentOptions';
+import { IEditorMode } from './IEditorMode';
+import { INote } from './INote';
 
 export interface IEditor {
+    currentNote: INote;
     /**
-     * 0 - view state
-     * 1 - edit state
-     * 2 - create state
+     * Availible modes:
+     * empty
+     * new
+     * edit
+     * view
      */
-    state: number;
-    /** Cache already rendered content (view mode) */
-    editorViewed: boolean,
-    /** Cache already rendered content (editing mode) */
-    editorEdited: boolean,
+    mode: string;
 
     /** */
     chosenColors: string[];
     chosenColorsCallbacks: any[];
+
     words: number;
     chars: number;
 
+    /**
+     * Array of tags for new note
+     */
     newTags: string[];
 
     cursorPos: Range;
@@ -25,21 +30,21 @@ export interface IEditor {
     options: IContentOptions;
 
     init(): void;
-
-    checkState(): void;
-    changeState(state: number): void;
-
-    open(newNote?: boolean): void;
-    reset(): void;
     colorCustomColors(): void;
 
-    displayNote(): void;
-    editNote(): void;
-    newNote(): void;
+    setMode(mode: string): any;
+
+    allowStateChange(): any;
+    viewMode: IEditorMode;
+    editMode: IEditorMode;
+    newMode: IEditorMode;
+    emptyMode: IEditorMode;
 
     saveNote(): void;
+    createNote(): void;
+    editNote(): void;
 
     saveSelection(): void;
     restoreSelection(): void;
     assignListeners(): void;
-};
+}

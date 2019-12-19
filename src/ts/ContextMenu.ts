@@ -22,8 +22,7 @@ export const ContextMenu: IContext = {
         ev.preventDefault();
 
         //Check if right-clicked on context menu
-        if ((<any>ev).path.indexOf($id('contextMenu')) > -1)
-            return;
+        if ((<any>ev).path.indexOf($id('contextMenu')) > -1) return;
 
         //Define context menu object
         const obj = $id('contextMenu');
@@ -42,24 +41,17 @@ export const ContextMenu: IContext = {
         //Handle clicking near edge (right)
         if ((<any>ev).clientX + obj.offsetWidth > window.innerWidth) {
             let x = (<any>ev).clientX - obj.offsetWidth;
-            if (x < 0)
-                posX = 0;
-            else
-                posX = x;
-        } else
-            posX = (<any>ev).clientX;
+            if (x < 0) posX = 0;
+            else posX = x;
+        } else posX = (<any>ev).clientX;
         obj.style.left = `${posX}px`;
-
 
         //Handle clicking near edge (down)
         if ((<any>ev).clientY + obj.offsetHeight > window.innerHeight) {
             let y = (<any>ev).clientY - obj.offsetHeight;
-            if (y < 0)
-                posY = 0;
-            else
-                posY = y;
-        } else
-            posY = (<any>ev).clientY;
+            if (y < 0) posY = 0;
+            else posY = y;
+        } else posY = (<any>ev).clientY;
         obj.style.top = `${posY}px`;
 
         //Expand
@@ -74,8 +66,7 @@ export const ContextMenu: IContext = {
     },
 
     addToContext(what, params) {
-        if ($id('contextMenu').innerHTML !== '')
-            this.addSeparator();
+        if ($id('contextMenu').innerHTML !== '') this.addSeparator();
 
         if (what === 'category') {
             // params === categoryElement
@@ -94,7 +85,9 @@ export const ContextMenu: IContext = {
                      Doing so will delete <b>ALL</b> notes,
                      that are in this category. Are you sure?`,
                     'Remove',
-                    () => { Categories.remove(params); }
+                    () => {
+                        Categories.remove(params);
+                    }
                 );
             });
         } else if (what === 'note') {
@@ -103,9 +96,7 @@ export const ContextMenu: IContext = {
                 params.choose();
             });
 
-            this.addPost('Edit', editSrc, () => {
-
-            });
+            this.addPost('Edit', editSrc, () => {});
 
             this.addPost('Delete', deleteColorSrc, () => {
                 Left.categories.curr.promptRemoveNote(params);
@@ -122,7 +113,7 @@ export const ContextMenu: IContext = {
         } else if (what === 'noteList') {
             // No params
             this.addPost('Create a note', addNoteColorSrc, () => {
-                Editor.open(true);
+                Editor.newMode.open();
             });
         }
     },
@@ -130,7 +121,10 @@ export const ContextMenu: IContext = {
     addPost(name, imgSrc, callback) {
         let parent = document.createElement('div');
         parent.classList.add('contextMenu-entry');
-        parent.onclick = () => { callback(); ContextMenu.close(); };
+        parent.onclick = () => {
+            callback();
+            ContextMenu.close();
+        };
         let img = new Image();
         img.src = `${imgSrc}`;
         parent.appendChild(img);
@@ -149,7 +143,7 @@ export const ContextMenu: IContext = {
     },
 
     assignListeners() {
-        document.body.addEventListener('contextmenu', (ev) => {
+        document.body.addEventListener('contextmenu', ev => {
             ContextMenu.open(ev, 'body');
         });
     },
@@ -163,7 +157,7 @@ export const ContextMenu: IContext = {
         //Collapse
         obj.style.transition = 'none';
         obj.style.transform = 'scale(1, 0)';
-    },
+    }
 };
 
 $id('contextMenu').addEventListener('blur', ContextMenu.close);

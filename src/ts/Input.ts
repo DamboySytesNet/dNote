@@ -11,7 +11,7 @@ export const Input: IInput = {
         // Assign listeners
         $id('input-dialogButton-abort').onclick = () => {
             Input.close();
-        }
+        };
     },
 
     open(title, text, inputText, buttonText, callback) {
@@ -33,13 +33,14 @@ export const Input: IInput = {
         if (text !== '')
             (<HTMLInputElement>$id('input-input')).placeholder = inputText;
         else
-            (<HTMLInputElement>$id('input-input')).placeholder = 'Enter here...';
+            (<HTMLInputElement>$id('input-input')).placeholder =
+                'Enter here...';
 
         $id('input-dialogButton-action').innerHTML = buttonText;
         $id('input-dialogButton-action').onclick = () => {
             callback((<HTMLInputElement>$id('input-input')).value);
             Input.close();
-        }
+        };
 
         this.shown = true;
         $id('input').style.display = 'flex';
@@ -51,16 +52,13 @@ export const Input: IInput = {
 
     keyHandler(ev) {
         if (ev.key === 'Escape') {
-            if (this.shown)
-                this.close();
+            if (this.shown) this.close();
         }
     },
 
     checkClose() {
-        if (this.allowClose)
-            this.close();
-        else
-            this.allowClose = true;
+        if (this.allowClose) this.close();
+        else this.allowClose = true;
     },
 
     close() {

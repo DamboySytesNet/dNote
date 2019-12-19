@@ -11,11 +11,11 @@ export const Alert: IAlert = {
         // Assign listeners
         $id('alert-dialogButton-abort').onclick = () => {
             Alert.close();
-        }
+        };
 
         $id('alert-dialogButton-abort').onclick = () => {
             Alert.close();
-        }
+        };
     },
 
     open(title, text) {
@@ -37,16 +37,13 @@ export const Alert: IAlert = {
 
     keyHandler(ev) {
         if (ev.key === 'Escape') {
-            if (this.shown)
-                this.close();
+            if (this.shown) this.close();
         }
     },
 
     checkClose() {
-        if (this.allowClose)
-            this.close();
-        else
-            this.allowClose = true;
+        if (this.allowClose) this.close();
+        else this.allowClose = true;
     },
 
     close() {
