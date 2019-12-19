@@ -1,3 +1,5 @@
+const Shell = require('electron').shell;
+
 import { IEditor } from './interfaces/IEditor';
 import { INote } from './interfaces/INote';
 
@@ -248,6 +250,21 @@ export const Editor: IEditor = {
 
                         $id('main-note-view').innerHTML =
                             Editor.currentNote.content;
+
+                        let aTags = toArray(
+                            $id('main-note-view').querySelectorAll('a')
+                        );
+
+                        for (const a of aTags) {
+                            console.log(a);
+
+                            let href = a.href;
+                            a.href = '';
+                            a.onclick = (event: MouseEvent) => {
+                                event.preventDefault();
+                                Shell.openExternal(href);
+                            };
+                        }
 
                         (<HTMLInputElement>(
                             $id('main-actions-nameInput')
@@ -526,7 +543,7 @@ export const Editor: IEditor = {
                 $id('main-note-edit-options').style.transform =
                     'translateY(0px)';
 
-                $id('main-note-edit-buttons').style.bottom = '170px';
+                $id('main-note-edit-buttons').style.bottom = '205px';
             } else {
                 $id('main-note-edit-options-toggleImg').setAttribute(
                     'name',
@@ -534,7 +551,7 @@ export const Editor: IEditor = {
                 );
 
                 $id('main-note-edit-options').style.transform =
-                    'translateY(140px)';
+                    'translateY(175px)';
 
                 $id('main-note-edit-buttons').style.bottom = '30px';
 
@@ -545,17 +562,36 @@ export const Editor: IEditor = {
         },
 
         addTag() {
+            $id('main-note-edit-tags-msg').innerHTML = '';
             let value = (<HTMLInputElement>(
                 document.getElementById('main-note-edit-tags-input')
             )).value;
             value = value.trim();
 
+            (<HTMLInputElement>(
+                document.getElementById('main-note-edit-tags-input')
+            )).select();
+
+            if (value.length === 0) return;
+
             if (
-                Left.notes.curr === null &&
-                Left.notes.curr.tags.indexOf(value) === -1
+                Left.notes.curr !== null &&
+                Left.notes.curr.tags.indexOf(value) > -1
             ) {
-                return; // Already there
+                $id('main-note-edit-tags-msg').innerHTML =
+                    'Given tag is already on the list';
+                return; // Tag is already there
             }
+
+            if (Editor.mode === 'new' && Editor.newTags.indexOf(value) > -1) {
+                $id('main-note-edit-tags-msg').innerHTML =
+                    'Given tag is already on the list';
+                return; // Tag is already there
+            }
+
+            (<HTMLInputElement>(
+                document.getElementById('main-note-edit-tags-input')
+            )).value = '';
 
             let parent = document.createElement('span') as HTMLSpanElement;
             parent.innerHTML = value;
@@ -572,9 +608,7 @@ export const Editor: IEditor = {
             if (Left.notes.curr !== null) {
                 let it = Left.notes.curr.tags.indexOf(tagName);
                 if (it !== -1) Left.notes.curr.removeTag(it);
-            }
-
-            if (Editor.mode === 'new') {
+            } else if (Editor.mode === 'new') {
                 let it = Editor.newTags.indexOf(tagName);
                 if (it !== -1) Editor.newTags.splice(it, 1);
             }

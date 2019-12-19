@@ -1,457 +1,500 @@
 #main {
-    width:calc(100% - 501px);
-    height:100%;
+    width: calc(100% - 501px);
+    height: 100%;
     float: left;
 }
-    #main-actions {
-        width:100%;
-        height: $actionsHeight;
-        border-bottom:solid 1px #ccc;
 
-        > img {
-            &[name="left"] {
-                float: left;
-            }
-            &[name="right"] {
-                float: right;
-            }
-        }
-    }
+#main-actions {
+    width: 100%;
+    height: $actionsHeight;
+    border-bottom: solid 1px #ccc;
 
-        #main-actions-name {
-            position: relative;
-            height:100%;
+    >img {
+        &[name="left"] {
             float: left;
-            display: none;
-
-            &[name="full"] {
-                width:calc(100% - 40px);
-                margin: 0 20px;
-            }
-
-            &:not([name="full"]) {
-                width:calc(100% - #{$actionsHeight * 3});
-                margin: 0;
-            }
-
-            > input {
-                width:100%;
-                height:calc(100% - 16px);
-                margin: 8px 0px;
-                font:1.2em "OpenSans-Bold";
-                text-indent: 5px;
-                font-weight: 700;
-                border:none;
-                outline: none;
-
-                &[disabled] {
-                    border-bottom: none;
-                    background: transparent;
-                    color: #000;
-
-                    ~ div {
-                        display: none;
-                    }
-                }
-
-                &:not([disabled]) {
-                    border-bottom: solid 2px #ccc;
-
-                    &:focus ~ div {
-                        width:100%;
-                        left: 0%;
-                    }
-                }
-            }
-
-            > div {
-                position: absolute;
-                bottom: 6px;
-                left:50%;
-                width:0%;
-                height:2px;
-                transition: left 0.3s, width 0.3s;
-                background: $basecolor;
-            }
         }
 
-        #main-actions-state {
-            width:28px;
-            height:28px;
-            margin: 6px 2px 6px 6px;
-            padding: 7px;
-            float:left;
-            display: none;
+        &[name="right"] {
+            float: right;
         }
-        #main-actions-info {
-            width:28px;
-            height:28px;
-            margin: 6px 6px 6px 2px;
-            padding: 7px;
-            float:left;
-            display: none;
-        }
-        #main-actions-delete {
-            width:28px;
-            height:28px;
-            margin: 6px 2px 6px 6px;
-            padding: 7px;
-            float:left;
-            display: none;
-        }
-    #main-note {
-        position: relative;
-        width: calc(100%);
-        height:calc(100% - #{$actionsHeight + 1});
-        font:1em "OpenSans";
-        overflow: hidden;
     }
-        #main-note-notChosen {
-            width:100%;
-            height:100%;
-            overflow: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+}
 
-            > div {
-                > h2 {
-                    font:2em "OpenSans";
-                    margin-bottom: 10px;
-                    text-align: center;
-                }
+#main-actions-name {
+    position: relative;
+    height: 100%;
+    float: left;
+    display: none;
 
-                > p {
-                    font:0.9em "OpenSans";
-                    text-align: center;
-                    color: #666;
-                }
+    &[name="full"] {
+        width: calc(100% - 40px);
+        margin: 0 20px;
+    }
+
+    &:not([name="full"]) {
+        width:calc(100% - #{$actionsHeight * 3});
+        margin: 0;
+    }
+
+    >input {
+        width: 100%;
+        height: calc(100% - 16px);
+        margin: 8px 0px;
+        font: 1.2em "OpenSans-Bold";
+        text-indent: 5px;
+        font-weight: 700;
+        border: none;
+        outline: none;
+
+        &[disabled] {
+            border-bottom: none;
+            background: transparent;
+            color: #000;
+
+            ~div {
+                display: none;
             }
         }
-        .note {
-            h1, h2, h3, h4, h5 {
-                padding-bottom: 5px;
-            }
 
-            p, div {
-                padding: 10px 0;
-                font:1em "OpenSans-Lite";
-            }
+        &:not([disabled]) {
+            border-bottom: solid 2px #ccc;
 
-            img {
-                max-width: 100%;
-            }
-
-            li {
-                list-style-position: inside;
+            &:focus~div {
+                width: 100%;
+                left: 0%;
             }
         }
-        #main-note-view {
-            width:calc(100% - 40px);
-            height:calc(100% - 40px);
-            padding:20px;
-            overflow: auto;
-            display: none;
+    }
+
+    >div {
+        position: absolute;
+        bottom: 6px;
+        left: 50%;
+        width: 0%;
+        height: 2px;
+        transition: left 0.3s, width 0.3s;
+        background: $basecolor;
+    }
+}
+
+#main-actions-state {
+    width: 28px;
+    height: 28px;
+    margin: 6px 2px 6px 6px;
+    padding: 7px;
+    float: left;
+    display: none;
+}
+
+#main-actions-info {
+    width: 28px;
+    height: 28px;
+    margin: 6px 6px 6px 2px;
+    padding: 7px;
+    float: left;
+    display: none;
+}
+
+#main-actions-delete {
+    width: 28px;
+    height: 28px;
+    margin: 6px 2px 6px 6px;
+    padding: 7px;
+    float: left;
+    display: none;
+}
+
+#main-note {
+    position: relative;
+    width: calc(100%);
+    height:calc(100% - #{$actionsHeight + 1});
+    font: 1em "OpenSans";
+    overflow: hidden;
+}
+
+#main-note-notChosen {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    >div {
+        >h2 {
+            font: 2em "OpenSans";
+            margin-bottom: 10px;
+            text-align: center;
         }
 
-        #main-note-edit {
-            position: relative;
-            width:100%;
-            height:100%;
-            overflow: auto;
-            display: none;
-            overflow: hidden;
+        >p {
+            font: 0.9em "OpenSans";
+            text-align: center;
+            color: #666;
         }
-            #main-note-edit-tools {
-                width:100%;
-                height:32px;
-                border-bottom: solid 1px #ccc;
-                text-align:center;
+    }
+}
 
-                > div {
-                    display: inline-block;
-                }
+.note {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        padding-bottom: 5px;
+    }
+
+    p,
+    div {
+        padding: 10px 0;
+        font: 1em "OpenSans-Lite";
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    li {
+        list-style-position: inside;
+    }
+}
+
+#main-note-view {
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    padding: 20px;
+    overflow: auto;
+    display: none;
+}
+
+#main-note-edit {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: none;
+    overflow: hidden;
+}
+
+#main-note-edit-tools {
+    width: 100%;
+    height: 32px;
+    border-bottom: solid 1px #ccc;
+    text-align: center;
+
+    >div {
+        display: inline-block;
+    }
+}
+
+.main-note-edit-tools-post {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    text-align: center;
+    float: left;
+
+    &:not([name="noHover"]) {
+        &:hover {
+            background: #eee;
+        }
+
+        &:active {
+            background: #ddd;
+        }
+    }
+
+    &:hover>div {
+        top: 33px;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    >img {
+        height: calc(100% - 10px);
+        padding: 5px;
+    }
+}
+
+.main-note-edit-tools-colors {
+    position: absolute;
+    left: calc(50% - 60px);
+    width: 113px;
+    padding: 5px 10px;
+    background: #fff;
+    border: solid 1px #ccc;
+    border-top: none;
+    cursor: initial;
+    text-align: center;
+    transition: top 0.3s, opacity 0.3s;
+
+    top: 30px;
+    opacity: 0;
+    visibility: hidden;
+
+    >p {
+        font: 0.6em "OpenSans";
+        color: #666;
+        text-align: left;
+        margin-bottom: 5px;
+    }
+
+    >div {
+        width: 100%;
+        overflow: hidden;
+        display: inline-block;
+
+        >div {
+            width: 24px;
+            height: 24px;
+            float: left;
+            border: solid 1px #ccc;
+            border-radius: 5px;
+            margin-bottom: 3px;
+            margin-right: 3px;
+
+            &:nth-of-type(4n+4) {
+                margin-right: 0;
             }
-                .main-note-edit-tools-post {
-                    position: relative;
-                    width:32px;
-                    height:32px;
-                    cursor: pointer;
-                    text-align:center;
-                    float: left;
+        }
+    }
 
-                    &:not([name="noHover"]) {
-                        &:hover {
-                            background: #eee;
-                        }
+    >button {
+        font: 0.8em "OpenSans";
+        padding: 3px 7px;
+        border-radius: 5px;
+        background: $basecolor;
+        border: none;
+        color: #fff;
+        margin-bottom: 5px;
+    }
+}
 
-                        &:active {
-                            background: #ddd;
-                        }
-                    }
+.main-note-edit-tools-list {
+    position: absolute;
+    left: 50%;
+    padding: 5px;
+    background: #fff;
+    border: solid 1px #ccc;
+    border-top: none;
+    cursor: initial;
+    text-align: center;
+    transition: top 0.3s, opacity 0.3s;
+    transform: translateX(-50%);
+    overflow: hidden;
 
-                    &:hover > div {
-                        top:33px;
-                        opacity: 1;
-                        visibility: visible;
-                    }
+    top: 30px;
+    opacity: 0;
+    visibility: hidden;
 
-                    > img {
-                        height: calc(100% - 10px);
-                        padding: 5px;
-                    }
-                }
-                    .main-note-edit-tools-colors {
-                        position: absolute;
-                        left:calc(50% - 60px);
-                        width:113px;
-                        padding: 5px 10px;
-                        background: #fff;
-                        border:solid 1px #ccc;
-                        border-top: none;
-                        cursor: initial;
-                        text-align:center;
-                        transition: top 0.3s, opacity 0.3s;
+    >img {
+        width: 24px;
+        height: 24px;
+        padding: 4px;
+        display: block;
+        cursor: pointer;
 
-                        top:30px;
-                        opacity: 0;
-                        visibility: hidden;
+        &:hover {
+            background: #eee;
+        }
 
-                        > p {
-                            font: 0.6em "OpenSans";
-                            color: #666;
-                            text-align:left;
-                            margin-bottom: 5px;
-                        }
+        &:active {
+            background: #ddd;
+        }
+    }
 
-                        > div {
-                            width:100%;
-                            overflow: hidden;
-                            display: inline-block;
+}
 
-                            > div {
-                                width:24px;
-                                height:24px;
-                                float: left;
-                                border:solid 1px #ccc;
-                                border-radius: 5px;
-                                margin-bottom: 3px;
-                                margin-right: 3px;
+.main-note-edit-tools-separator {
+    width: 1px;
+    height: 32px;
+    background: #ccc;
+    float: left;
+}
 
-                                &:nth-of-type(4n+4) {
-                                    margin-right:0;
-                                }
-                            }
-                        }
+#main-note-edit-content {
+    width: calc(100% - 40px);
+    height: calc(100% - 33px - 21px - 40px);
+    max-height: calc(100% - 33px - 21px - 40px);
+    padding: 20px;
+    background: #fff;
+    outline: none;
+    overflow: auto;
+}
 
-                        > button {
-                            font:0.8em "OpenSans";
-                            padding: 3px 7px;
-                            border-radius: 5px;
-                            background: $basecolor;
-                            border:none;
-                            color: #fff;
-                            margin-bottom: 5px;
-                        }
-                    }
+#main-note-edit-buttons {
+    position: absolute;
+    right: -170px;
+    bottom: 30px;
+    overflow: hidden;
+    padding: 5px;
+    transition: bottom 0.3s, right 0.3s;
 
-                    .main-note-edit-tools-list {
-                        position: absolute;
-                        left:50%;
-                        padding: 5px;
-                        background: #fff;
-                        border:solid 1px #ccc;
-                        border-top: none;
-                        cursor: initial;
-                        text-align:center;
-                        transition: top 0.3s, opacity 0.3s;
-                        transform: translateX(-50%);
-                        overflow: hidden;
+    >button {
+        font: 0.9em "OpenSans";
+        border: none;
+        border-radius: 5px;
+        display: block;
+        float: left;
+        outline: none;
+        transition: transform 0.3s;
 
-                        top:30px;
-                        opacity: 0;
-                        visibility: hidden;
+        >img {
+            width: calc(100% - 14px);
+            height: calc(100% - 14px);
+            margin: 7px;
+        }
 
-                        > img {
-                            width:24px;
-                            height:24px;
-                            padding: 4px;
-                            display: block;
-                            cursor: pointer;
+        &:hover {
+            transform: scale(1.05);
+        }
 
-                            &:hover {
-                                background: #eee;
-                            }
+        &:active {
+            transform: scale(0.95);
+        }
+    }
 
-                            &:active {
-                                background: #ddd;
-                            }
-                        }
+    #main-note-edit-cancel {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #fc3d3d;
+        margin-right: 15px;
+        margin-top: 5px;
+    }
 
-                    }
-                .main-note-edit-tools-separator {
-                    width:1px;
-                    height:32px;
-                    background: #ccc;
-                    float: left;
-                }
+    #main-note-edit-save {
+        width: 52px;
+        height: 52px;
+        background: #2ad441;
+        border-radius: 50%;
+    }
+}
 
-            #main-note-edit-content {
-                width:calc(100% - 40px);
-                height:calc(100% - 33px - 21px - 40px);
-                max-height:calc(100% - 33px - 21px - 40px);
-                padding: 20px;
-                background: #fff;
-                outline: none;
-                overflow: auto;
-            }
-            #main-note-edit-buttons {
-                position: absolute;
-                right:-170px;
-                bottom: 30px;
-                overflow: hidden;
-                padding: 5px;
-                transition: bottom 0.3s, right 0.3s;
+#main-note-edit-options {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 155px;
+    padding: 20px 0;
+    border-top: solid 1px #ccc;
+    background: #fff;
+    transform: translateY(175px);
+    transition: transform 0.3s;
+}
 
-                > button {
-                    font:0.9em "OpenSans";
-                    border:none;
-                    border-radius: 5px;
-                    display: block;
-                    float: left;
-                    outline: none;
-                    transition: transform 0.3s;
+#main-note-edit-options-toggle {
+    position: absolute;
+    top: -17px;
+    left: calc(50% - 17px);
+    width: 28px;
+    height: 28px;
+    padding: 3px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px 2px #ccc;
+    background: #fff;
+    cursor: pointer;
 
-                    > img {
-                        width:calc(100% - 14px);
-                        height:calc(100% - 14px);
-                        margin: 7px;
-                    }
+    >img {
+        width: 100%;
+        height: 100%;
+        transform: rotate(0deg);
+        transition: transform 0.2s;
 
-                    &:hover {
-                        transform: scale(1.05);
-                    }
+        &[name="shown"] {
+            transform: rotate(180deg);
+        }
+    }
+}
 
-                    &:active {
-                        transform: scale(0.95);
-                    }
-                }
-                #main-note-edit-cancel {
-                    width:42px;
-                    height:42px;
-                    border-radius: 50%;
-                    background: #fc3d3d;
-                    margin-right: 15px;
-                    margin-top: 5px;
-                }
-                #main-note-edit-save {
-                    width:52px;
-                    height:52px;
-                    background: #2ad441;
-                    border-radius: 50%;
-                }
-            }
-            #main-note-edit-options {
-                position: absolute;
-                bottom: 0px;
-                left:0px;
-                width:100%;
-                height:120px;
-                padding: 20px 0;
-                border-top:solid 1px #ccc;
-                background: #fff;
-                transform: translateY(140px);
-                transition: transform 0.3s;
-            }
-                #main-note-edit-options-toggle {
-                    position: absolute;
-                    top:-17px;
-                    left:calc(50% - 17px);
-                    width:28px;
-                    height:28px;
-                    padding:3px;
-                    border-radius: 50%;
-                    box-shadow: 0 0 5px 2px #ccc;
-                    background: #fff;
-                    cursor: pointer;
+#main-note-edit-tags {
+    width: calc(100% - 40px - 241px);
+    height: calc(100% - 20px);
+    margin: 10px 20px;
+    border-right: solid 1px #ccc;
+    display: flex;
+    flex-direction: column;
 
-                    > img {
-                        width:100%;
-                        height:100%;
-                        transform: rotate(0deg);
-                        transition: transform 0.2s;
+    >span {
+        flex: 0 0 18px;
+        font: 0.8em "OpenSans";
+        color: #fc3d3d;
+        margin-bottom: 0px;
+        display: block;
+    }
+}
 
-                        &[name="shown"] {
-                            transform: rotate(180deg);
-                        }
-                    }
-                }
+#main-note-edit-tags-userActions {
+    width: 100%;
+    margin-bottom: -2px;
+    flex: 0 0 30px;
 
-                #main-note-edit-tags {
-                    width:calc(100% - 40px - 241px);
-                    height:calc(100% - 20px);
-                    margin: 10px 20px;
-                    border-right: solid 1px #ccc;
+    >button {
+        width: 60px;
+        height: 30px;
+        margin-left: 10px;
+        font: 0.9em "OpenSans";
+        border: none;
+        border-radius: 5px;
+        background: $basecolor;
+        color: #fff;
+        float: left;
+    }
+}
 
-                    > button {
-                        width:60px;
-                        height:30px;
-                        margin-left: 10px;
-                        font:0.9em "OpenSans";
-                        border:none;
-                        border-radius: 5px;
-                        background: $basecolor;
-                        color: #fff;
-                        float: left;
-                    }
-                }
-                    #main-note-edit-tags-block {
-                        position: relative;
-                        width:calc(100% - 80px);
-                        height:30px;
-                        float: left;
+#main-note-edit-tags-block {
+    position: relative;
+    width: calc(100% - 80px);
+    height: 30px;
+    float: left;
 
-                        > input {
-                            width:calc(100% - 20px);
-                            padding: 0 10px;
-                            height:calc(100% - 2px);
-                            font:0.9em "OpenSans";
-                            outline:none;
-                            border:none;
-                            border-bottom:solid 2px #ccc;
+    >input {
+        width: calc(100% - 20px);
+        padding: 0 10px;
+        height: calc(100% - 2px);
+        font: 0.9em "OpenSans";
+        outline: none;
+        border: none;
+        border-bottom: solid 2px #ccc;
 
-                            &:focus ~ div {
-                                left:0%;
-                                width:100%;
-                            }
-                        }
+        &:focus~div {
+            left: 0%;
+            width: 100%;
+        }
+    }
 
-                        > div {
-                            position: absolute;
-                            bottom: 0px;
-                            width:0%;
-                            height:2px;
-                            left:50%;
-                            background: $basecolor;
-                            transition: width 0.3s, left 0.3s;
-                        }
-                    }
-                    
-                    #main-note-edit-tags-container {
-                        width:calc(100% - 10px - 20px);
-                        height:calc(100% - 10px - 20px);
-                        padding: 10px;
-                        margin: 5px;
-                        background: #fafafa;
-                        float: left;
+    >div {
+        position: absolute;
+        bottom: 0px;
+        width: 0%;
+        height: 2px;
+        left: 50%;
+        background: $basecolor;
+        transition: width 0.3s, left 0.3s;
+    }
+}
 
-                        > span {
-                            font:0.8em "OpenSans";
-                            padding: 3px 5px;
-                            margin-right: 5px;
-                            background: $basecolor;
-                            color: #fff;
-                            border-radius: 5px;
-                            cursor: pointer;
-                        }
-                    }
+#main-note-edit-tags-container {
+    width: calc(100% - 10px - 20px);
+    flex: 1 1;
+    padding: 10px;
+    margin: 5px;
+    background: #eee;
+    overflow: auto;
+    border-radius: 10px;
+
+    >span {
+        font: 0.8em "OpenSans";
+        padding: 3px 5px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        background: $basecolor;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        display: inline-block;
+    }
+}
