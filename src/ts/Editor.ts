@@ -256,8 +256,6 @@ export const Editor: IEditor = {
                         );
 
                         for (const a of aTags) {
-                            console.log(a);
-
                             let href = a.href;
                             a.href = '';
                             a.onclick = (event: MouseEvent) => {
