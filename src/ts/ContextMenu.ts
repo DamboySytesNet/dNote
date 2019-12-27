@@ -96,7 +96,23 @@ export const ContextMenu: IContext = {
                 params.choose();
             });
 
-            this.addPost('Edit', editSrc, () => {});
+            this.addPost('Edit', editSrc, () => {
+                Editor.viewMode
+                    .open(params)
+                    .then(() => {
+                        if (Left.notes.curr !== null)
+                            Left.notes.curr.unchoose();
+
+                        Left.notes.curr = params;
+                        params.leftHTML.setAttribute('name', 'chosen');
+
+                        Editor.editMode
+                            .open(params)
+                            .then(() => {})
+                            .catch(() => {});
+                    })
+                    .catch(() => {});
+            });
 
             this.addPost('Delete', deleteColorSrc, () => {
                 Left.categories.curr.promptRemoveNote(params);

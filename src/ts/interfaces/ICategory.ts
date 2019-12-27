@@ -46,7 +46,7 @@ export interface ICategory {
     /**
      * Sort its notes
      */
-    sortNotes(notes: INote[]): INote[];
+    sortNotes(): void;
 
     /**
      * Reappend notes to left bar

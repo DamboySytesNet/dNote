@@ -11,7 +11,7 @@ import { ColorPicker } from './ColorPicker';
 import { Confirm } from './Confirm';
 import { ContextMenu } from './ContextMenu';
 import { Editor } from './Editor';
-import { Input } from './Input';
+import { InputDialog } from './InputDialog';
 import { Main } from './Main';
 import { NoteInfo } from './NoteInfo';
 import { Left } from './Left';
@@ -22,14 +22,15 @@ require('../fonts/opensans/OpenSans-Regular.ttf');
 require('../fonts/opensans/OpenSans-Light.ttf');
 
 import { $id } from './utils';
+import { Categories } from './Categories';
 
 const Remote = Electron.remote;
 
 const WindowAction: IWindowAction = {
-    keyHandler(ev: KeyboardEvent) {
+    keyHandler(ev) {
         Alert.keyHandler(ev);
         Confirm.keyHandler(ev);
-        Input.keyHandler(ev);
+        InputDialog.keyHandler(ev);
         CategoryDialog.keyHandler(ev);
         NoteInfo.keyHandler(ev);
         ColorPicker.keyHandler(ev);

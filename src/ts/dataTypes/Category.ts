@@ -1,6 +1,7 @@
 import { ICategory } from '../interfaces/ICategory';
 import { INote } from '../interfaces/INote';
 
+import { Categories } from '../Categories';
 import { Confirm } from '../Confirm';
 import { ContextMenu } from '../ContextMenu';
 import { Editor } from '../Editor';
@@ -21,7 +22,8 @@ export class Category implements ICategory {
         this.id = id;
         this.name = name;
         this.color = color;
-        this.notes = this.sortNotes(notes);
+        this.notes = notes;
+        this.sortNotes();
         this.leftHTML = this.buildLeftHTML();
     }
 
@@ -95,10 +97,10 @@ export class Category implements ICategory {
                         .then(() => {
                             nextStep();
                         })
-                        .catch();
+                        .catch(() => {});
                 else nextStep();
             })
-            .catch();
+            .catch(() => {});
     }
 
     unchoose(accepted?: boolean) {
@@ -127,15 +129,33 @@ export class Category implements ICategory {
     }
 
     update(name: string, color: string) {
+        // Update properties
         this.name = name;
         this.color = color;
-        Left.categories.update(this);
 
+        // Update HTML
+        (<HTMLDivElement>(
+            this.leftHTML.querySelector('.left-category-color')
+        )).style.background = this.color;
+
+        (<HTMLDivElement>(
+            this.leftHTML.querySelector('.left-category-background')
+        )).style.background = this.color;
+
+        (<HTMLDivElement>(
+            this.leftHTML.querySelector('.left-category-name > p')
+        )).innerHTML = this.name;
+
+        Categories.sortCategories();
+
+        Left.categories.move(this);
+
+        // Save
         Main.saveContent();
     }
 
-    sortNotes(notes: INote[]) {
-        return notes.sort((a, b) => {
+    sortNotes() {
+        this.notes.sort((a, b) => {
             if (a.pinned === b.pinned) {
                 let sign = UserSettings.general.sort.asc === true ? 1 : -1;
 
@@ -152,8 +172,9 @@ export class Category implements ICategory {
     rebuildNotes() {
         Left.notes.clear();
 
-        for (let note of this.notes)
+        this.notes.forEach(note => {
             $id('left-notes-content').appendChild(note.leftHTML);
+        });
     }
 
     checkNotesDisplay() {
@@ -163,8 +184,37 @@ export class Category implements ICategory {
     }
 
     addNote(newNote: INote) {
+        // Add note
         this.notes.push(newNote);
+
+        // Check left state
         this.checkState();
+
+        if (this.notes.length > 1) {
+            // Sort notes
+            this.sortNotes();
+
+            // Get the index of category that should be after new one
+            const nextNoteIndex = this.notes.indexOf(newNote) + 1;
+
+            // If is not last
+            if (nextNoteIndex !== this.notes.length) {
+                // Insert into appropriate place
+                Left.notes.addBefore(
+                    newNote.leftHTML,
+                    this.notes[nextNoteIndex].leftHTML
+                );
+            } else {
+                // Insert at the end
+                Left.notes.add(newNote.leftHTML);
+            }
+        } else {
+            // Insert
+            Left.notes.add(newNote.leftHTML);
+        }
+
+        // Save
+        Main.saveContent();
     }
 
     checkState() {

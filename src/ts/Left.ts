@@ -54,7 +54,9 @@ export const Left: ILeft = {
 
         init() {
             // Add all categories to left tab
-            for (let category of Categories.stack) this.add(category.leftHTML);
+            Categories.stack.forEach(category => {
+                $id('left-categories-content').appendChild(category.leftHTML);
+            });
 
             // Select first category as default if exists
             if (Categories.stack.length !== 0) Categories.stack[0].choose();
@@ -79,26 +81,49 @@ export const Left: ILeft = {
             }
         },
 
-        add(categoryDOM) {
-            $id('left-categories-content').appendChild(categoryDOM);
+        add(categoryElement) {
+            $id('left-categories-content').appendChild(categoryElement);
         },
 
-        update(category) {
-            (<HTMLDivElement>(
-                category.leftHTML.querySelector('.left-category-color')
-            )).style.background = category.color;
+        addBefore(categoryElement, referencedElement) {
+            $id('left-categories-content').insertBefore(
+                categoryElement,
+                referencedElement
+            );
+        },
 
-            (<HTMLDivElement>(
-                category.leftHTML.querySelector('.left-category-background')
-            )).style.background = category.color;
+        move(categoryElement) {
+            if (Categories.stack.length > 1) {
+                categoryElement.leftHTML.remove();
 
-            (<HTMLDivElement>(
-                category.leftHTML.querySelector('.left-category-name > p')
-            )).innerHTML = category.name;
+                // Get the index of category that should be after new one
+                const nextCategoryIndex =
+                    Categories.stack.indexOf(categoryElement) + 1;
+
+                // If is not last
+                if (nextCategoryIndex !== Categories.stack.length) {
+                    // Insert into appropriate place
+                    this.addBefore(
+                        categoryElement.leftHTML,
+                        Categories.stack[nextCategoryIndex].leftHTML
+                    );
+                } else {
+                    // Insert at the end
+                    this.add(categoryElement.leftHTML);
+                }
+            }
+        },
+
+        rebuild() {
+            this.clear();
+
+            Categories.stack.forEach(category => {
+                $id('left-categories-content').appendChild(category.leftHTML);
+            });
         },
 
         clear() {
-            $id('left-categories').innerHTML = '';
+            $id('left-categories-content').innerHTML = '';
         }
     },
 
@@ -116,6 +141,47 @@ export const Left: ILeft = {
 
         add(note) {
             $id('left-notes-content').appendChild(note);
+        },
+
+        addBefore(noteElement, referencedElement) {
+            $id('left-notes-content').insertBefore(
+                noteElement,
+                referencedElement
+            );
+        },
+
+        move(noteElement) {
+            if (Left.categories.curr.notes.length > 1) {
+                // Sort notes
+                Left.categories.curr.sortNotes();
+
+                // Get the index of note that should be after new one
+                const nextNoteIndex =
+                    Left.categories.curr.notes.indexOf(noteElement) + 1;
+
+                // If is not last
+                if (nextNoteIndex !== Left.categories.curr.notes.length) {
+                    // Insert into appropriate place
+                    Left.notes.addBefore(
+                        noteElement.leftHTML,
+                        Left.categories.curr.notes[nextNoteIndex].leftHTML
+                    );
+                } else {
+                    // Insert at the end
+                    Left.notes.add(noteElement.leftHTML);
+                }
+            } else {
+                // Insert
+                Left.notes.add(noteElement.leftHTML);
+            }
+        },
+
+        rebuild() {
+            this.clear();
+
+            Left.categories.curr.notes.forEach(note => {
+                $id('left-notes-content').appendChild(note.leftHTML);
+            });
         },
 
         clear() {

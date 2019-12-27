@@ -8,7 +8,7 @@ import { Note } from './dataTypes/Note';
 import { Alert } from './Alert';
 import { ColorPicker } from './ColorPicker';
 import { Confirm } from './Confirm';
-import { Input } from './Input';
+import { InputDialog } from './InputDialog';
 import { Left } from './Left';
 import { Main } from './Main';
 import { NoteInfo } from './NoteInfo';
@@ -491,11 +491,9 @@ export const Editor: IEditor = {
         );
 
         Left.categories.curr.addNote(newNote);
-        Left.notes.add(newNote.leftHTML);
         Editor.emptyMode.open(true);
 
         newNote.choose();
-        Main.saveContent();
     },
 
     editNote() {
@@ -654,7 +652,7 @@ export const Editor: IEditor = {
         });
 
         $id('main-note-edit-cancel').addEventListener('click', () => {
-            Editor.viewMode.open().catch();
+            Editor.viewMode.open().catch(() => {});
         });
 
         $id('main-note-edit-save').addEventListener('click', () => {
@@ -676,7 +674,8 @@ export const Editor: IEditor = {
                 ) {
                     document.execCommand(cmd);
                 } else if (cmd === 'link') {
-                    Input.open(
+                    $id('main-note-edit-content').blur();
+                    InputDialog.open(
                         'Add a link',
                         '',
                         'Enter URL here...',

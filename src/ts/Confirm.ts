@@ -10,6 +10,8 @@ export const Confirm: IConfirm = {
     cancelCallback: null,
 
     init() {
+        this.initialized = true;
+
         // Assign listeners
         $id('confirm-dialogButton-abort').onclick = () => {
             Confirm.close();
@@ -17,10 +19,7 @@ export const Confirm: IConfirm = {
     },
 
     open(title, text, buttonText, callback, cancelCallback) {
-        if (!this.initialized) {
-            this.init();
-            this.initialized = true;
-        }
+        if (!this.initialized) this.init();
 
         this.confirmed = false;
         this.cancelCallback =
@@ -46,6 +45,8 @@ export const Confirm: IConfirm = {
     keyHandler(ev) {
         if (ev.key === 'Escape') {
             if (this.shown) this.close();
+        } else if (ev.key === 'Enter') {
+            if (this.shown) $id('confirm-dialogButton-action').click();
         }
     },
 

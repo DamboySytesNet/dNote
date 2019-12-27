@@ -56,6 +56,8 @@ export const ColorPicker: IColorPicker = {
     },
 
     init() {
+        this.initialized = true;
+
         // Set up canvas
         const c_1 = $id('colorPicker-canvasChooser') as HTMLCanvasElement;
         this.pickerCTX = c_1.getContext('2d');
@@ -147,10 +149,7 @@ export const ColorPicker: IColorPicker = {
     },
 
     open(callback) {
-        if (!this.initialized) {
-            this.init();
-            this.initialized = true;
-        }
+        if (!this.initialized) this.init();
 
         this.shown = true;
 
@@ -212,6 +211,8 @@ export const ColorPicker: IColorPicker = {
     keyHandler(ev) {
         if (ev.key === 'Escape') {
             if (this.shown) this.close();
+        } else if (ev.key === 'Enter') {
+            $id('colorPicker-dialogButton-action').click();
         }
     },
 

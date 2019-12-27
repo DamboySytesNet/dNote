@@ -1,4 +1,4 @@
-import { Note } from '../dataTypes/Note';
+import { INote } from './INote';
 
 export interface INoteInfo {
     initialized: boolean;
@@ -6,10 +6,10 @@ export interface INoteInfo {
     allowClose: boolean;
 
     init(): void;
-    open(el: Note): void;
-    fill(el: Note): void;
+    open(el: INote): void;
+    fill(el: INote): void;
     keyHandler(ev: KeyboardEvent): void;
     checkClose(): void;
     clear(): void;
     close(): void;
-};
+}

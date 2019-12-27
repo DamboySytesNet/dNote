@@ -1,10 +1,10 @@
-import { Note } from '../dataTypes/Note';
+import { INote } from './INote';
 
 export interface ILeftNotes {
     /**
      * Currently selected note
      */
-    curr: Note;
+    curr: INote;
 
     /**
      * Checks if there are any categories,
@@ -13,13 +13,32 @@ export interface ILeftNotes {
     checkState(): void;
 
     /**
+     * Add note element at the end
+     * @param note note html element to be inserted
+     */
+    add(note: HTMLDivElement): void;
+
+    /**
+     * Add note element in appropriate place
+     */
+    addBefore(
+        noteElement: HTMLDivElement,
+        referencedElement: HTMLDivElement
+    ): void;
+
+    /**
+     * Change the position of note to match sorted order
+     * @param note note to be moved
+     */
+    move(note: INote): void;
+
+    /**
+     * Clear notes and rebuild them
+     */
+    rebuild(): void;
+
+    /**
      * Removes notes from tab
      */
     clear(): void;
-
-    /**
-     * Adds new note to the tab
-     * @param obj - note to be added
-     */
-    add(obj: HTMLDivElement): void;
 }

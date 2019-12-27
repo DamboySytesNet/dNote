@@ -20,6 +20,8 @@ export const CategoryDialog: ICategoryDialog = {
     colorSquares: 5,
 
     init() {
+        this.initialized = true;
+
         // Assign listeners
         $id('categoryDialog').addEventListener('click', () => {
             CategoryDialog.checkClose();
@@ -79,10 +81,7 @@ export const CategoryDialog: ICategoryDialog = {
     },
 
     open(category) {
-        if (!this.initialized) {
-            this.init();
-            this.initialized = true;
-        }
+        if (!this.initialized) this.init();
 
         if (typeof category !== 'undefined' && category !== null) {
             this.editedElement = category;
@@ -108,6 +107,8 @@ export const CategoryDialog: ICategoryDialog = {
     keyHandler(ev) {
         if (ev.key === 'Escape') {
             if (this.shown && !ColorPicker.shown) this.close();
+        } else if (ev.key === 'Enter') {
+            if (this.shown && !ColorPicker.shown) this.check();
         }
     },
 
@@ -155,7 +156,6 @@ export const CategoryDialog: ICategoryDialog = {
 
         if (this.editedElement !== null) {
             this.editedElement.update(name, color);
-            Main.saveContent();
         } else {
             const newId =
                 Categories.stack.length !== 0
@@ -167,7 +167,6 @@ export const CategoryDialog: ICategoryDialog = {
             Left.categories.add(category.leftHTML);
 
             Categories.add(category);
-            Main.saveContent();
         }
 
         this.close();

@@ -125,20 +125,20 @@ export const Settings: ISettings = {
         general: {
             sortingOrder(no: number) {
                 UserSettings.general.sort.type = no;
-                Categories.sort();
-                Categories.rebuild();
+                Categories.sortCategories();
+                Left.categories.rebuild();
                 if (Left.categories.curr !== null) {
-                    Left.categories.curr.sortNotes(Left.categories.curr.notes);
+                    Left.categories.curr.sortNotes();
                     Left.categories.curr.rebuildNotes();
                 }
             },
 
             sortingAsc(isAsc: boolean) {
                 UserSettings.general.sort.asc = isAsc;
-                Categories.sort();
-                Categories.rebuild();
+                Categories.sortCategories();
+                Left.categories.rebuild();
                 if (Left.categories.curr !== null) {
-                    Left.categories.curr.sortNotes(Left.categories.curr.notes);
+                    Left.categories.curr.sortNotes();
                     Left.categories.curr.rebuildNotes();
                 }
             }

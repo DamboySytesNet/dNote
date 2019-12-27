@@ -44,10 +44,10 @@ export const Categories: ICategories = {
         }
 
         this.checkState();
-        this.sort();
+        this.sortCategories();
     },
 
-    sort() {
+    sortCategories() {
         // Sort stack
         this.stack.sort((a: Category, b: Category) => {
             // Check if sorting asc or desc
@@ -60,24 +60,42 @@ export const Categories: ICategories = {
         });
     },
 
-    rebuild() {
-        // Clear content
-        Left.categories.clear();
-
-        // Append categories from stack
-        for (let category of this.stack)
-            $id('left-categories').appendChild(category.leftHTML);
-    },
-
     add(category) {
         // Add
         this.stack.push(category);
 
+        // Check
+        this.checkState();
+
+        // Check if is the only element
+        if (this.stack.length !== 1) {
+            // Sort notes
+            this.sortCategories();
+
+            // Get the index of category that should be after new one
+            const nextCategoryIndex = this.stack.indexOf(category) + 1;
+
+            // If is not last
+            if (nextCategoryIndex !== this.stack.length) {
+                // Insert into appropriate place
+                Left.categories.addBefore(
+                    category.leftHTML,
+                    this.stack[nextCategoryIndex].leftHTML
+                );
+            } else {
+                // Insert at the end
+                Left.categories.add(category.leftHTML);
+            }
+        } else {
+            // Insert
+            Left.categories.add(category.leftHTML);
+        }
+
         // Select
         category.choose();
 
-        // Check
-        this.checkState();
+        // Save
+        Main.saveContent();
     },
 
     remove(searchedCategory) {

@@ -8,6 +8,7 @@ export const Alert: IAlert = {
     allowClose: true,
 
     init() {
+        this.initialized = true;
         // Assign listeners
         $id('alert-dialogButton-abort').onclick = () => {
             Alert.close();
@@ -19,10 +20,7 @@ export const Alert: IAlert = {
     },
 
     open(title, text) {
-        if (!this.initialized) {
-            this.init();
-            this.initialized = true;
-        }
+        if (!this.initialized) this.init();
 
         $id('alert-title').innerHTML = title;
         $id('alert-text').innerHTML = text;
@@ -36,7 +34,7 @@ export const Alert: IAlert = {
     },
 
     keyHandler(ev) {
-        if (ev.key === 'Escape') {
+        if (ev.key === 'Escape' || ev.key === 'Enter') {
             if (this.shown) this.close();
         }
     },

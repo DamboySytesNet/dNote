@@ -1,24 +1,23 @@
-import { IInput } from './interfaces/IInput';
+import { IInputDialog } from './interfaces/IInputDialog';
 
 import { $id } from './utils';
 
-export const Input: IInput = {
+export const InputDialog: IInputDialog = {
     initialized: false,
     shown: false,
     allowClose: true,
 
     init() {
+        this.initialized = true;
+
         // Assign listeners
         $id('input-dialogButton-abort').onclick = () => {
-            Input.close();
+            InputDialog.close();
         };
     },
 
     open(title, text, inputText, buttonText, callback) {
-        if (!this.initialized) {
-            this.init();
-            this.initialized = true;
-        }
+        if (!this.initialized) this.init();
 
         $id('input-title').innerHTML = title;
 
@@ -39,7 +38,7 @@ export const Input: IInput = {
         $id('input-dialogButton-action').innerHTML = buttonText;
         $id('input-dialogButton-action').onclick = () => {
             callback((<HTMLInputElement>$id('input-input')).value);
-            Input.close();
+            InputDialog.close();
         };
 
         this.shown = true;
@@ -53,6 +52,8 @@ export const Input: IInput = {
     keyHandler(ev) {
         if (ev.key === 'Escape') {
             if (this.shown) this.close();
+        } else if (ev.key === 'Enter') {
+            if (this.shown) $id('input-dialogButton-action').click();
         }
     },
 
@@ -63,6 +64,7 @@ export const Input: IInput = {
 
     close() {
         this.shown = false;
+        (<HTMLInputElement>$id('input-input')).value = '';
         $id('input').style.display = 'none';
         $id('input-content').style.opacity = '0';
         $id('input-content').style.transform = 'translateY(-20px)';

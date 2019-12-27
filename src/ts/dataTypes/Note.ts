@@ -120,7 +120,7 @@ export class Note implements INote {
                 Left.notes.curr = this;
                 this.leftHTML.setAttribute('name', 'chosen');
             })
-            .catch();
+            .catch(() => {});
     }
 
     unchoose() {
@@ -225,6 +225,7 @@ export class Note implements INote {
         this.content = content;
         this.dateModified = formatDate(new Date());
         this.rebuildLeftContent();
+        Left.notes.move(this);
         $id('footer-mDate').innerHTML = this.dateModified;
 
         Main.saveContent();

@@ -14,15 +14,11 @@ export interface ICategories {
     /**
      * Sort categories
      */
-    sort(): void;
-
-    /**
-     * Clear left and
-     */
-    rebuild(): void;
+    sortCategories(): void;
 
     /**
      * Add category to stack and automatically select it
+     * @param category category to be added
      */
     add(category: ICategory): void;
 
@@ -35,4 +31,4 @@ export interface ICategories {
      * Check if additional info is needed to be displayed (eg. no categories)
      */
     checkState(): void;
-};
+}
