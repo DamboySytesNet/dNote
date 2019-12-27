@@ -23,6 +23,10 @@ export interface INote {
 
     unchoose(): void;
 
+    rebuildLeftAdditions(): void;
+    rebuildLeftContent(): void;
+    rebuildLeftTags(): void;
+
     checkDisplay(): void;
 
     update(name: string, content: string): void;

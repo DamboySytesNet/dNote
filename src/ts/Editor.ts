@@ -358,6 +358,15 @@ export const Editor: IEditor = {
                                 parent
                             );
                         }
+
+                        if (Editor.currentNote.pinned)
+                            (<HTMLInputElement>(
+                                $id('main-note-edit-options-pinned-input')
+                            )).checked = true;
+                        else
+                            (<HTMLInputElement>(
+                                $id('main-note-edit-options-pinned-input')
+                            )).checked = false;
                     })
                     .catch(() => {
                         reject();
@@ -557,6 +566,21 @@ export const Editor: IEditor = {
             }
         },
 
+        handlePin() {
+            const inputState = (<HTMLInputElement>(
+                $id('main-note-edit-options-pinned-input')
+            )).checked;
+
+            Editor.currentNote.pinned = inputState;
+            Editor.currentNote.rebuildLeftAdditions();
+
+            Left.categories.curr.sortNotes();
+
+            Left.notes.move(Editor.currentNote);
+
+            Main.saveContent();
+        },
+
         addTag() {
             $id('main-note-edit-tags-msg').innerHTML = '';
             let value = (<HTMLInputElement>(
@@ -658,6 +682,13 @@ export const Editor: IEditor = {
         $id('main-note-edit-save').addEventListener('click', () => {
             Editor.saveNote();
         });
+
+        $id('main-note-edit-options-pinned-input').addEventListener(
+            'change',
+            () => {
+                Editor.options.handlePin();
+            }
+        );
 
         let tools = toArray($('.main-note-edit-tools-post'));
         for (let tool of tools) {
