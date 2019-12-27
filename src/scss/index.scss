@@ -13,24 +13,31 @@
 	src: url('../fonts/opensans/OpenSans-Bold.ttf') format("truetype");
 }
 
-* { margin:0; padding:0; }
+* {
+	margin: 0;
+	padding: 0;
+}
 
 body {
 	position: relative;
-	width:100vw;
-	height:100vh;
+	width: 100vw;
+	height: 100vh;
 }
 
 @keyframes rotateImg {
-	100% {transform: rotate(360deg);}
+	100% {
+		transform: rotate(360deg);
+	}
 }
 
 @mixin prefix($property, $value, $prefixes: ()) {
 	@each $prefix in $prefixes {
 		#{'-' + $prefix + '-' + $property}: $value;
 	}
+
 	#{$property}: $value;
 }
+
 // @include prefix(user-select, none, webkit moz ms);
 
 /** More colors:
@@ -38,7 +45,9 @@ body {
     #4286f5; -> rgb(66, 134, 245)
 */
 $basecolor: #4286f5;
-$basecolorRGB: 66, 134, 245;
+$basecolorRGB: 66,
+134,
+245;
 
 .rotateImg {
 	animation-name: rotateImg;
@@ -51,10 +60,13 @@ $basecolorRGB: 66, 134, 245;
 
 .scrollable::-webkit-scrollbar {
 	width: 6px;
+	height: 6px;
 }
+
 .scrollable::-webkit-scrollbar-track {
 	box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.25);
 }
+
 .scrollable::-webkit-scrollbar-thumb {
 	background: $basecolor;
 }
