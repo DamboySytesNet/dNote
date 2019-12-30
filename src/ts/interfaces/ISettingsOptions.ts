@@ -1,6 +1,10 @@
 import { ISettingsOptionsGeneral } from './ISettingsOptionsGeneral';
+import { ISettingsOptionsAppearance } from './ISettingsOptionsAppearance';
 
 export interface ISettingsOptions {
+    /** General settings */
     general: ISettingsOptionsGeneral;
-    appearance: any;
-};
+
+    /** Appearance settings */
+    appearance: ISettingsOptionsAppearance;
+}

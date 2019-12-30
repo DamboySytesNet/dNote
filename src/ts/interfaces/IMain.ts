@@ -18,7 +18,9 @@ export interface IMain {
      */
     init(): void;
 
+    /** Manager for loading content from file */
     content: IMainFileHandlers;
+    /** Manager for loading settings from file */
     settings: IMainFileHandlers;
 
     /**
@@ -40,4 +42,4 @@ export interface IMain {
      * Inform user about failure in reading files and exit app afterwards
      */
     failure(): void;
-};
+}
