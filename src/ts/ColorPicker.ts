@@ -115,6 +115,8 @@ export const ColorPicker: IColorPicker = {
             }
         }
 
+        this.color = 'rgb(190, 70, 69)';
+
         // Assign listeners
         $id('colorPicker-chooser').addEventListener('mousedown', ev => {
             ColorPicker.picker.mouseDown = true;
