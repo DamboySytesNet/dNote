@@ -1,15 +1,17 @@
 {
   "name": "dnotes",
   "version": "1.0.0",
-  "description": "App for taking notes",
+  "description": "Desktop app for every user to take notes.",
   "main": "index.js",
   "scripts": {
     "start": "electron index.js",
-    "build": "webpack --config webpack.config.js --watch"
+    "dev": "webpack --config webpack.dev.js --watch",
+    "prod": "webpack --config webpack.prod.js --watch"
   },
   "keywords": [
     "note",
-    "notes"
+    "notes",
+    "organizer"
   ],
   "author": "Damian Kolczyński",
   "license": "MIT",
@@ -44,8 +46,6 @@
   },
   "dependencies": {
     "@types/node": "^12.11.7",
-    "async": "^3.1.0",
-    "fs": "0.0.1-security",
-    "wysiwyg": "^2.0.0"
+    "fs": "0.0.1-security"
   }
 }

@@ -1,11 +1,9 @@
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const path = require('path');
 
 module.exports = {
-    mode: 'development',
-    // target: 'electron-main',
+    mode: 'production',
     target: 'electron-renderer',
     entry: {
         index: './src/ts/index.ts',
@@ -72,7 +70,6 @@ module.exports = {
             },
             {
                 test: /\.(woff2?|ttf|otf|eot)$/,
-                // test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
                 use: {
                     loader: 'file-loader',
                     options: {
