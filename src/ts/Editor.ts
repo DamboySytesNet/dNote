@@ -556,7 +556,7 @@ export const Editor: IEditor = {
                 );
 
                 $id('main-note-edit-options').style.transform =
-                    'translateY(175px)';
+                    'translateY(160px)';
 
                 $id('main-note-edit-buttons').style.bottom = '30px';
 
