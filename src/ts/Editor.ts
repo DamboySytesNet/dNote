@@ -344,6 +344,8 @@ export const Editor: IEditor = {
                         $id('main-note-edit-content').innerHTML =
                             Editor.currentNote.content;
 
+                        console.log(Editor.currentNote);
+
                         $id('main-note-edit-tags-container').innerHTML = '';
                         for (let tag of Editor.currentNote.tags) {
                             let parent = document.createElement(
@@ -411,6 +413,10 @@ export const Editor: IEditor = {
                         // '<div><br/></div>';
 
                         $id('main-note-edit-tags-container').innerHTML = '';
+
+                        (<HTMLInputElement>(
+                            $id('main-note-edit-options-pinned-input')
+                        )).checked = false;
                     })
                     .catch(() => {
                         reject();
@@ -429,13 +435,18 @@ export const Editor: IEditor = {
         },
 
         open(force?: boolean) {
-            if (force) Editor.setMode('empty');
+            function common() {
+                Editor.setMode('empty');
+                Editor.currentNote = null;
+                Editor.newTags = [];
+            }
+            if (force) common();
 
             return new Promise((revoke, reject) => {
                 if (!force) {
                     Editor.allowStateChange()
                         .then(() => {
-                            Editor.setMode('empty');
+                            common();
                             revoke();
                         })
                         .catch(() => {
@@ -484,9 +495,9 @@ export const Editor: IEditor = {
             newId++;
         }
 
-        let today = formatDate(new Date());
+        const today = formatDate(new Date());
 
-        let newNote = new Note(
+        const newNote = new Note(
             newId,
             name,
             $id('main-note-edit-content').innerHTML,
@@ -582,6 +593,8 @@ export const Editor: IEditor = {
         },
 
         addTag() {
+            if (Editor.currentNote === null) return;
+
             $id('main-note-edit-tags-msg').innerHTML = '';
             let value = (<HTMLInputElement>(
                 document.getElementById('main-note-edit-tags-input')
@@ -595,8 +608,8 @@ export const Editor: IEditor = {
             if (value.length === 0) return;
 
             if (
-                Left.notes.curr !== null &&
-                Left.notes.curr.tags.indexOf(value) > -1
+                Editor.currentNote !== null &&
+                Editor.currentNote.tags.indexOf(value) > -1
             ) {
                 $id('main-note-edit-tags-msg').innerHTML =
                     'Given tag is already on the list';
@@ -620,8 +633,12 @@ export const Editor: IEditor = {
             };
             $id('main-note-edit-tags-container').appendChild(parent);
 
-            if (Editor.mode !== 'new') Left.notes.curr.addTag(value);
-            else Editor.newTags.push(value);
+            if (Editor.mode !== 'new') {
+                console.log(value);
+                console.log(Editor.currentNote);
+
+                Editor.currentNote.addTag(value);
+            } else Editor.newTags.push(value);
         },
 
         removeTag(tagName) {
